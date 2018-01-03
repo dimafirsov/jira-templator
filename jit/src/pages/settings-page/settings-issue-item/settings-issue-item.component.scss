@@ -1,0 +1,64 @@
+
+:host {
+    cursor: pointer;
+    position: relative;
+}
+
+:host-context(.no-padding) {
+    .issue-item {
+        padding: 0;
+    }
+}
+
+.issue-item {
+    padding: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: #f0f0f0;
+    outline: none;
+    width: 100%;
+
+    &.active {
+        background-color: white;
+        font-weight: bold;
+        &:hover {
+            background-color: white;
+        }
+    }
+
+    &:hover {
+        background-color: #e3e3e3;
+    }
+
+    &-input {
+        width: 100%;
+        border: 1px lightgray dashed;
+    }
+
+    &-edit-options {
+        font-size: x-small;
+        cursor: pointer;
+
+        &.edited {
+            background-color: darkseagreen;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            text-align: center;
+        }
+
+        .aligned {
+            display: flex;
+            align-items: center;
+            height: 50%;
+            padding: 0 2px;
+
+            &.edit-icon {
+                background-color: oldlace;
+            }
+            &.remove-icon {
+                background-color: mistyrose;
+            }
+        }
+    }
+}

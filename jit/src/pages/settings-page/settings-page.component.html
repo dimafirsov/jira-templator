@@ -1,0 +1,14 @@
+<div class="settings">
+    <nui-tab-heading-group>
+        <nui-tab-heading *ngFor="let tab of tabsConfig" [tabId]="tab.id" (click)="loadComponentForTab(tab.component)">
+            <div class="d-flex align-content-center">
+                <div class="d-inline-flex align-items-center">
+                    <nui-icon [icon]="tab.icon.name"></nui-icon>
+                    <span class="pl-2" [title]="tab.title">{{tab.title}}</span>
+                </div>
+            </div>
+        </nui-tab-heading>
+    </nui-tab-heading-group>
+
+    <ng-container #tabContent></ng-container>
+</div>

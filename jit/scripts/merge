@@ -1,0 +1,9 @@
+#!/bin/bash
+
+git checkout $SOURCE_BRANCH
+git pull
+git checkout $RELEASE_BRANCH
+git pull
+git merge --no-commit $SOURCE_BRANCH
+git commit -am 'update files for new version'
+git push

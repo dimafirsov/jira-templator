@@ -1,0 +1,73 @@
+
+:host {
+    background-color: white;;
+}
+
+form {
+    margin-bottom: 1rem;
+}
+
+form:last-of-type {
+    margin-bottom: 0;
+}
+
+.issues-form {
+    position: relative;
+    padding: 1rem;
+
+    .form-title {
+        width: fit-content;
+        position: absolute;
+        top: -13px;
+        left: 20px;
+    }
+
+    .template-details {
+        font-size: 14px;
+        position: relative;
+        border: 1px grey dashed;
+        padding: 1rem;
+        margin-right: 0.5rem; // leaving space for the scrollbar
+    
+        input, textarea {
+            border: 2px solid #f0f0f0;
+    
+            &.invalid {
+                border: 2px red solid;
+            }
+        }
+    
+        input {
+            color: lightseagreen;
+        }
+    
+        textarea {
+            color: forestgreen;
+        }
+    
+    }
+
+    .remove-form-group {
+        position: relative;
+        top: 14px;
+        left: 94.5%;
+        z-index: 1;
+        cursor: pointer;
+    
+        &:hover {
+            color: red;
+        }
+    }
+}
+
+
+.add-new-form-group {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    cursor: pointer;
+
+    &:hover {
+        color: green;
+    }
+}

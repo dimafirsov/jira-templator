@@ -1,0 +1,48 @@
+.settings {
+    height: auto;
+    background-color: #f0f0f0;
+
+    &-section {
+        padding: 0.5rem 0;
+        text-align: center;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    &-templates {
+        display: grid;
+        grid-template-columns: 25% 1fr;
+        height: max-content;
+    }
+
+    &-issue-types {
+        font-size: 14px;
+        text-align: center;
+
+        .active {
+            background-color: white;
+            font-weight: bold;
+        }
+    }
+
+    .add-new {
+        cursor: pointer;
+        padding: 1rem;
+        transition: 0.3s linear;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            background-color: darkseagreen;
+        }
+
+        &-input {
+            width: 100%;
+            margin-right: 10px;
+            border: 0;
+            background-color: darkseagreen;
+            outline: none;
+        }
+    }
+}

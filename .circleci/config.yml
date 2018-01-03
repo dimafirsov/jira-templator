@@ -1,0 +1,144 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/jira-templator
+    docker:
+      - image: circleci/node:16-browsers
+    steps:
+      - checkout:
+          path: ~/jira-templator
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Install Packages
+          command: npm install
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Linting
+          command: npm run lint
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Building
+          command: npm run build-normal
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  test:
+    working_directory: ~/jira-templator
+    docker:
+      - image: circleci/node:16-browsers
+    steps:
+      - attach_workspace:
+          at: ~/jira-templator
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Run Tests
+          command: npm run test-ci
+  pack:
+    working_directory: ~/jira-templator
+    docker:
+      - image: circleci/node:16-browsers
+    steps:
+      - attach_workspace:
+          at: ~/jira-templator
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Build Cleanup
+          command: npm run pack-clean
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Build Pack
+          command: npm run pack-it
+  release:
+    working_directory: ~/jira-templator
+    docker:
+      - image: circleci/node:16-browsers
+    environment:
+      SOURCE_BRANCH: develop
+      RELEASE_BRANCH: release/1.x
+      INCREMENT_TYPE: patch
+    steps:
+      - checkout:
+          path: ~/jira-templator
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Configure Git
+          command: |
+            git config --global user.email $GIT_EMAIL
+            git config --global user.name $GIT_USER_NAME
+      - run:
+          name: Checkout the source branch
+          command: git checkout $SOURCE_BRANCH
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Install Packages
+          command: npm install
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Build project
+          command: npm run build-normal
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Increment source branch version
+          command: npm --no-git-tag-version version $INCREMENT_TYPE
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Copy package.json to dist
+          command: npm run copy-files
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Pack-clean the project
+          command: npm run pack-clean
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Pack project
+          command: npm run pack-it
+      - run:
+          name: Push source branch changes
+          command: |
+              git add *
+              git commit -am 'increment develop versions and packing'
+              git push origin $SOURCE_BRANCH
+              git pull
+      - run:
+          name: Checkout the release branch
+          command: git checkout $RELEASE_BRANCH
+      - run:
+          name: Merge the latest develop to the release branch
+          command: git merge --no-commit $SOURCE_BRANCH
+      - run:
+          working_directory: ~/jira-templator
+          name: Move new package to the builds folder
+          command: |
+            mkdir -p builds
+            mv jit-*.tgz builds
+            git add *
+            git commit -m 'moved new build to builds folder'
+      - run:
+          name: Commit and Push Release Branch Changes
+          command: |
+              git push origin $RELEASE_BRANCH
+              git pull
+
+workflows:
+  version: 2.1
+  jt:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+  jt-release:
+    jobs:
+      - release-approval:
+          type: approval
+          filters:
+              branches:
+                  only:
+                      - develop
+      - release:
+          requires:
+              - release-approval
+    
+    
+
