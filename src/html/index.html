@@ -1,19 +1,40 @@
 <html>
 <head>
-	<link rel="stylesheet" href="../lib/css/materialize.css">
-	<script src="../js/materialize.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="../lib/materialize/css/materialize.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="../css/popup.css"/>
+
+	<script type="text/javascript" src="../lib/jquery/jquery-3.2.1.js"></script>
+	<script type="text/javascript" src="../lib/materialize/js/materialize.js"></script>
+
 </head>
 <body>
-	<div class="row">
-		<div class="col">
-			<div class="selection">
-			<div  class="blue-grey lighten-5">
-				<h3 class="pink-text text-lighten-3">Hello world!</h3>
-			</div>
-			<div class="divider"></div>
-			</div>
-		</div>
-	</div>
-	
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper">
+				<img src="../img/sw_logo_with_text_resized.png"/>
+				<span class="grey-text text-darken-1 brand-logo center">Jira Templator</span>
+				<a href="#" data-activates="mobile-demo" class="button-collapse right"><i class="material-icons orange-text">menu</i></a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="sass.html">Sass</a></li>
+					<li><a href="badges.html">Components</a></li>
+					<li><a href="collapsible.html">JavaScript</a></li>
+				</ul>
+				<ul class="side-nav" id="mobile-demo">
+					<li><a href="sass.html">Sass</a></li>
+					<li><a href="badges.html">Components</a></li>
+					<li><a href="collapsible.html">JavaScript</a></li>
+				</ul>
+				</div>
+		</nav>
+
+<script>
+	$( document ).ready(function(){
+		$(".button-collapse").sideNav();
+	});
+</script>				  
+
 </body>
 </html>
