@@ -15,6 +15,9 @@ nav {
   background-color: aliceblue;
 }
 
+.nav-wrapper > img {
+  padding: 5px 0 0 5px;
+}
 
 #sidenav-overlay {
   background-color: rgba(0, 0, 0, 0.3);
