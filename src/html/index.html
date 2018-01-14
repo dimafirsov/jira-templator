@@ -8,33 +8,43 @@
 
 	<script type="text/javascript" src="../lib/jquery/jquery-3.2.1.js"></script>
 	<script type="text/javascript" src="../lib/materialize/js/materialize.js"></script>
+	<script type="text/javascript" src="../js/popup.js"></script>
 
 </head>
 <body>
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper">
-				<img style="" src="../img/sw_logo_with_text_resized_25.png"/>
-				<span class="grey-text text-darken-1 brand-logo center">Jira Templator</span>
+				<img src="../img/sw_logo_with_text_resized_25.png"/>
+				<span><a class="grey-text text-darken-1 brand-logo center" href="./index.html">Jira Templator</a></span>
 				<a href="#" data-activates="mobile-demo" class="button-collapse right"><i class="material-icons orange-text">menu</i></a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><h4>Options</h4></li>
 					<li><a href="sass.html">Sass</a></li>
 					<li><a href="badges.html">Components</a></li>
 					<li><a href="collapsible.html">JavaScript</a></li>
 				</ul>
-				<ul class="side-nav" id="mobile-demo">
+				<ul class="side-nav center" id="mobile-demo">
+					<li><h4>Options</h4></li>
 					<li><a href="sass.html">Sass</a></li>
 					<li><a href="badges.html">Components</a></li>
 					<li><a href="collapsible.html">JavaScript</a></li>
 				</ul>
 				</div>
 		</nav>
-
-<script>
-	$( document ).ready(function(){
-		$(".button-collapse").sideNav();
-	});
-</script>				  
+	</div>
+	<main>
+		<div class="container">		
+			<div class="section">
+				<div class="row">
+					<div class="col">
+						<div class="btn" id="button">Click</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+			  
 
 </body>
 </html>

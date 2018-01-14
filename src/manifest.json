@@ -1,22 +1,32 @@
   {
-    "name": "Hello Extensions",
-    "description" : "Base Level Extension",
-    "version": "1.0",
-    "manifest_version": 2,
-    "permissions": ["http://*.google.com/", "https://*.google.com/"],
+    "manifest_version": 1,
+    "name": "SolarWinds Jira Helper",
+    "author": "Dima Firsov",
+    "short_name": "SWJH",
+    "version": "0.1",
+    "description" : "Extension that adds templates to Jira items",
+    "background": {
+      "scripts": [          
+          "lib/jquery/jquery-3.2.1.js",
+          "js/utils.js",
+          "backgroundScript.js"
+      ]
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],        
+        "js": ["contentScript.js"],
+        "run_at": "document_end"
+      }
+    ],    
     "browser_action": {
-      "default_title": "New Title",
+      "default_title": "SolarWinds Jira Templator",
       "default_popup": "html/index.html",
       "default_icon": "img/logo.png"
     },
-    "commands": {
-      "_execute_browser_action": {
-        "suggested_key": {
-          "default": "Ctrl+Shift+F",
-          "mac": "MacCtrl+Shift+F"
-        },
-        "description": "Opens hello.html"
-      }
-    }
-  
+    "permissions": [
+      "storage",
+      "tabs",
+      "activeTab"
+    ]
   }

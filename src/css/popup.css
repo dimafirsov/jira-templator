@@ -1,8 +1,4 @@
-@import  "https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700,600,900";
 
-
-/* Copyright 2016 Redbrick Technologies, Inc. */
-/* https://github.com/rdbrck/jira-description-extension/blob/master/LICENSE */
 
 html, body {
   width: 500px;
@@ -11,12 +7,23 @@ html, body {
   -ms-overflow-style: none;
 }
 
+main {
+  margin-top: 0px;
+}
+
 nav {
   background-color: aliceblue;
 }
 
 .nav-wrapper > img {
   padding: 5px 0 0 5px;
+}
+
+div.nav-wrapper ul li > h4 {
+  background-color: aliceblue;
+  color: black;
+  margin: 0px;
+  padding: 10px 10px 15px 10px;
 }
 
 #sidenav-overlay {
