@@ -1,0 +1,15 @@
+{
+    "assignee": "Unassigned",
+    "summary" : "",
+    "description": "*Setup:*\n" +
+                    "(i) \n" +
+                    "{panel:bgColor=#F5CFC5}(!) Critical Note {panel}\n" +
+                    "{panel:bgColor=#fffca8}(!) Warning Note {panel}\n\n" +
+                    "*Steps to reproduce:*\n" +
+                    "# Go to \n" +
+                    "# \n\n" +
+                    "h1. (/) Expected result: \n\n\n" +
+                    "h1. (x) Actual result: \n\n\n" +
+                    "See screenshot for more details.",
+    "fixVersions": ["Pacman"]
+}

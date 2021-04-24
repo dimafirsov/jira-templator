@@ -1,26 +1,34 @@
   {
     "manifest_version": 2,
-    "name": "SolarWinds Jira Helper",
+    "name": "Jira Templator",
     "author": "Dima Firsov",
-    "short_name": "SWJH",
-    "version": "0.1",
+    "short_name": "JiT",
+    "version": "2.0.0",
     "description" : "Extension that adds templates to Jira items",
     "background": {
       "scripts": [          
           "lib/jquery/jquery-3.2.1.js",
+          "lib/materialize/js/materialize.js",
           "js/utils.js",
           "backgroundScript.js"
       ]
     },
     "content_scripts": [
       {
-        "matches": ["*://*/*"],        
-        "js": ["contentScript.js"],
+        "matches": [
+          "https://jira.solarwinds.com/*"
+        ],
+        "js": [              
+              "lib/jquery/jquery-3.2.1.js",
+              "lib/materialize/js/materialize.js",
+              "js/utils.js",
+              "contentScript.js"
+              ],
         "run_at": "document_end"
       }
     ],    
     "browser_action": {
-      "default_title": "SolarWinds Jira Templator",
+      "default_title": "Jira Templator",
       "default_popup": "html/index.html",
       "default_icon": "img/logo.png"
     },

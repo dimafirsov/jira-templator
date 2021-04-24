@@ -2,28 +2,27 @@
 
 html, body {
   width: 500px;
-  min-height: 500px;
-  overflow: hidden;
-  -ms-overflow-style: none;
+  height: 430px;
 }
 
 main {
   margin-top: 0px;
 }
 
+div.card-image span {
+  margin-left: 15px;
+}
+
 nav {
-  background-color: aliceblue;
+  background-color: whitesmoke;
 }
 
 .nav-wrapper > img {
   padding: 5px 0 0 5px;
 }
 
-div.nav-wrapper ul li > h4 {
-  background-color: aliceblue;
-  color: black;
-  margin: 0px;
-  padding: 10px 10px 15px 10px;
+ul li a div.btn {
+  margin-top: 5px;
 }
 
 #sidenav-overlay {
@@ -31,6 +30,113 @@ div.nav-wrapper ul li > h4 {
   z-index: 996;
 }
 
+.button-flat {
+  font-size: 12px;
+  padding: 0 20px;
+}
+
 .icon-color-black {
   color: black;
 }
+
+.settings {
+  display: block;
+  background-color: #ff9800;
+  color: white;
+  font-weight: bold;
+  border-bottom: 1px lightgrey solid;
+  padding: 4px;
+  margin: 5px 0px;
+}
+
+.settings-category {
+  background-color: whitesmoke;
+  color: black;
+  font-weight: bold;
+  margin: 0;
+  padding: 5px 5px 10px 5px;
+  border-top: 1px lightgrey solid;
+  border-bottom: 1px lightgrey solid;
+}
+
+ul.side-nav li a {
+  font-size: 12px;
+}
+
+.sw-orange {
+  background-color: #ff9800;
+}
+
+.sw-orange:hover {
+  background-color: #ffAF00;
+}
+
+/**
+Materialize classes changing\overriding
+ */
+.toast {
+  background-color: #ff9800;
+  display: inherit;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.toast span.errorMessage {
+  color: #d20;
+  font-weight: bold;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.errorMessage-up {
+  position: inherit;
+  color: #d20;
+  font-size: 12px;
+  font-weight: bold;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.material-tooltip .backdrop{
+  background-color: #ff9800;
+}
+
+input:not([type]):focus:not([readonly]),
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=url]:not(.browser-default):focus:not([readonly]),
+input[type=time]:not(.browser-default):focus:not([readonly]),
+input[type=date]:not(.browser-default):focus:not([readonly]),
+input[type=datetime]:not(.browser-default):focus:not([readonly]),
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+input[type=tel]:not(.browser-default):focus:not([readonly]),
+input[type=number]:not(.browser-default):focus:not([readonly]),
+input[type=search]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #ff9800;
+  -webkit-box-shadow: 0 1px 0 0 #ff9800;
+  box-shadow: 0 1px 0 0 #ff9800;
+}
+
+input:not([type]):focus:not([readonly]) + label,
+input[type=text]:not(.browser-default):focus:not([readonly]) + label,
+input[type=password]:not(.browser-default):focus:not([readonly]) + label,
+input[type=email]:not(.browser-default):focus:not([readonly]) + label,
+input[type=url]:not(.browser-default):focus:not([readonly]) + label,
+input[type=time]:not(.browser-default):focus:not([readonly]) + label,
+input[type=date]:not(.browser-default):focus:not([readonly]) + label,
+input[type=datetime]:not(.browser-default):focus:not([readonly]) + label,
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]) + label,
+input[type=tel]:not(.browser-default):focus:not([readonly]) + label,
+input[type=number]:not(.browser-default):focus:not([readonly]) + label,
+input[type=search]:not(.browser-default):focus:not([readonly]) + label,
+textarea.materialize-textarea:focus:not([readonly]) + label {
+  color: #ff9800;
+}
+
