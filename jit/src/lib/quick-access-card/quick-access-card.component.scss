@@ -1,0 +1,9 @@
+.card {
+    position: static;
+    border-style: dashed;
+
+    &-shadow {
+        box-shadow: 0 5px 0 0 #f0f0f0;
+    }
+
+}

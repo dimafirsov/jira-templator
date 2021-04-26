@@ -1,0 +1,8 @@
+
+.main-container {
+    display: grid;
+    grid-template-rows: max-content 1fr;
+    gap: 20px;
+    height: 100%;
+    padding: 20px;
+}

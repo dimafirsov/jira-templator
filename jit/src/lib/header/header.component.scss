@@ -1,0 +1,21 @@
+:host {
+    height: 60px;
+
+    nav {
+        background-color: #f0f0f0;
+    }
+
+    ol, ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    h1 {
+        margin: 0;
+        font-family: 'Roboto Condenced', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+    }
+}

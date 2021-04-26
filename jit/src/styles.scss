@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+@import "../node_modules/bootstrap/scss/bootstrap-reboot.scss";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../node_modules/bootstrap/scss/bootstrap-utilities.scss";
+@import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
+
+body {
+    width: 500px;
+    height: 530px;
+}
+

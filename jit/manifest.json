@@ -1,0 +1,34 @@
+  {
+    "manifest_version": 2,
+    "name": "Jira Templator",
+    "author": "Dima Firsov",
+    "short_name": "JiT",
+    "version": "2.0.0",
+    "description" : "Extension that adds templates to Jira items",
+    "background": {
+      "scripts": [
+          "backgroundScript.js"
+      ]
+    },
+    "content_scripts": [
+      {
+        "matches": [
+          "https://jira.solarwinds.com/*"
+        ],
+        "js": [
+              "contentScript.js"
+              ],
+        "run_at": "document_end"
+      }
+    ],    
+    "browser_action": {
+      "default_title": "Jira Templator",
+      "default_popup": "index.html",
+      "default_icon": "favicon.ico"
+    },
+    "permissions": [
+      "storage",
+      "tabs",
+      "activeTab"
+    ]
+  }
