@@ -1,0 +1,22 @@
+
+.template-details {
+    font-size: 14px;
+    background-color: white;
+    height: 100%;
+
+    input, textarea {
+        border: 2px solid #f0f0f0;
+
+        &.invalid {
+            border: 2px red solid;
+        }
+    }
+
+    input {
+        color: lightseagreen;
+    }
+
+    textarea {
+        color: forestgreen;
+    }
+}

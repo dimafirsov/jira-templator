@@ -1,0 +1,23 @@
+<form [formGroup]="form" class="h-100">
+    <div class="template-details p-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <label for="issue-selectors" class="me-3">Selectors</label>
+            <input type="text"
+                   id="issue-selectors"
+                   class="w-100"
+                   formControlName="selector"
+                   [class.invalid]='form.get("selector")?.invalid'
+                   [attr.placeholder]='form.get("selector")?.invalid ? "Please enter at least one selector!" : null'>
+        </div>
+        <div class="h-100 d-flex flex-column" #templateContainer>
+            <label for="issue-template" class="mb-2">Template</label>
+            <textarea type="textarea"
+                      id="issue-template"
+                      [rows]="getRows(templateContainer)"
+                      formControlName="template"
+                      [class.invalid]='form.get("template")?.invalid'
+                      [attr.placeholder]='form.get("template")?.invalid ? "Please enter at least one template!" : null'>
+            </textarea>
+        </div>
+    </div>
+</form>

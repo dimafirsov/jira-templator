@@ -1,1 +1,30 @@
-<p>settings-page works!</p>
+<!-- <jit-toast></jit-toast> -->
+<div class="settings">
+    <!-- <h6 class="settings-section small">General Settings</h6> -->
+
+    <h6 class="settings-section small">Template Settings</h6>
+    <section>
+        <div class="p-3 d-flex justify-content-start align-items-center">
+            <label for="toggle-issue-type-edit" class="pe-3 small">Configure issue types</label>
+            <input type="checkbox"
+                   id="toggle-issue-type-edit"
+                   [(ngModel)]="settings.issueTypeEditEnabled">
+        </div>
+    </section>
+    <div class="settings-templates">
+        <div class="settings-issue-types">
+            <ng-container *ngFor="let item of issueTypes">
+                <jit-settings-issue-item [type]="item"
+                                         [showOptions]="settings.issueTypeEditEnabled"
+                                         [active]='item === currentIssueType'></jit-settings-issue-item>
+            </ng-container>
+            <div class="add-new" (mouseenter)="showInput = !showInput" (mouseleave)="showInput = !showInput">
+                <input #newItemInput type="text" placeholder="Add new" *ngIf="showInput" class="add-new-input">
+                <i class="bi bi-plus-circle" (click)="addIssueType()"></i>
+            </div>
+        </div>
+        <jit-settings-issue-template-form [currentIssueType]="currentIssueType"></jit-settings-issue-template-form>
+    </div>
+    <input type="text" #itemInput>
+    <button (click)="clearStorage()">Remove all</button>
+</div>

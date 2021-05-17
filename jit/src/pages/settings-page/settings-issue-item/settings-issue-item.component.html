@@ -1,0 +1,35 @@
+<div class="d-flex flex-row justify-content-between">
+    <ng-container *ngIf="!editable">
+        <div class="issue-item"
+             [title]="type"
+             [class.active]="active"
+             (click)="handleItemClick()"
+             >
+            {{ type }}
+        </div>
+    </ng-container>
+    
+    <ng-container *ngIf="editable">
+            <input class="issue-item issue-item-input"
+                [title]="type"
+                [class.active]="active"
+                [value]="type"
+                (input)="handleInputChange($event)"
+                >
+    </ng-container>
+    
+    <div class="issue-item-edit-options"
+         *ngIf="showOptions"
+         [class.edited]="editable">
+
+        <div *ngIf="!editable" class="aligned edit-icon" (click)="handleEdit()">
+            <i class="bi bi-pencil"></i>
+        </div>
+        
+        <div *ngIf="!editable" class="aligned remove-icon" (click)="removeIssueType(type)">
+            <i class="bi bi-x-circle h-50"></i>
+        </div>
+
+        <div *ngIf="editable" (click)="handleEdit()">save</div>
+    </div>
+</div>

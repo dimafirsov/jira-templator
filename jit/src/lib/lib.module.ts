@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout/layout.component';
 import { QuickAccessCardComponent } from './quick-access-card/quick-access-card.component';
 import { WhatsNewCardComponent } from './whats-new-card/whats-new-card.component';
+import { ToastComponent } from './toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { WhatsNewCardComponent } from './whats-new-card/whats-new-card.component
     LayoutComponent,
     QuickAccessCardComponent,
     WhatsNewCardComponent,
+    ToastComponent,
   ],
   imports: [
       CommonModule,
@@ -20,6 +22,7 @@ import { WhatsNewCardComponent } from './whats-new-card/whats-new-card.component
     LayoutComponent,
     WhatsNewCardComponent,
     QuickAccessCardComponent,
+    ToastComponent,
   ],
   providers: [],
 })

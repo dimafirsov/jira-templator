@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build-prod": "ng b --prod && npm run copy-files",
+    "build-normal": "ng b && npm run copy-files",
     "copy-files": "cpx manifest.json dist && cpx ./backgroundScript.js dist && cpx ./contentScript.js dist",
     "test": "ng test",
     "lint": "ng lint",
@@ -21,6 +22,8 @@
     "@angular/platform-browser": "~11.1.0",
     "@angular/platform-browser-dynamic": "~11.1.0",
     "@angular/router": "~11.1.0",
+    "@types/chrome": "0.0.139",
+    "bootstrap-icons": "^1.5.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"

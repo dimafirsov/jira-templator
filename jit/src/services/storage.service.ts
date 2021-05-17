@@ -1,0 +1,49 @@
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { DEFAULT_TEMPLATE, STORAGE_NAME } from '../constants';
+import { IJTStorage } from '../type';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StorageService {
+    public storage$: BehaviorSubject<IJTStorage | undefined> = new BehaviorSubject<IJTStorage | undefined>(undefined);
+
+    constructor() {}
+
+    public async setStorage(data: object = {}): Promise<void> {
+        const newStorage = {} as any;
+        newStorage[STORAGE_NAME] = {...data};
+
+        chrome.storage?.sync.set({...newStorage}, () => {
+            this.storage$.next(newStorage[STORAGE_NAME]);
+        });
+    }
+
+    public async getStorage(key: string, fn?: (data: any) => void): Promise<any> {
+        chrome.storage?.sync.get(key, (data) => {
+            if (fn) {
+                fn(data[STORAGE_NAME]);
+                return;
+            }
+            this.storage$.next(data[key]);
+        });
+    }
+
+    public loadStorage(): void {
+        this.getStorage(STORAGE_NAME, (data) => {
+            data
+                ? this.setStorage({...data})
+                : this.setStorage({...DEFAULT_TEMPLATE});
+        });
+    }
+
+    public clearStorage(): void {
+        chrome.storage?.sync.clear();
+        this.storage$.next({} as IJTStorage);
+    }
+
+    public removeFromStorage(item: string, fn?: () => void): void {
+        chrome.storage.sync.remove(item, fn);
+    }
+}
