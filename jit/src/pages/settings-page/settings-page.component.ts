@@ -114,4 +114,7 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     public clearStorage(): void {
         this.storage.clearStorage();
     }
+    public getStorage(): void {
+        console.log('>>> storage', this.storage.storage$.value);
+    }
 }

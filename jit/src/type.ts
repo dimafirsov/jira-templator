@@ -6,10 +6,11 @@ export interface IDynamicConfigurable {
 }
 
 export interface IJTStorage {
-    issueTypes: Record<string, IIssueType>;
+    issueTypes: Record<string, Array<IIssueType>>;
 }
 
 export interface IIssueType {
     selectors: string[];
     template: string;
+    title: string;
 }

@@ -1,23 +1,38 @@
-<form [formGroup]="form" class="h-100">
-    <div class="template-details p-3">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <label for="issue-selectors" class="me-3">Selectors</label>
-            <input type="text"
-                   id="issue-selectors"
-                   class="w-100"
-                   formControlName="selector"
-                   [class.invalid]='form.get("selector")?.invalid'
-                   [attr.placeholder]='form.get("selector")?.invalid ? "Please enter at least one selector!" : null'>
-        </div>
-        <div class="h-100 d-flex flex-column" #templateContainer>
-            <label for="issue-template" class="mb-2">Template</label>
-            <textarea type="textarea"
-                      id="issue-template"
-                      [rows]="getRows(templateContainer)"
-                      formControlName="template"
-                      [class.invalid]='form.get("template")?.invalid'
-                      [attr.placeholder]='form.get("template")?.invalid ? "Please enter at least one template!" : null'>
-            </textarea>
-        </div>
+<div class="issues-form">
+    <ng-container *ngFor="let control of getControls(); let i = index">
+        <form [formGroup]="control" class="py-3 h-100">
+            <div class="template-details">
+                <div class="form-title">
+                    <jit-settings-issue-item [type]="currentIssueType"
+                                             class="no-padding"
+                                             [active]="true"
+                                             [removable]="false"
+                                             [showOptions]="settings.issueTypeEditEnabled"></jit-settings-issue-item>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <label [for]="'issue-selectors-' + i" class="me-3">Selectors</label>
+                    <input type="text"
+                           [id]="'issue-selectors-' + i"
+                           class="w-100"
+                           formControlName="selectors"
+                           [class.invalid]='control.get("selectors")?.invalid'
+                           [attr.placeholder]='control.get("selectors")?.invalid ? "Please enter at least one selector!" : null'>
+                </div>
+                <div class="h-100 d-flex flex-column" #templateContainer>
+                    <label [for]="'issue-template-' + i" class="mb-2">Template</label>
+                    <textarea type="textarea"
+                              [id]="'issue-template-' + i"
+                              [rows]="getRows(templateContainer)"
+                              formControlName="template"
+                              [class.invalid]='control.get("template")?.invalid'
+                              [attr.placeholder]='control.get("template")?.invalid ? "Please enter at least one template!" : null'>
+                    </textarea>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+
+    <div *ngIf="settings.issueTypeEditEnabled" class="add-new-form-group">
+        <i class="bi bi-plus-circle-fill"></i>
     </div>
-</form>
+</div>

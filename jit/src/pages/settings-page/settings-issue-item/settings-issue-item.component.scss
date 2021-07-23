@@ -4,6 +4,12 @@
     position: relative;
 }
 
+:host-context(.no-padding) {
+    .issue-item {
+        padding: 0;
+    }
+}
+
 .issue-item {
     padding: 1rem;
     overflow: hidden;
@@ -38,6 +44,7 @@
             background-color: darkseagreen;
             writing-mode: vertical-rl;
             text-orientation: mixed;
+            text-align: center;
         }
 
         .aligned {

@@ -1,22 +1,49 @@
 
-.template-details {
-    font-size: 14px;
-    background-color: white;
+.issues-form {
     height: 100%;
+    position: relative;
+    padding: 0 1rem;
+    background-color: white;
 
-    input, textarea {
-        border: 2px solid #f0f0f0;
+    .form-title {
+        width: fit-content;
+        position: absolute;
+        top: -11px;
+        left: 20px;
+    }
 
-        &.invalid {
-            border: 2px red solid;
+    .template-details {
+        font-size: 14px;
+        position: relative;
+        border: 1px grey dashed;
+        padding: 1rem;
+    
+        input, textarea {
+            border: 2px solid #f0f0f0;
+    
+            &.invalid {
+                border: 2px red solid;
+            }
         }
+    
+        input {
+            color: lightseagreen;
+        }
+    
+        textarea {
+            color: forestgreen;
+        }
+    
     }
+}
 
-    input {
-        color: lightseagreen;
-    }
 
-    textarea {
-        color: forestgreen;
+.add-new-form-group {
+    position: absolute;
+    top: -11px;
+    left: 50%;
+
+    &:hover {
+        color: green;
     }
 }

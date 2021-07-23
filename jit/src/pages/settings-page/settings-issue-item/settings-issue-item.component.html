@@ -22,13 +22,15 @@
          *ngIf="showOptions"
          [class.edited]="editable">
 
-        <div *ngIf="!editable" class="aligned edit-icon" (click)="handleEdit()">
-            <i class="bi bi-pencil"></i>
-        </div>
-        
-        <div *ngIf="!editable" class="aligned remove-icon" (click)="removeIssueType(type)">
-            <i class="bi bi-x-circle h-50"></i>
-        </div>
+        <ng-container *ngIf="!editable">
+            <div class="aligned edit-icon" (click)="handleEdit()">
+                <i class="bi bi-pencil"></i>
+            </div>
+            
+            <div *ngIf="removable" class="aligned remove-icon" (click)="removeIssueType(type)">
+                <i class="bi bi-x-circle h-50"></i>
+            </div>
+        </ng-container>
 
         <div *ngIf="editable" (click)="handleEdit()">save</div>
     </div>
