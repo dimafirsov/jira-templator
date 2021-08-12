@@ -36,14 +36,6 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, On
                 private storage: StorageService,
                 private cdRef: ChangeDetectorRef,
                 public settings: SettingsService) {
-
-        this.formArray.push(
-            this.formBuilder.group({
-                selectors: ['selector!', Validators.required],
-                template: ['template!', Validators.required],
-                title: ['title!', Validators.required],
-            })
-        );
     }
 
     ngOnInit(): void {
@@ -69,14 +61,8 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, On
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.currentIssueType && !changes?.currentIssueType.firstChange) {
-            // this.form.get('selector')?.setValue(this.storage.storage$.value?.issueTypes[this.currentIssueType]?.selectors.toString());
-            // this.form.get('template')?.setValue(this.storage.storage$.value?.issueTypes[this.currentIssueType]?.template.toString());
-            this.getControls().forEach((group, i) => {
-                group.get('selectors')?.setValue(this.storage.storage$.value?.issueTypes[this.currentIssueType][i]?.selectors.toString());
-                group.get('template')?.setValue(this.storage.storage$.value?.issueTypes[this.currentIssueType][i]?.template);
-                group.get('title')?.setValue(this.storage.storage$.value?.issueTypes[this.currentIssueType][i]?.title);
-            });
+        if (changes?.currentIssueType) {
+            this.setControls();
         }
     }
 
@@ -90,6 +76,43 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, On
     }
 
     public getControls(): FormGroup[] {
+        this.setControls();
         return this.formArray.controls as FormGroup[];
+    }
+
+    public setControls(): void {
+        this.formArray.clear();
+
+        this.storage.storage$.value?.issueTypes[this.currentIssueType]?.forEach((property, i) => {
+            this.formArray.push(
+                this.formBuilder.group({
+                    selectors: [property.selectors, Validators.required],
+                    template: [property.template, Validators.required],
+                    // title: [property.title, Validators.required],
+                })
+            );
+        });
+
+        this.formArray.updateValueAndValidity();
+    }
+
+    public addNewFormData(): void {
+        const newValue = this.storage.storage$.value;
+        newValue?.issueTypes[this.currentIssueType].push({
+            selectors: [],
+            template: '',
+            title: '',
+        });
+        this.storage.storage$.next(newValue);
+        this.storage.setStorage({ ...newValue });
+    }
+
+    public removeForm(id: number): void {
+        this.formArray.removeAt(id);
+
+        const newValue = this.storage.storage$.value;
+        newValue?.issueTypes[this.currentIssueType].splice(id, 1);
+        this.storage.storage$.next(newValue);
+        this.storage.setStorage({ ...newValue });
     }
 }

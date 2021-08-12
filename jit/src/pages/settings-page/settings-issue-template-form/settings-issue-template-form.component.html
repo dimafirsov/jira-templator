@@ -1,6 +1,9 @@
 <div class="issues-form">
     <ng-container *ngFor="let control of getControls(); let i = index">
         <form [formGroup]="control" class="py-3 h-100">
+            <div *ngIf="settings.issueTypeEditEnabled" class="remove-form-group" (click)="removeForm(i)">
+                <i class="bi bi-x-circle-fill"></i>
+            </div>
             <div class="template-details">
                 <div class="form-title">
                     <jit-settings-issue-item [type]="currentIssueType"
@@ -32,7 +35,7 @@
         </form>
     </ng-container>
 
-    <div *ngIf="settings.issueTypeEditEnabled" class="add-new-form-group">
+    <div *ngIf="settings.issueTypeEditEnabled" class="add-new-form-group" (click)="addNewFormData()">
         <i class="bi bi-plus-circle-fill"></i>
     </div>
 </div>

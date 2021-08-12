@@ -98,14 +98,17 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.toast.showToast$.next({type: 'error', text: 'Can\'t create an issue with empty name!'});
             return;
         }
-        if (this.newItemInput) {
+        if (this.newItemInput.nativeElement.value) {
             this.storage.setStorage({
                 issueTypes: {
                     ...this.storage.storage$.value?.issueTypes,
-                    [this.newItemInput.nativeElement.value]: {
-                        selectors: [''],
-                        template: '',
-                    }
+                    [this.newItemInput.nativeElement.value]: [
+                        {
+                            selectors: [],
+                            template: '',
+                            title: '',
+                        }
+                    ]
                 },
             });
         }
