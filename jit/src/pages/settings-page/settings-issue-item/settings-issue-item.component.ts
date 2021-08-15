@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { DEFAULT_TEMPLATE } from '../../../constants';
 import { SettingsService } from '../../../services/settings.service';
 import { StorageService } from '../../../services/storage.service';
@@ -11,7 +11,7 @@ import { IIssueType } from '../../../type';
   templateUrl: './settings-issue-item.component.html',
   styleUrls: ['./settings-issue-item.component.scss']
 })
-export class SettingsIssueItemComponent implements OnInit, OnDestroy {
+export class SettingsIssueItemComponent implements OnChanges, OnInit, OnDestroy {
 
     @Input() public type!: string;
     @Input() public property!: 'title';
@@ -29,10 +29,21 @@ export class SettingsIssueItemComponent implements OnInit, OnDestroy {
     constructor(private storage: StorageService, private settings: SettingsService, private cdRef: ChangeDetectorRef) {
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.showOptions && this.editable && !changes.showOptions.currentValue) {
+            this.editable = !this.editable;
+        }
+    }
+
     ngOnInit(): void {
         this.settings.currentIssue$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(value => this.currentIssueProperties = this.settings.currentIssue$.value[this.index]);
+            .pipe(
+                distinctUntilChanged(),
+                takeUntil(this.destroy$)
+            )
+            .subscribe(value => {
+                this.currentIssueProperties = value[this.index];
+            });
     }
 
     ngOnDestroy(): void {
@@ -84,7 +95,6 @@ export class SettingsIssueItemComponent implements OnInit, OnDestroy {
     }
 
     public get issueProperties(): IIssueType {
-        console.log('>>>>> this.settings.currentIssue$.value[this.index]', this.settings.currentIssue$.value[this.index]);
         return this.settings.currentIssue$.value[this.index];
     }
 

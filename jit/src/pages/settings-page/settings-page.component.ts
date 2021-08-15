@@ -51,8 +51,9 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
                 tap((data: IJTStorage) => {
                     console.log('>>> data from pipe', data);
                     this.issueTypes = Object.keys(data?.issueTypes || {});
-                    console.log('>>> currentIssue', this.currentIssueType);
+                    console.log('>>> currentIssueType', this.currentIssueType);
                     this.settings.currentIssue$.next(data.issueTypes[this.settings.currentIssueType$.value]);
+                    console.log('>>> current issue', this.settings.currentIssue$.value);
                     this.cdRef.detectChanges();
                 }),
                 takeUntil(this.destroy$),

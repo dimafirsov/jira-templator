@@ -17,7 +17,7 @@ import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 import { STORAGE_NAME } from '../../../constants';
 import { SettingsService } from '../../../services/settings.service';
 import { StorageService } from '../../../services/storage.service';
-import { IJTStorage } from '../../../type';
+import { IIssueType, IJTStorage } from '../../../type';
 
 @Component({
     selector: 'jit-settings-issue-template-form',
@@ -79,7 +79,7 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, Af
                 this.formBuilder.group({
                     selectors: [property.selectors, Validators.required],
                     template: [property.template, Validators.required],
-                    // title: [property.title, Validators.required],
+                    title: [property.title],
                 })
             );
         });
@@ -119,12 +119,12 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, Af
             control.valueChanges
                 .pipe(
                     distinctUntilChanged(),
-                    tap(value => {
+                    tap((value: IIssueType) => {
                         const state = this.storage.storage$.value as IJTStorage;
                         console.log('>>> value', value);
                         if (state) {
                             const currentTypeArray = state.issueTypes[this.currentIssueType];
-                            currentTypeArray[i] = {...value};
+                            currentTypeArray[i] = {...value, title: currentTypeArray[i].title};
 
                             this.storage.setStorage({...state});
                         }
