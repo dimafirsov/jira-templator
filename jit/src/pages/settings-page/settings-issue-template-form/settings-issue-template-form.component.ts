@@ -40,8 +40,8 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, Af
                 private cdRef: ChangeDetectorRef,
                 public settings: SettingsService) {
 
-                    this.storage.loadStorage();
-                    this.setControls();
+                    // this.storage.loadStorage();
+                    // this.setControls();
     }
 
     ngOnInit(): void {

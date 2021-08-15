@@ -8,38 +8,38 @@ export const DEFAULT_TEMPLATE: IJTStorage = {
             {
                 selectors: ['bug_selector'],
                 template: 'bug_template',
-                title: 'description',
+                title: 'Description',
             }
         ],
         Epic: [
             {
                 selectors: ['epic_selector'],
                 template: 'epic_template',
-                title: 'description',
+                title: 'Description',
             }
         ],
         'Internal Improvement': [
             {
                 selectors: ['II_selector'],
                 template: 'II_template',
-                title: 'description',
+                title: 'Description',
             },
             {
                 selectors: ['II_selector - 2'],
                 template: 'II_template - 2',
-                title: 'acceptance criteria',
+                title: 'Acceptance Criteria',
             },
         ],
         Story: [
             {
-                selectors: [],
-                template: '',
-                title: 'description',
+                selectors: ['story_selector'],
+                template: 'story description template',
+                title: 'Description',
             },
             {
                 selectors: [],
-                template: '',
-                title: 'acceptance criteria',
+                template: 'story ac template',
+                title: 'Acceptance Criteria',
             },
         ],
     }

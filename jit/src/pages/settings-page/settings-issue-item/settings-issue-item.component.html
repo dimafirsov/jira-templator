@@ -1,19 +1,28 @@
 <div class="d-flex flex-row justify-content-between">
     <ng-container *ngIf="!editable">
         <div class="issue-item"
-             [title]="type"
+             [title]="currentIssueProperties[property] || type"
              [class.active]="active"
              (click)="handleItemClick()"
              >
-            {{ type }}
+            {{ currentIssueProperties[property] || type }}
         </div>
     </ng-container>
     
-    <ng-container *ngIf="editable">
+    <ng-container *ngIf="editable && type && !property">
             <input class="issue-item issue-item-input"
                 [title]="type"
                 [class.active]="active"
                 [value]="type"
+                (input)="handleInputChange($event)"
+                >
+    </ng-container>
+
+    <ng-container *ngIf="editable && property">
+            <input class="issue-item issue-item-input"
+                [title]="currentIssueProperties[property]"
+                [class.active]="active"
+                [value]="currentIssueProperties[property]"
                 (input)="handleInputChange($event)"
                 >
     </ng-container>

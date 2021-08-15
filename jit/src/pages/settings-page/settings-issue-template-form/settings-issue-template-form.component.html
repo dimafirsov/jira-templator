@@ -7,7 +7,9 @@
             <div class="template-details">
                 <div class="form-title">
                     <jit-settings-issue-item [type]="currentIssueType"
+                                             property="title"
                                              class="no-padding"
+                                             [index]="i"
                                              [active]="true"
                                              [removable]="false"
                                              [showOptions]="settings.issueTypeEditEnabled"></jit-settings-issue-item>

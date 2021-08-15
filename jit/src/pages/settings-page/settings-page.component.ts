@@ -47,11 +47,12 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('>>> on init');
         this.storage.storage$
             .pipe(
-                filter((data: IJTStorage | undefined) => !!data),
-                tap((data: IJTStorage | undefined) => {
+                filter((data: IJTStorage) => !!data),
+                tap((data: IJTStorage) => {
                     console.log('>>> data from pipe', data);
                     this.issueTypes = Object.keys(data?.issueTypes || {});
                     console.log('>>> currentIssue', this.currentIssueType);
+                    this.settings.currentIssue$.next(data.issueTypes[this.settings.currentIssueType$.value]);
                     this.cdRef.detectChanges();
                 }),
                 takeUntil(this.destroy$),
@@ -62,7 +63,9 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
             .pipe(
                 tap((type: string) => {
                     this.currentIssueType = type;
+                    this.settings.currentIssue$.next(this.storage.storage$.value?.issueTypes[type]);
                     console.log('>>> from sub', type);
+                    console.log('>>> current issue', this.settings.currentIssue$.value);
                     this.cdRef.detectChanges();
                 }),
                 takeUntil(this.destroy$),

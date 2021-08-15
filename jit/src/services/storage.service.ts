@@ -7,7 +7,7 @@ import { IJTStorage } from '../type';
   providedIn: 'root'
 })
 export class StorageService {
-    public storage$: BehaviorSubject<IJTStorage | undefined> = new BehaviorSubject<IJTStorage | undefined>(undefined);
+    public storage$: BehaviorSubject<IJTStorage> = new BehaviorSubject<IJTStorage>(DEFAULT_TEMPLATE);
 
     constructor() {}
 
