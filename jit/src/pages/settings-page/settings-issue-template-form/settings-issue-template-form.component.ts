@@ -1,4 +1,6 @@
 import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     ElementRef,
@@ -23,12 +25,13 @@ import { IJTStorage } from '../../../type';
     styleUrls: ['./settings-issue-template-form.component.scss'],
     // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, OnDestroy {
+export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
     @Input() currentIssueType!: string;
 
     public formArray: FormArray = new FormArray([]);
 
     private destroy$: Subject<any> = new Subject();
+    private destroyControls$: Subject<any> = new Subject();
 
     @ViewChild('templateContainer') public templateContainer!: ElementRef<HTMLDivElement>;
 
@@ -36,33 +39,22 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, On
                 private storage: StorageService,
                 private cdRef: ChangeDetectorRef,
                 public settings: SettingsService) {
+
+                    this.storage.loadStorage();
+                    this.setControls();
     }
 
     ngOnInit(): void {
-        this.getControls().forEach((control, i) => {
-            control.valueChanges
-                    .pipe(
-                        distinctUntilChanged(),
-                        tap(value => {
-                            const state = this.storage.storage$.value as IJTStorage;
-                            console.log('>>> value', value);
-                            if (state) {
-                                const currentTypeArray = state.issueTypes[this.currentIssueType];
-                                currentTypeArray[i] = {...value};
 
-                                this.storage.setStorage({...state});
-                            }
+    }
 
-                        }),
-                        takeUntil(this.destroy$)
-                    )
-                    .subscribe();
-        });
+    ngAfterViewInit(): void {
+
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes?.currentIssueType) {
-            this.setControls();
+            this.updateControls();
         }
     }
 
@@ -71,16 +63,15 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, On
         this.destroy$.complete();
     }
 
-    public getRows(element: HTMLDivElement): number {
-        return Math.ceil(+getComputedStyle(element).height.slice(0, -2) / 30);
-    }
-
     public getControls(): FormGroup[] {
-        this.setControls();
+        if (!this.formArray.controls.length) {
+            this.updateControls();
+        }
         return this.formArray.controls as FormGroup[];
     }
 
     public setControls(): void {
+        this.destroyControls$.next();
         this.formArray.clear();
 
         this.storage.storage$.value?.issueTypes[this.currentIssueType]?.forEach((property, i) => {
@@ -96,15 +87,22 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, On
         this.formArray.updateValueAndValidity();
     }
 
+    public updateControls(): void {
+        this.setControls();
+        this.subscribeToControls();
+    }
+
     public addNewFormData(): void {
         const newValue = this.storage.storage$.value;
         newValue?.issueTypes[this.currentIssueType].push({
             selectors: [],
-            template: '',
-            title: '',
+            template: 'new template',
+            title: 'new title',
         });
         this.storage.storage$.next(newValue);
         this.storage.setStorage({ ...newValue });
+
+        this.updateControls();
     }
 
     public removeForm(id: number): void {
@@ -114,5 +112,27 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, On
         newValue?.issueTypes[this.currentIssueType].splice(id, 1);
         this.storage.storage$.next(newValue);
         this.storage.setStorage({ ...newValue });
+    }
+
+    private subscribeToControls(): void {
+        this.formArray.controls.forEach((control, i) => {
+            control.valueChanges
+                .pipe(
+                    distinctUntilChanged(),
+                    tap(value => {
+                        const state = this.storage.storage$.value as IJTStorage;
+                        console.log('>>> value', value);
+                        if (state) {
+                            const currentTypeArray = state.issueTypes[this.currentIssueType];
+                            currentTypeArray[i] = {...value};
+
+                            this.storage.setStorage({...state});
+                        }
+
+                    }),
+                    takeUntil(this.destroyControls$)
+                )
+                .subscribe();
+        });
     }
 }

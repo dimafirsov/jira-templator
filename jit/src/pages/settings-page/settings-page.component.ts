@@ -33,7 +33,6 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     public showInput!: boolean;
 
     private destroy$: Subject<any> = new Subject();
-    private runOnce!: boolean;
 
     @ViewChildren(SettingsIssueItemComponent) public issueTypeElements!: QueryList<SettingsIssueItemComponent>;
     @ViewChild('newItemInput') public newItemInput!: ElementRef<HTMLInputElement>;
@@ -54,11 +53,6 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.issueTypes = Object.keys(data?.issueTypes || {});
                     console.log('>>> currentIssue', this.currentIssueType);
                     this.cdRef.detectChanges();
-                    if (this.issueTypeElements.first.type !== this.currentIssueType && !this.runOnce) {
-                        this.settings.currentIssueType$.next(this.issueTypeElements.first.type);
-                        this.runOnce = !this.runOnce;
-                    }
-                    console.log('>>> this.issueTypeElements.first.type', this.issueTypeElements.first.type);
                 }),
                 takeUntil(this.destroy$),
             )
@@ -105,8 +99,8 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
                     [this.newItemInput.nativeElement.value]: [
                         {
                             selectors: [],
-                            template: '',
-                            title: '',
+                            template: 'new template',
+                            title: 'new title',
                         }
                     ]
                 },

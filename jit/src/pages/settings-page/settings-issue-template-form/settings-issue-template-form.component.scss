@@ -1,9 +1,11 @@
 
+:host {
+    background-color: white;;
+}
+
 .issues-form {
-    // height: 100%;
     position: relative;
     padding: 0 1rem;
-    background-color: white;
 
     .form-title {
         width: fit-content;

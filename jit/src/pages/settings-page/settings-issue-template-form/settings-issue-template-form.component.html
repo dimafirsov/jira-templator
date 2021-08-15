@@ -25,7 +25,7 @@
                     <label [for]="'issue-template-' + i" class="mb-2">Template</label>
                     <textarea type="textarea"
                               [id]="'issue-template-' + i"
-                              [rows]="getRows(templateContainer)"
+                              [rows]="5"
                               formControlName="template"
                               [class.invalid]='control.get("template")?.invalid'
                               [attr.placeholder]='control.get("template")?.invalid ? "Please enter at least one template!" : null'>
