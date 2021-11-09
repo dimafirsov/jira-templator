@@ -3,6 +3,14 @@
     background-color: white;;
 }
 
+form {
+    margin-bottom: 1rem;
+}
+
+form:last-of-type {
+    margin-bottom: 0;
+}
+
 .issues-form {
     position: relative;
     padding: 1rem;
