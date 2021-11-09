@@ -27,6 +27,7 @@ form:last-of-type {
         position: relative;
         border: 1px grey dashed;
         padding: 1rem;
+        margin-right: 0.5rem; // leaving space for the scrollbar
     
         input, textarea {
             border: 2px solid #f0f0f0;
@@ -48,8 +49,8 @@ form:last-of-type {
 
     .remove-form-group {
         position: relative;
-        top: 15px;
-        left: 97.5%;
+        top: 14px;
+        left: 94.5%;
         z-index: 1;
         cursor: pointer;
     
