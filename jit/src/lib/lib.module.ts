@@ -5,6 +5,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { QuickAccessCardComponent } from './quick-access-card/quick-access-card.component';
 import { WhatsNewCardComponent } from './whats-new-card/whats-new-card.component';
 import { ToastComponent } from './toast/toast.component';
+import { NuiButtonModule, NuiIconModule, NuiTooltipModule } from '@nova-ui/bits';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,9 @@ import { ToastComponent } from './toast/toast.component';
   ],
   imports: [
       CommonModule,
+      NuiButtonModule,
+      NuiIconModule,
+      NuiTooltipModule,
   ],
   exports: [
     HeaderComponent,

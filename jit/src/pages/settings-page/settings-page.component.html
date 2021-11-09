@@ -1,13 +1,13 @@
 <div class="settings">
     <!-- <h6 class="settings-section small">General Settings</h6> -->
 
-    <h6 class="settings-section small">Template Settings</h6>
+    <h5 class="settings-section">Template Settings</h5>
     <section>
         <div class="p-3 d-flex justify-content-start align-items-center">
-            <label for="toggle-issue-type-edit" class="pe-3 small">Configure issue types</label>
-            <input type="checkbox"
-                   id="toggle-issue-type-edit"
-                   [(ngModel)]="settings.issueTypeEditEnabled">
+            <nui-checkbox [(ngModel)]="settings.issueTypeEditEnabled"
+                hint="Allows to configure issue selectors and add new templates">
+                Configure issue types
+            </nui-checkbox>
         </div>
     </section>
     <div class="settings-templates">

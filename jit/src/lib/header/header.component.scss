@@ -14,7 +14,24 @@
         list-style: none;
     }
 
-    h2 {
+    h1, h2 {
         margin: 0;
+    }
+}
+
+.header {
+    &-nav {
+        padding: 0.75rem;
+    }
+    &-title, &-logo {
+        cursor: pointer;
+    }
+    &-logo {
+        border: 1px #0079aa dashed;
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        align-items: center;
+        justify-content: center;
     }
 }

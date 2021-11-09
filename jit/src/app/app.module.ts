@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, TRANSLATIONS, MissingTranslationStrategy, TRANSLATIONS_FORMAT } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { PagesModule } from '../pages/pages.module';
 
@@ -19,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         PagesModule,
         BrowserAnimationsModule,
     ],
-    providers: [PageService],
+    providers: [PageService, {provide: TRANSLATIONS_FORMAT, useValue: 'xlf'}, {provide: TRANSLATIONS, useValue: ''}, ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

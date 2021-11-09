@@ -5,12 +5,12 @@
 
 .issues-form {
     position: relative;
-    padding: 0 1rem;
+    padding: 1rem;
 
     .form-title {
         width: fit-content;
         position: absolute;
-        top: -11px;
+        top: -13px;
         left: 20px;
     }
 
@@ -40,7 +40,7 @@
 
     .remove-form-group {
         position: relative;
-        top: 10px;
+        top: 15px;
         left: 97.5%;
         z-index: 1;
         cursor: pointer;
@@ -54,7 +54,7 @@
 
 .add-new-form-group {
     position: absolute;
-    top: -11px;
+    top: 10px;
     left: 50%;
     cursor: pointer;
 

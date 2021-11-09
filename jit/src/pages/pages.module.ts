@@ -6,8 +6,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { SettingsPageComponent } from './settings-page/settings-page.component';
 import { SettingsIssueItemComponent } from './settings-page/settings-issue-item/settings-issue-item.component';
 import { SettingsIssueTemplateFormComponent } from './settings-page/settings-issue-template-form/settings-issue-template-form.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
+import { NuiCheckboxModule, NuiIconModule, NuiTooltipModule } from '@nova-ui/bits';
 
 @NgModule({
   declarations: [
@@ -21,6 +20,9 @@ import { BrowserModule } from '@angular/platform-browser';
       CommonModule,
       ReactiveFormsModule,
       FormsModule,
+      NuiCheckboxModule,
+      NuiIconModule,
+      NuiTooltipModule,
   ],
   exports: [
     MainPageComponent,
