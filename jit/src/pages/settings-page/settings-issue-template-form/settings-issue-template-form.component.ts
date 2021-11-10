@@ -37,11 +37,8 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, Af
 
     constructor(private formBuilder: FormBuilder,
                 private storage: StorageService,
-                private cdRef: ChangeDetectorRef,
+                public cdRef: ChangeDetectorRef,
                 public settings: SettingsService) {
-
-                    // this.storage.loadStorage();
-                    // this.setControls();
     }
 
     ngOnInit(): void {
@@ -74,7 +71,7 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, Af
         this.destroyControls$.next();
         this.formArray.clear();
 
-        this.storage.storage$.value?.issueTypes[this.currentIssueType]?.forEach((property, i) => {
+        this.storage.current$.value?.issueTypes[this.currentIssueType]?.forEach((property, i) => {
             this.formArray.push(
                 this.formBuilder.group({
                     selectors: [property.selectors, Validators.required],
@@ -93,13 +90,13 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, Af
     }
 
     public addNewFormData(): void {
-        const newValue = this.storage.storage$.value;
+        const newValue = this.storage.current$.value;
         newValue?.issueTypes[this.currentIssueType].push({
             selectors: [],
             template: 'new template',
             title: 'new title',
         });
-        this.storage.storage$.next(newValue);
+        this.storage.current$.next(newValue);
         this.storage.setStorage({ ...newValue });
 
         this.updateControls();
@@ -108,9 +105,9 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, Af
     public removeForm(id: number): void {
         this.formArray.removeAt(id);
 
-        const newValue = this.storage.storage$.value;
+        const newValue = this.storage.current$.value;
         newValue?.issueTypes[this.currentIssueType].splice(id, 1);
-        this.storage.storage$.next(newValue);
+        this.storage.current$.next(newValue);
         this.storage.setStorage({ ...newValue });
     }
 
@@ -120,8 +117,8 @@ export class SettingsIssueTemplateFormComponent implements OnInit, OnChanges, Af
                 .pipe(
                     distinctUntilChanged(),
                     tap((value: IIssueType) => {
-                        const state = this.storage.storage$.value as IJTStorage;
-                        console.log('>>> value', value);
+                        const state = this.storage.current$.value as IJTStorage;
+
                         if (state) {
                             const currentTypeArray = state.issueTypes[this.currentIssueType];
                             currentTypeArray[i] = {...value, title: currentTypeArray[i].title};

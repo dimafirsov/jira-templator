@@ -1,16 +1,14 @@
 const STORAGE_NAME = 'JT_Templates';
 
 (async function() {
-    let createButton = document.getElementById("createGlobalItem");
+    let createButton = getGlobalTriggerElement();
     const storage = await this.getStorage();
-    const node1 = document.querySelector("span[data-test-id='ak-spotlight-target-profile-spotlight']");
 
     setTimeout(() => {
-        createButton = document.getElementById("createGlobalItem");
-        console.log(">>> READY");
+        createButton = getGlobalTriggerElement();
         vt.success("Jira Templator IS READY!", { title: "Let's GO!", position: "top-right",})
 
-        document.getElementById("createGlobalItem").addEventListener("click", () => {
+        createButton.addEventListener("click", () => {
             const interval = setInterval(() => {
                 const item = document.querySelector("#summary");
                 if (item) {
@@ -22,6 +20,10 @@ const STORAGE_NAME = 'JT_Templates';
 
     }, 2700)
 })()
+
+function getGlobalTriggerElement() {
+    return document.querySelector("#createGlobalItem");
+}
 
 async function getStorage() {
     return new Promise((resolve, reject) => {

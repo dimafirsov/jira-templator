@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { DEFAULT_TEMPLATE } from '../../../constants';
@@ -57,7 +57,7 @@ export class SettingsIssueItemComponent implements OnChanges, OnInit, OnDestroy 
 
     public async handleEdit(): Promise<void> {
         if (this.editable) {
-            const currentState = this.storage.storage$.value;
+            const currentState = this.storage.current$.value;
 
             if (this.inputValue && !currentState?.issueTypes[this.inputValue]) {
 
@@ -83,12 +83,12 @@ export class SettingsIssueItemComponent implements OnChanges, OnInit, OnDestroy 
 
     public handleItemClick(): void {
         this.settings.currentIssueType$.next(this.inputValue || this.type);
-        this.settings.currentIssue$.next(this.storage.storage$.value.issueTypes[this.inputValue || this.type]);
+        this.settings.currentIssue$.next(this.storage.current$.value.issueTypes[this.inputValue || this.type].slice());
         this.cdRef.detectChanges();
     }
 
     public removeIssueType(type: string): void {
-        const current = this.storage.storage$.value;
+        const current = this.storage.current$.value;
         delete current?.issueTypes[type];
 
         this.storage.setStorage({ ...current });

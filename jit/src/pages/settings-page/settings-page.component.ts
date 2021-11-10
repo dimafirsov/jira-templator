@@ -11,14 +11,17 @@ import {
     ViewChild,
     ViewChildren
 } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { isEqual } from 'lodash';
 import { Subject } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { filter, startWith, takeUntil, takeWhile, tap, throttleTime } from 'rxjs/operators';
 import { DEFAULT_TEMPLATE } from '../../constants';
 import { SettingsService } from '../../services/settings.service';
 import { StorageService } from '../../services/storage.service';
 import { ToastService } from '../../services/toast.service';
 import { IJTStorage } from '../../type';
 import { SettingsIssueItemComponent } from './settings-issue-item/settings-issue-item.component';
+import { SettingsIssueTemplateFormComponent } from './settings-issue-template-form/settings-issue-template-form.component';
 
 @Component({
   selector: 'jit-settings-page',
@@ -31,29 +34,60 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public currentIssueType!: string;
     public showInput!: boolean;
+    public settingsForm!: FormGroup;
+    public formControlNames = {
+        GlobalTrigger: 'globalTrigger',
+    };
 
     private destroy$: Subject<any> = new Subject();
+    private destroySettingsTemplateFormUpdate$: Subject<any> = new Subject();
 
     @ViewChildren(SettingsIssueItemComponent) public issueTypeElements!: QueryList<SettingsIssueItemComponent>;
+    @ViewChild(SettingsIssueTemplateFormComponent) public settingsTemplateForm!: SettingsIssueTemplateFormComponent;
     @ViewChild('newItemInput') public newItemInput!: ElementRef<HTMLInputElement>;
 
     constructor(public storage: StorageService,
                 private cdRef: ChangeDetectorRef,
                 public settings: SettingsService,
                 public toast: ToastService,
+                private formBuilder: FormBuilder,
                 ) {}
 
     ngOnInit(): void {
         console.log('>>> on init');
-        this.storage.storage$
+        this.settingsForm = this.formBuilder.group({
+            [this.formControlNames.GlobalTrigger]: ['', Validators.required],
+        });
+
+        this.settingsForm.controls[this.formControlNames.GlobalTrigger]
+            .valueChanges
+            .pipe(
+                startWith('#createGlobalItem'),
+                throttleTime(500),
+                tap(data => console.log('>>> this.storage.current$.value', this.storage.current$.value)),
+                takeUntil(this.destroy$)
+            )
+            .subscribe();
+
+        this.storage.current$
+            .pipe(
+                filter(value => !isEqual(value, DEFAULT_TEMPLATE)),
+                tap(() => this.settingsTemplateForm?.updateControls()),
+                tap(() => this.destroySettingsTemplateFormSubject()),
+                takeUntil(this.destroySettingsTemplateFormUpdate$)
+            )
+            .subscribe();
+
+        this.storage.current$
             .pipe(
                 filter((data: IJTStorage) => !!data),
                 tap((data: IJTStorage) => {
                     console.log('>>> data from pipe', data);
                     this.issueTypes = Object.keys(data?.issueTypes || {});
                     console.log('>>> currentIssueType', this.currentIssueType);
-                    this.settings.currentIssue$.next(data.issueTypes[this.settings.currentIssueType$.value]);
-                    console.log('>>> current issue', this.settings.currentIssue$.value);
+                    const currentIssue = this.settings.currentIssueType$.value || Object.keys(data?.issueTypes)[0];
+                    this.settings.currentIssueType$.next(currentIssue);
+                    console.log('>>> current 111 issue', this.settings.currentIssue$.value);
                     this.cdRef.detectChanges();
                 }),
                 takeUntil(this.destroy$),
@@ -63,10 +97,12 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.settings.currentIssueType$
             .pipe(
                 tap((type: string) => {
-                    this.currentIssueType = type;
-                    this.settings.currentIssue$.next(this.storage.storage$.value?.issueTypes[type]);
+                    const current = this.storage.current$.value?.issueTypes;
+                    const currentType = current[type];
+                    this.currentIssueType = currentType ? type : Object.keys(current)[0];
+                    this.settings.currentIssue$.next(current[this.currentIssueType].slice());
                     console.log('>>> from sub', type);
-                    console.log('>>> current issue', this.settings.currentIssue$.value);
+                    console.log('>>> current issue from sub', this.settings.currentIssue$.value);
                     this.cdRef.detectChanges();
                 }),
                 takeUntil(this.destroy$),
@@ -77,13 +113,18 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        console.log('>>> after view init');
-        this.issueTypeElements.toArray()[0].active = true;
+        this.issueTypeElements
+            .toArray()
+            .filter(item => item.type === this.currentIssueType)[0].active = true;
     }
 
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+
+        if (!this.destroySettingsTemplateFormUpdate$.closed) {
+            this.destroySettingsTemplateFormSubject();
+        }
     }
 
     public selectItem(item: string): void {
@@ -99,7 +140,7 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.newItemInput.nativeElement.value) {
             this.storage.setStorage({
                 issueTypes: {
-                    ...this.storage.storage$.value?.issueTypes,
+                    ...this.storage.current$.value?.issueTypes,
                     [this.newItemInput.nativeElement.value]: [
                         {
                             selectors: [],
@@ -116,6 +157,11 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.storage.clearStorage();
     }
     public getStorage(): void {
-        console.log('>>> storage', this.storage.storage$.value);
+        console.log('>>> storage', this.storage.current$.value);
+    }
+
+    private destroySettingsTemplateFormSubject(): void {
+        this.destroySettingsTemplateFormUpdate$.next();
+        this.destroySettingsTemplateFormUpdate$.complete();
     }
 }

@@ -36,8 +36,9 @@
             </div>
         </form>
     </ng-container>
-
-    <div *ngIf="settings.issueTypeEditEnabled" class="add-new-form-group" (click)="addNewFormData()">
+        
+    <div *ngIf="settings.issueTypeEditEnabled && formArray.controls.length" class="add-new-form-group"
+        (click)="addNewFormData()">
         <nui-icon nuiTooltip="Add new template" icon="add"></nui-icon>
     </div>
 </div>

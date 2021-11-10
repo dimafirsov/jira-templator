@@ -10,6 +10,7 @@ export class SettingsService {
     public currentIssueType$: BehaviorSubject<string> = new BehaviorSubject<string>('Bug');
     public currentIssue$: BehaviorSubject<Array<IIssueType>> = new BehaviorSubject<Array<IIssueType>>(DEFAULT_TEMPLATE.issueTypes.Bug);
     public issueTypeEditEnabled = false;
+    public currentGlobalTriggerSelectorValue = '';
 
     constructor() { }
 }

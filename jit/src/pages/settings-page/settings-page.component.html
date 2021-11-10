@@ -8,6 +8,12 @@
                 hint="Allows to configure issue selectors and add new templates">
                 Configure issue types
             </nui-checkbox>
+            <form [formGroup]="settingsForm">
+                <nui-form-field [control]="settingsForm.controls[formControlNames.GlobalTrigger]" caption="Trigger selectors"
+                    hint="Selectors of the component which allows for creating issues on interaction">
+                    <nui-textbox [formControlName]="formControlNames.GlobalTrigger"></nui-textbox>
+                </nui-form-field>
+            </form>
         </div>
     </section>
     <div class="settings-templates">

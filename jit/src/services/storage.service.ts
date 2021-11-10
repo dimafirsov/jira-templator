@@ -7,7 +7,7 @@ import { IJTStorage } from '../type';
   providedIn: 'root'
 })
 export class StorageService {
-    public storage$: BehaviorSubject<IJTStorage> = new BehaviorSubject<IJTStorage>(DEFAULT_TEMPLATE);
+    public current$: BehaviorSubject<IJTStorage> = new BehaviorSubject<IJTStorage>(DEFAULT_TEMPLATE);
 
     constructor() {}
 
@@ -16,7 +16,7 @@ export class StorageService {
         newStorage[STORAGE_NAME] = {...data};
 
         chrome.storage?.sync.set({...newStorage}, () => {
-            this.storage$.next(newStorage[STORAGE_NAME]);
+            this.current$.next(newStorage[STORAGE_NAME]);
         });
     }
 
@@ -26,7 +26,7 @@ export class StorageService {
                 fn(data[STORAGE_NAME]);
                 return;
             }
-            this.storage$.next(data[key]);
+            this.current$.next(data[key]);
         });
     }
 
@@ -40,7 +40,7 @@ export class StorageService {
 
     public clearStorage(): void {
         chrome.storage?.sync.clear();
-        this.storage$.next({} as IJTStorage);
+        this.current$.next({} as IJTStorage);
     }
 
     public removeFromStorage(item: string, fn?: () => void): void {
