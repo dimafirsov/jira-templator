@@ -1,28 +1,38 @@
 const STORAGE_NAME = 'JT_Templates';
 
 (async function() {
-    let createButton = getGlobalTriggerElement();
-    const storage = await this.getStorage();
+    const storage = (await this.getStorage())[STORAGE_NAME];
+    let createButton;
+    let currentIssueType;
 
     setTimeout(() => {
-        createButton = getGlobalTriggerElement();
+        createButton = getGlobalTriggerElementFromStorage(storage);
+
         vt.success("Jira Templator IS READY!", { title: "Let's GO!", position: "top-right",})
 
         createButton.addEventListener("click", () => {
             const interval = setInterval(() => {
-                const item = document.querySelector("#summary");
-                if (item) {
-                    item.value = "hello world!";
+                currentIssueType = document.querySelector("#issuetype-field");
+
+                if (currentIssueType) {
+                    storage.issueTypes[currentIssueType.value].forEach(item => {
+                        console.log('>>> item.selectors', item.selectors);
+                        const targetElement = document.querySelector(`${item.selectors}`);
+                        console.log('>>> targetElement', targetElement);
+                        if (targetElement) {
+                            targetElement.value = item.template;
+                        }
+                    });
                     clearInterval(interval);
                 }
             }, 200);
         })
 
-    }, 2700)
+    }, storage?.loadTimeout || 2700)
 })()
 
-function getGlobalTriggerElement() {
-    return document.querySelector("#createGlobalItem");
+function getGlobalTriggerElementFromStorage(storage) {
+    return document.querySelector(storage?.globalTriggerSelector);
 }
 
 async function getStorage() {

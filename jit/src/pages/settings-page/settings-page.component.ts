@@ -14,8 +14,8 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { isEqual } from 'lodash';
 import { Subject } from 'rxjs';
-import { filter, startWith, takeUntil, takeWhile, tap, throttleTime } from 'rxjs/operators';
-import { DEFAULT_TEMPLATE } from '../../constants';
+import { filter, takeUntil, tap } from 'rxjs/operators';
+import { DEFAULT_TEMPLATE, STORAGE_NAME } from '../../constants';
 import { SettingsService } from '../../services/settings.service';
 import { StorageService } from '../../services/storage.service';
 import { ToastService } from '../../services/toast.service';
@@ -37,7 +37,10 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     public settingsForm!: FormGroup;
     public formControlNames = {
         GlobalTrigger: 'globalTrigger',
+        LoadTimeout: 'loadTimeout',
     };
+    public globalTriggerSelector = '#createGlobalItem';
+    public loadTimeout = 2700;
 
     private destroy$: Subject<any> = new Subject();
     private destroySettingsTemplateFormUpdate$: Subject<any> = new Subject();
@@ -56,15 +59,23 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
         console.log('>>> on init');
         this.settingsForm = this.formBuilder.group({
-            [this.formControlNames.GlobalTrigger]: ['', Validators.required],
+            [this.formControlNames.GlobalTrigger]: [
+                this.storage.current$.value.globalTriggerSelector || this.globalTriggerSelector,
+                Validators.required],
+            [this.formControlNames.LoadTimeout]: [this.storage.current$.value.loadTimeout || this.loadTimeout],
         });
 
-        this.settingsForm.controls[this.formControlNames.GlobalTrigger]
-            .valueChanges
+        this.settingsForm.valueChanges
             .pipe(
-                startWith('#createGlobalItem'),
-                throttleTime(500),
-                tap(data => console.log('>>> this.storage.current$.value', this.storage.current$.value)),
+                tap(data => {
+                    this.storage.getStorage(STORAGE_NAME, (d: IJTStorage) => {
+                        this.storage.setStorage({
+                            ...d,
+                            globalTriggerSelector: data[this.formControlNames.GlobalTrigger],
+                            loadTimeout: data[this.formControlNames.LoadTimeout]
+                        } as IJTStorage);
+                    });
+                }),
                 takeUntil(this.destroy$)
             )
             .subscribe();
@@ -116,6 +127,13 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.issueTypeElements
             .toArray()
             .filter(item => item.type === this.currentIssueType)[0].active = true;
+
+        this.storage.getStorage(STORAGE_NAME, (data: IJTStorage) => {
+            this.settingsForm.setValue({
+                [this.formControlNames.GlobalTrigger]: data.globalTriggerSelector || this.globalTriggerSelector,
+                [this.formControlNames.LoadTimeout]: data.loadTimeout || this.loadTimeout,
+            });
+        });
     }
 
     ngOnDestroy(): void {

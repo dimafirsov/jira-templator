@@ -3,6 +3,7 @@ import { IJTStorage } from './type';
 export const STORAGE_NAME = 'JT_Templates';
 
 export const DEFAULT_TEMPLATE: IJTStorage = {
+    globalTriggerSelector: '',
     issueTypes: {
         Bug: [
             {

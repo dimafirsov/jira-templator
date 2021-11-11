@@ -3,17 +3,67 @@
 
     <h5 class="settings-section">Template Settings</h5>
     <section>
-        <div class="p-3 d-flex justify-content-start align-items-center">
-            <nui-checkbox [(ngModel)]="settings.issueTypeEditEnabled"
-                hint="Allows to configure issue selectors and add new templates">
-                Configure issue types
-            </nui-checkbox>
-            <form [formGroup]="settingsForm">
-                <nui-form-field [control]="settingsForm.controls[formControlNames.GlobalTrigger]" caption="Trigger selectors"
-                    hint="Selectors of the component which allows for creating issues on interaction">
-                    <nui-textbox [formControlName]="formControlNames.GlobalTrigger"></nui-textbox>
+        <div class="p-3 d-flex flex-column justify-content-start align-items-center">
+            <form [formGroup]="settingsForm" class="mb-3 w-100 d-flex">
+                <nui-form-field
+                    [control]="settingsForm.controls[formControlNames.GlobalTrigger]"
+                    caption="Global Trigger selector"
+                    class="flex-fill">
+
+                    <div class="m-0 row">
+                        <div class="p-0 col-9">
+                            <nui-textbox [formControlName]="formControlNames.GlobalTrigger"></nui-textbox>
+                        </div>
+                        <div class="p-0 col">
+                            <button
+                                nui-button
+                                type="button"
+                                icon="reset"
+                                nuiTooltip="Reset selector to default value"
+                                (click)="settingsForm.controls[formControlNames.GlobalTrigger].setValue(globalTriggerSelector)">
+                            </button>
+                        </div>
+                        <div class="p-0 col d-flex align-items-center justify-content-center">
+                            <nui-icon
+                                icon="status_undefined"
+                                nuiTooltip='Selector of the component which allows for creating issues on interaction'>
+                            </nui-icon>
+                        </div>
+                    </div>
+                </nui-form-field>
+                <nui-form-field
+                    [control]="settingsForm.controls[formControlNames.LoadTimeout]"
+                    caption="Load Timeout"
+                    class="flex-fill">
+
+                    <div class="m-0 row">
+                        <div class="p-0 col-9">
+                            <nui-textbox [formControlName]="formControlNames.LoadTimeout"></nui-textbox>
+                        </div>
+                        <div class="p-0 col">
+                            <button
+                                nui-button
+                                type="button"
+                                icon="reset"
+                                nuiTooltip="Reset selector to default value"
+                                (click)="settingsForm.controls[formControlNames.LoadTimeout].setValue(loadTimeout)">
+                            </button>
+                        </div>
+                        <div class="p-0 col d-flex align-items-center justify-content-center">
+                            <nui-icon
+                                icon="status_undefined"
+                                nuiTooltip='Sets the timeout before applying event listeners. Usually needed to wait until all critical elements are loaded and their selectors are set in stone'>
+                            </nui-icon>
+                        </div>
+                    </div>
                 </nui-form-field>
             </form>
+            <div class="w-100 d-flex">
+                <nui-checkbox [(ngModel)]="settings.issueTypeEditEnabled"
+                    hint="Allows to configure issue selectors and add new templates">
+                    Configure issue types and templates
+                </nui-checkbox>
+            </div>
         </div>
     </section>
     <div class="settings-templates">
