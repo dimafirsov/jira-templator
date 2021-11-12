@@ -4,10 +4,13 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
+    Inject,
+    InjectionToken,
     Input,
     OnDestroy,
     OnInit,
     QueryList,
+    Self,
     ViewChild,
     ViewChildren
 } from '@angular/core';
@@ -22,12 +25,18 @@ import { ToastService } from '../../services/toast.service';
 import { IJTStorage } from '../../type';
 import { SettingsIssueItemComponent } from './settings-issue-item/settings-issue-item.component';
 import { SettingsIssueTemplateFormComponent } from './settings-issue-template-form/settings-issue-template-form.component';
+import { formControlConfig, FORM_CONTROL_CONFIG } from './constants';
+import { FormControlConfig } from './types';
 
 @Component({
   selector: 'jit-settings-page',
   templateUrl: './settings-page.component.html',
   styleUrls: ['./settings-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{
+      provide: FORM_CONTROL_CONFIG,
+      useValue: formControlConfig,
+  }]
 })
 export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() public issueTypes: string[] = Object.keys(DEFAULT_TEMPLATE.issueTypes);
@@ -35,12 +44,6 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     public currentIssueType!: string;
     public showInput!: boolean;
     public settingsForm!: FormGroup;
-    public formControlNames = {
-        GlobalTrigger: 'globalTrigger',
-        LoadTimeout: 'loadTimeout',
-    };
-    public globalTriggerSelector = '#createGlobalItem';
-    public loadTimeout = 2700;
 
     private destroy$: Subject<any> = new Subject();
     private destroySettingsTemplateFormUpdate$: Subject<any> = new Subject();
@@ -49,20 +52,22 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(SettingsIssueTemplateFormComponent) public settingsTemplateForm!: SettingsIssueTemplateFormComponent;
     @ViewChild('newItemInput') public newItemInput!: ElementRef<HTMLInputElement>;
 
-    constructor(public storage: StorageService,
-                private cdRef: ChangeDetectorRef,
-                public settings: SettingsService,
-                public toast: ToastService,
-                private formBuilder: FormBuilder,
-                ) {}
+    constructor(
+        @Self() @Inject(FORM_CONTROL_CONFIG) public controlConfig: FormControlConfig,
+        public storage: StorageService,
+        public settings: SettingsService,
+        public toast: ToastService,
+        private formBuilder: FormBuilder,
+        private cdRef: ChangeDetectorRef,
+    ) {}
 
     ngOnInit(): void {
-        console.log('>>> on init');
         this.settingsForm = this.formBuilder.group({
-            [this.formControlNames.GlobalTrigger]: [
-                this.storage.current$.value.globalTriggerSelector || this.globalTriggerSelector,
+            [this.controlConfig.GlobalTrigger.name]: [
+                this.storage.current$.value.globalTriggerSelector || this.controlConfig.GlobalTrigger.defaultValue,
                 Validators.required],
-            [this.formControlNames.LoadTimeout]: [this.storage.current$.value.loadTimeout || this.loadTimeout],
+            [this.controlConfig.LoadTimeout.name]: [
+                this.storage.current$.value.loadTimeout || this.controlConfig.LoadTimeout.defaultValue],
         });
 
         this.settingsForm.valueChanges
@@ -71,8 +76,8 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.storage.getStorage(STORAGE_NAME, (d: IJTStorage) => {
                         this.storage.setStorage({
                             ...d,
-                            globalTriggerSelector: data[this.formControlNames.GlobalTrigger],
-                            loadTimeout: data[this.formControlNames.LoadTimeout]
+                            globalTriggerSelector: data[this.controlConfig.GlobalTrigger.name],
+                            loadTimeout: data[this.controlConfig.LoadTimeout.name]
                         } as IJTStorage);
                     });
                 }),
@@ -130,8 +135,8 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.storage.getStorage(STORAGE_NAME, (data: IJTStorage) => {
             this.settingsForm.setValue({
-                [this.formControlNames.GlobalTrigger]: data.globalTriggerSelector || this.globalTriggerSelector,
-                [this.formControlNames.LoadTimeout]: data.loadTimeout || this.loadTimeout,
+                [this.controlConfig.GlobalTrigger.name]: data.globalTriggerSelector || this.controlConfig.GlobalTrigger.defaultValue,
+                [this.controlConfig.LoadTimeout.name]: data.loadTimeout || this.controlConfig.LoadTimeout.defaultValue,
             });
         });
     }

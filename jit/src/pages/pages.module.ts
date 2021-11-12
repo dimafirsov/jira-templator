@@ -7,6 +7,7 @@ import { SettingsPageComponent } from './settings-page/settings-page.component';
 import { SettingsIssueItemComponent } from './settings-page/settings-issue-item/settings-issue-item.component';
 import { SettingsIssueTemplateFormComponent } from './settings-page/settings-issue-template-form/settings-issue-template-form.component';
 import { NuiButtonModule, NuiCheckboxModule, NuiFormFieldModule, NuiIconModule, NuiTextboxModule, NuiTooltipModule } from '@nova-ui/bits';
+import { SettingsIssueSelectorFormComponent } from './settings-page/settings-issue-selector-form/settings-issue-selector-form.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { NuiButtonModule, NuiCheckboxModule, NuiFormFieldModule, NuiIconModule, 
     SettingsPageComponent,
     SettingsIssueItemComponent,
     SettingsIssueTemplateFormComponent,
+    SettingsIssueSelectorFormComponent,
   ],
   imports: [
       LibModule,
