@@ -1,14 +1,14 @@
 <div class="settings">
     <h5 class="settings-section">Template Settings</h5>
     <section>
-        <div class="p-3 d-flex flex-column justify-content-start align-items-center">
-                <jit-settings-issue-selector-form [form]="settingsForm"></jit-settings-issue-selector-form>
-            <div class="w-100 d-flex">
+        <div class="p-3 d-flex flex-row justify-content-start align-items-center">
+            <div class="w-100 mr-3 d-flex">
                 <nui-checkbox [(ngModel)]="settings.issueTypeEditEnabled"
                     hint="Allows to configure issue selectors and add new templates">
                     Configure issue types and templates
                 </nui-checkbox>
             </div>
+            <jit-settings-issue-selector-form [form]="settingsForm"></jit-settings-issue-selector-form>
         </div>
     </section>
     <div class="settings-templates">

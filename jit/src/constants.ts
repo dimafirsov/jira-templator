@@ -4,6 +4,7 @@ export const STORAGE_NAME = 'JT_Templates';
 
 export const DEFAULT_TEMPLATE: IJTStorage = {
     globalTriggerSelector: '',
+    issueTypeSelector: '',
     issueTypes: {
         Bug: [
             {

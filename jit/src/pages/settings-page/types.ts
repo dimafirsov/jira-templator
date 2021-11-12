@@ -1,5 +1,5 @@
 
-export type ControlTypes = 'GlobalTrigger' | 'LoadTimeout';
+export type ControlTypes = 'GlobalTrigger' | 'LoadTimeout' | 'IssueTypeSelector';
 
 export interface IFormControlConfig {
     name: string;

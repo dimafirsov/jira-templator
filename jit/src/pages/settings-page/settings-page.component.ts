@@ -68,6 +68,9 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
                 Validators.required],
             [this.controlConfig.LoadTimeout.name]: [
                 this.storage.current$.value.loadTimeout || this.controlConfig.LoadTimeout.defaultValue],
+            [this.controlConfig.IssueTypeSelector.name]: [
+                this.storage.current$.value.issueTypeSelector || this.controlConfig.IssueTypeSelector.defaultValue,
+                Validators.required],
         });
 
         this.settingsForm.valueChanges
@@ -77,7 +80,8 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
                         this.storage.setStorage({
                             ...d,
                             globalTriggerSelector: data[this.controlConfig.GlobalTrigger.name],
-                            loadTimeout: data[this.controlConfig.LoadTimeout.name]
+                            loadTimeout: data[this.controlConfig.LoadTimeout.name],
+                            issueTypeSelector: data[this.controlConfig.IssueTypeSelector.name],
                         } as IJTStorage);
                     });
                 }),
@@ -137,6 +141,7 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.settingsForm.setValue({
                 [this.controlConfig.GlobalTrigger.name]: data.globalTriggerSelector || this.controlConfig.GlobalTrigger.defaultValue,
                 [this.controlConfig.LoadTimeout.name]: data.loadTimeout || this.controlConfig.LoadTimeout.defaultValue,
+                [this.controlConfig.IssueTypeSelector.name]: data.issueTypeSelector || this.controlConfig.IssueTypeSelector.defaultValue,
             });
         });
     }

@@ -9,6 +9,7 @@ export interface IJTStorage {
     issueTypes: Record<string, Array<IIssueType>>;
     globalTriggerSelector: string;
     loadTimeout?: number;
+    issueTypeSelector: string;
 }
 
 export interface IIssueType {

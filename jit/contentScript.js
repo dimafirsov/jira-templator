@@ -14,12 +14,12 @@ const STORAGE_NAME = 'JT_Templates';
             watchForIssueTypeChanges(storage);
         })
 
-    }, storage?.loadTimeout || 2700)
+    }, storage?.loadTimeout)
 })()
 
 function applyTemplates(storage) {
     const interval = setInterval(() => {
-        const currentIssueType = document.querySelector("#issuetype-field");
+        const currentIssueType = document.querySelector(storage?.issueTypeSelector);
 
         if (currentIssueType) {
             const issueTypeFromStorage = storage.issueTypes[currentIssueType.value];

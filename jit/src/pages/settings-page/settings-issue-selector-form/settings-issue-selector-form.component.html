@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="mb-3 w-100 d-flex">
+<form [formGroup]="form" class="mb-3 w-100 d-flex flex-column">
     <ng-container *ngFor="let key of formControlConfigKeys; let i = index">
         <nui-form-field
             [control]="form.controls[key.name]"
