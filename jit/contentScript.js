@@ -1,35 +1,63 @@
 const STORAGE_NAME = 'JT_Templates';
 
 (async function() {
-    const storage = (await this.getStorage())[STORAGE_NAME];
-    let createButton;
-    let currentIssueType;
+    let storage = (await this.getStorage())[STORAGE_NAME];
 
-    setTimeout(() => {
-        createButton = getGlobalTriggerElementFromStorage(storage);
+    setTimeout(async () => {
+        let createButton = getGlobalTriggerElementFromStorage(storage);
 
         vt.success("Jira Templator IS READY!", { title: "Let's GO!", position: "top-right",})
 
-        createButton.addEventListener("click", () => {
-            const interval = setInterval(() => {
-                currentIssueType = document.querySelector("#issuetype-field");
-
-                if (currentIssueType) {
-                    storage.issueTypes[currentIssueType.value].forEach(item => {
-                        console.log('>>> item.selectors', item.selectors);
-                        const targetElement = document.querySelector(`${item.selectors}`);
-                        console.log('>>> targetElement', targetElement);
-                        if (targetElement) {
-                            targetElement.value = item.template;
-                        }
-                    });
-                    clearInterval(interval);
-                }
-            }, 200);
+        createButton.addEventListener("click", async () => {
+            storage = (await this.getStorage())[STORAGE_NAME]
+            applyTemplates(storage);
+            watchForIssueTypeChanges(storage);
         })
 
     }, storage?.loadTimeout || 2700)
 })()
+
+function applyTemplates(storage) {
+    const interval = setInterval(() => {
+        const currentIssueType = document.querySelector("#issuetype-field");
+
+        if (currentIssueType) {
+            const issueTypeFromStorage = storage.issueTypes[currentIssueType.value];
+            if (issueTypeFromStorage) {
+                issueTypeFromStorage.forEach(item => {
+                    const targetElement = document.querySelector(`${item.selectors}`);
+                    const targetElementInterval = setInterval(() => {
+                        if (targetElement && !targetElement.getAttribute('disabled')) {
+                            targetElement.value = item.template;
+                            clearInterval(targetElementInterval);
+                        }
+                    }, 200);
+                });
+            }
+        }
+        clearInterval(interval);
+    }, 400);
+}
+
+function watchForIssueTypeChanges(storage) {
+    let currentIssueType = null;
+    let oldIssueTypeValue = 'Story';
+
+    setTimeout(() => {
+        const internalInterval = setInterval(() => {
+            currentIssueType = document.querySelector("#issuetype-field");
+
+            if (oldIssueTypeValue !== currentIssueType?.value) {
+                oldIssueTypeValue = currentIssueType?.value;
+                applyTemplates(storage);
+            }
+
+            if (oldIssueTypeValue === undefined) {
+                clearTimeout(internalInterval);
+            }
+        }, 100);
+    }, 400);
+}
 
 function getGlobalTriggerElementFromStorage(storage) {
     return document.querySelector(storage?.globalTriggerSelector);
