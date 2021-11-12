@@ -3,92 +3,128 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    ComponentFactoryResolver,
+    ComponentRef,
     ElementRef,
     Inject,
-    InjectionToken,
     Input,
     OnDestroy,
     OnInit,
-    QueryList,
     Self,
     ViewChild,
-    ViewChildren
+    ViewContainerRef,
+    ViewEncapsulation
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { isEqual } from 'lodash';
 import { Subject } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
-import { DEFAULT_TEMPLATE, STORAGE_NAME } from '../../constants';
+import { DEFAULT_TEMPLATE } from '../../constants';
 import { SettingsService } from '../../services/settings.service';
 import { StorageService } from '../../services/storage.service';
 import { ToastService } from '../../services/toast.service';
 import { IJTStorage } from '../../type';
-import { SettingsIssueItemComponent } from './settings-issue-item/settings-issue-item.component';
 import { SettingsIssueTemplateFormComponent } from './settings-issue-template-form/settings-issue-template-form.component';
-import { formControlConfig, FORM_CONTROL_CONFIG } from './constants';
-import { FormControlConfig } from './types';
+import { formControlConfig, FORM_CONTROL_CONFIG, tabsContent, TABS_CONTENT } from './constants';
+import { FormControlConfig, ITabsContent } from './types';
+import { ComponentType } from '@angular/cdk/portal';
+import { SettingsIssueSelectorFormComponent } from './settings-issue-selector-form/settings-issue-selector-form.component';
+import { SettingsTemplateTabComponent } from './settings-template-tab/settings-template-tab.component';
 
 @Component({
-  selector: 'jit-settings-page',
-  templateUrl: './settings-page.component.html',
-  styleUrls: ['./settings-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{
-      provide: FORM_CONTROL_CONFIG,
-      useValue: formControlConfig,
-  }]
-})
+    selector: 'jit-settings-page',
+    templateUrl: './settings-page.component.html',
+    styleUrls: ['./settings-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    providers: [
+        {
+            provide: FORM_CONTROL_CONFIG,
+            useValue: formControlConfig,
+        },
+        {
+            provide: TABS_CONTENT,
+            useValue: tabsContent,
+        },
+    ]
+    })
 export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() public issueTypes: string[] = Object.keys(DEFAULT_TEMPLATE.issueTypes);
 
     public currentIssueType!: string;
-    public showInput!: boolean;
-    public settingsForm!: FormGroup;
 
     private destroy$: Subject<any> = new Subject();
     private destroySettingsTemplateFormUpdate$: Subject<any> = new Subject();
 
-    @ViewChildren(SettingsIssueItemComponent) public issueTypeElements!: QueryList<SettingsIssueItemComponent>;
     @ViewChild(SettingsIssueTemplateFormComponent) public settingsTemplateForm!: SettingsIssueTemplateFormComponent;
     @ViewChild('newItemInput') public newItemInput!: ElementRef<HTMLInputElement>;
+    @ViewChild('tabContent', { read: ViewContainerRef }) public dynamicArea!: ViewContainerRef;
 
     constructor(
         @Self() @Inject(FORM_CONTROL_CONFIG) public controlConfig: FormControlConfig,
+        @Self() @Inject(TABS_CONTENT) public tabsConfig: ITabsContent[],
         public storage: StorageService,
         public settings: SettingsService,
         public toast: ToastService,
-        private formBuilder: FormBuilder,
         private cdRef: ChangeDetectorRef,
+        private cfr: ComponentFactoryResolver,
     ) {}
 
     ngOnInit(): void {
-        this.settingsForm = this.formBuilder.group({
-            [this.controlConfig.GlobalTrigger.name]: [
-                this.storage.current$.value.globalTriggerSelector || this.controlConfig.GlobalTrigger.defaultValue,
-                Validators.required],
-            [this.controlConfig.LoadTimeout.name]: [
-                this.storage.current$.value.loadTimeout || this.controlConfig.LoadTimeout.defaultValue],
-            [this.controlConfig.IssueTypeSelector.name]: [
-                this.storage.current$.value.issueTypeSelector || this.controlConfig.IssueTypeSelector.defaultValue,
-                Validators.required],
-        });
+        this.setupSubscriptions();
+        this.storage.loadStorage();
+    }
 
-        this.settingsForm.valueChanges
-            .pipe(
-                tap(data => {
-                    this.storage.getStorage(STORAGE_NAME, (d: IJTStorage) => {
-                        this.storage.setStorage({
-                            ...d,
-                            globalTriggerSelector: data[this.controlConfig.GlobalTrigger.name],
-                            loadTimeout: data[this.controlConfig.LoadTimeout.name],
-                            issueTypeSelector: data[this.controlConfig.IssueTypeSelector.name],
-                        } as IJTStorage);
-                    });
-                }),
-                takeUntil(this.destroy$)
-            )
-            .subscribe();
+    ngAfterViewInit(): void {
+        this.loadComponentForTab(SettingsIssueSelectorFormComponent);
+        this.cdRef.detectChanges();
+    }
 
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+
+        if (!this.destroySettingsTemplateFormUpdate$.closed) {
+            this.destroySettingsTemplateFormSubject();
+        }
+    }
+
+    public selectItem(item: string): void {
+        this.settings.currentIssueType$.next(item);
+        this.cdRef.detectChanges();
+    }
+
+    public clearStorage(): void {
+        this.storage.clearStorage();
+    }
+    public getStorage(): void {
+        console.log('>>> storage', this.storage.current$.value);
+    }
+
+    public loadComponentForTab(component?: ComponentType<any>): void {
+        if (!component) { return; }
+
+        if (component === SettingsIssueSelectorFormComponent) {
+            const ref = this.createComponentRef(component) as ComponentRef<SettingsIssueSelectorFormComponent>;
+        }
+
+        if (component === SettingsTemplateTabComponent) {
+            const ref = this.createComponentRef(component) as ComponentRef<SettingsTemplateTabComponent>;
+            ref.instance.issueTypes = this.issueTypes;
+        }
+    }
+
+    private destroySettingsTemplateFormSubject(): void {
+        this.destroySettingsTemplateFormUpdate$.next();
+        this.destroySettingsTemplateFormUpdate$.complete();
+    }
+
+    private createComponentRef(component: ComponentType<any>): ComponentRef<any> {
+        const fact = this.cfr.resolveComponentFactory(component);
+        this.dynamicArea.clear();
+        return this.dynamicArea.createComponent(fact);
+    }
+
+    private setupSubscriptions(): void {
         this.storage.current$
             .pipe(
                 filter(value => !isEqual(value, DEFAULT_TEMPLATE)),
@@ -128,68 +164,5 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
                 takeUntil(this.destroy$),
             )
             .subscribe();
-
-        this.storage.loadStorage();
-    }
-
-    ngAfterViewInit(): void {
-        this.issueTypeElements
-            .toArray()
-            .filter(item => item.type === this.currentIssueType)[0].active = true;
-
-        this.storage.getStorage(STORAGE_NAME, (data: IJTStorage) => {
-            this.settingsForm.setValue({
-                [this.controlConfig.GlobalTrigger.name]: data.globalTriggerSelector || this.controlConfig.GlobalTrigger.defaultValue,
-                [this.controlConfig.LoadTimeout.name]: data.loadTimeout || this.controlConfig.LoadTimeout.defaultValue,
-                [this.controlConfig.IssueTypeSelector.name]: data.issueTypeSelector || this.controlConfig.IssueTypeSelector.defaultValue,
-            });
-        });
-    }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-
-        if (!this.destroySettingsTemplateFormUpdate$.closed) {
-            this.destroySettingsTemplateFormSubject();
-        }
-    }
-
-    public selectItem(item: string): void {
-        this.settings.currentIssueType$.next(item);
-        this.cdRef.detectChanges();
-    }
-
-    public addIssueType(): void {
-        if (!this.newItemInput.nativeElement.value) {
-            this.toast.showToast$.next({type: 'error', text: 'Can\'t create an issue with empty name!'});
-            return;
-        }
-        if (this.newItemInput.nativeElement.value) {
-            this.storage.setStorage({
-                issueTypes: {
-                    ...this.storage.current$.value?.issueTypes,
-                    [this.newItemInput.nativeElement.value]: [
-                        {
-                            selectors: [],
-                            template: 'new template',
-                            title: 'new title',
-                        }
-                    ]
-                },
-            });
-        }
-    }
-
-    public clearStorage(): void {
-        this.storage.clearStorage();
-    }
-    public getStorage(): void {
-        console.log('>>> storage', this.storage.current$.value);
-    }
-
-    private destroySettingsTemplateFormSubject(): void {
-        this.destroySettingsTemplateFormUpdate$.next();
-        this.destroySettingsTemplateFormUpdate$.complete();
     }
 }

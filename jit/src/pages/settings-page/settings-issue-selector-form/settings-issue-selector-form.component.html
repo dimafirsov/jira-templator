@@ -1,29 +1,33 @@
-<form [formGroup]="form" class="mb-3 w-100 d-flex flex-column">
-    <ng-container *ngFor="let key of formControlConfigKeys; let i = index">
-        <nui-form-field
-            [control]="form.controls[key.name]"
-            [caption]="key.label"
-            [style.flex-basis]="(1 / (formControlConfigKeys.length || 1)) * 100 + '%'">
-            <div class="m-0 row">
-                <div class="p-0 col-9">
-                    <nui-textbox [formControlName]="key.name"></nui-textbox>
+<h5 class="settings-section">General Settings</h5>
+
+<div class="p-3 d-flex flex-row justify-content-start align-items-center">
+    <form [formGroup]="settingsForm" class="mb-3 w-100 d-flex flex-column">
+        <ng-container *ngFor="let key of formControlConfigKeys; let i = index">
+            <nui-form-field
+                [control]="settingsForm.controls[key.name]"
+                [caption]="key.label"
+                [style.flex-basis]="(1 / (formControlConfigKeys.length || 1)) * 100 + '%'">
+                <div class="m-0 row">
+                    <div class="p-0 col-9">
+                        <nui-textbox [formControlName]="key.name"></nui-textbox>
+                    </div>
+                    <div class="p-0 col">
+                        <button
+                            nui-button
+                            type="button"
+                            icon="reset"
+                            nuiTooltip="Reset selector to default value"
+                            (click)="settingsForm.controls[key.name].setValue(key.defaultValue)">
+                        </button>
+                    </div>
+                    <div class="p-0 col d-flex align-items-center justify-content-center">
+                        <nui-icon
+                            icon="status_undefined"
+                            [nuiTooltip]='key.hint'>
+                        </nui-icon>
+                    </div>
                 </div>
-                <div class="p-0 col">
-                    <button
-                        nui-button
-                        type="button"
-                        icon="reset"
-                        nuiTooltip="Reset selector to default value"
-                        (click)="form.controls[key.name].setValue(key.defaultValue)">
-                    </button>
-                </div>
-                <div class="p-0 col d-flex align-items-center justify-content-center">
-                    <nui-icon
-                        icon="status_undefined"
-                        [nuiTooltip]='key.hint'>
-                    </nui-icon>
-                </div>
-            </div>
-        </nui-form-field>
-    </ng-container>
-</form>
+            </nui-form-field>
+        </ng-container>
+    </form>
+</div>

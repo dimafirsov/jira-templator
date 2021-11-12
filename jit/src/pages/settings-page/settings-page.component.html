@@ -1,31 +1,14 @@
 <div class="settings">
-    <h5 class="settings-section">Template Settings</h5>
-    <section>
-        <div class="p-3 d-flex flex-row justify-content-start align-items-center">
-            <div class="w-100 mr-3 d-flex">
-                <nui-checkbox [(ngModel)]="settings.issueTypeEditEnabled"
-                    hint="Allows to configure issue selectors and add new templates">
-                    Configure issue types and templates
-                </nui-checkbox>
+    <nui-tab-heading-group>
+        <nui-tab-heading *ngFor="let tab of tabsConfig" [tabId]="tab.id" (click)="loadComponentForTab(tab.component)">
+            <div class="d-flex align-content-center">
+                <div class="d-inline-flex align-items-center">
+                    <nui-icon [icon]="tab.icon.name"></nui-icon>
+                    <span class="pl-2" [title]="tab.title">{{tab.title}}</span>
+                </div>
             </div>
-            <jit-settings-issue-selector-form [form]="settingsForm"></jit-settings-issue-selector-form>
-        </div>
-    </section>
-    <div class="settings-templates">
-        <div class="settings-issue-types">
-            <ng-container *ngFor="let item of issueTypes">
-                <jit-settings-issue-item [type]="item"
-                                         [showOptions]="settings.issueTypeEditEnabled"
-                                         [active]='item === currentIssueType'></jit-settings-issue-item>
-            </ng-container>
-            <div class="add-new" (mouseenter)="showInput = !showInput" (mouseleave)="showInput = !showInput">
-                <input #newItemInput type="text" placeholder="Add new" *ngIf="showInput" class="add-new-input">
-                <i class="bi bi-plus-circle" (click)="addIssueType()"></i>
-            </div>
-        </div>
-        <jit-settings-issue-template-form [currentIssueType]="currentIssueType"></jit-settings-issue-template-form>
-    </div>
-    <input type="text" #itemInput>
-    <button (click)="clearStorage()">Remove all</button>
-    <button (click)="getStorage()">get</button>
+        </nui-tab-heading>
+    </nui-tab-heading-group>
+
+    <ng-container #tabContent></ng-container>
 </div>

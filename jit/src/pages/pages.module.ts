@@ -6,8 +6,10 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { SettingsPageComponent } from './settings-page/settings-page.component';
 import { SettingsIssueItemComponent } from './settings-page/settings-issue-item/settings-issue-item.component';
 import { SettingsIssueTemplateFormComponent } from './settings-page/settings-issue-template-form/settings-issue-template-form.component';
-import { NuiButtonModule, NuiCheckboxModule, NuiFormFieldModule, NuiIconModule, NuiTextboxModule, NuiTooltipModule } from '@nova-ui/bits';
+import { NuiButtonModule, NuiCheckboxModule, NuiFormFieldModule, NuiIconModule, NuiTabsModule, NuiTextboxModule, NuiTooltipModule } from '@nova-ui/bits';
 import { SettingsIssueSelectorFormComponent } from './settings-page/settings-issue-selector-form/settings-issue-selector-form.component';
+import { ViewRefDirective } from '../directives/view-ref.directive';
+import { SettingsTemplateTabComponent } from './settings-page/settings-template-tab/settings-template-tab.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,7 @@ import { SettingsIssueSelectorFormComponent } from './settings-page/settings-iss
     SettingsIssueItemComponent,
     SettingsIssueTemplateFormComponent,
     SettingsIssueSelectorFormComponent,
+    SettingsTemplateTabComponent,
   ],
   imports: [
       LibModule,
@@ -28,6 +31,7 @@ import { SettingsIssueSelectorFormComponent } from './settings-page/settings-iss
       NuiTooltipModule,
       NuiFormFieldModule,
       NuiTextboxModule,
+      NuiTabsModule,
   ],
   exports: [
     MainPageComponent,
