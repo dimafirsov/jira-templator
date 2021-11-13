@@ -1,5 +1,5 @@
 import { ComponentType } from '@angular/cdk/portal';
-import { ComponentFactoryResolver, ComponentRef, Injectable, Injector, ViewChild, ViewContainerRef, ViewRef } from '@angular/core';
+import { ComponentFactoryResolver, Injectable, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ViewRefDirective } from '../directives/view-ref.directive';
 import { ToastComponent } from '../lib/toast/toast.component';
@@ -18,7 +18,7 @@ export class ToastService {
 
     @ViewChild(ViewRefDirective, { static: true }) public jitViewRef!: ViewRefDirective;
 
-    constructor(private cfr: ComponentFactoryResolver, private injector: Injector) {
+    constructor(private cfr: ComponentFactoryResolver) {
         this.body = document.body;
     }
 

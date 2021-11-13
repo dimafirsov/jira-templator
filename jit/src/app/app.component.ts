@@ -21,21 +21,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
     @ViewChild(ViewRefDirective, { static: true }) public jitViewRef!: ViewRefDirective;
 
-    constructor(private pageService: PageService, private cfr: ComponentFactoryResolver, private toast: ToastService) {
+    constructor(private pageService: PageService, private cfr: ComponentFactoryResolver) {
         this.pageService.mainPage$
             .pipe(
                 tap(val => {
                     const componentRef: ComponentRef<any> = this.createComponent(val, {temp: 'Some new string'}) as ComponentRef<any> ;
                     this.pageService.mainPageRef = componentRef;
-                }),
-                takeUntil(this.destroy$),
-            )
-            .subscribe();
-
-        this.toast.showToast$
-            .pipe(
-                tap((val: IToastLoad) => {
-                    this.toast.toggle(this.jitViewRef, val);
                 }),
                 takeUntil(this.destroy$),
             )

@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { IToastService, ToastService } from '@nova-ui/bits';
 import { SettingsService } from '../../../services/settings.service';
 import { StorageService } from '../../../services/storage.service';
-import { ToastService } from '../../../services/toast.service';
 import { SettingsIssueItemComponent } from '../settings-issue-item/settings-issue-item.component';
 
 @Component({
@@ -18,9 +18,9 @@ export class SettingsTemplateTabComponent implements OnInit, AfterViewInit {
     @ViewChildren(SettingsIssueItemComponent) public issueTypeElements!: QueryList<SettingsIssueItemComponent>;
 
     constructor(
+        @Inject(ToastService) private toastService: IToastService,
         public settings: SettingsService,
         public storage: StorageService,
-        public toast: ToastService
     ) {}
 
     ngOnInit(): void {
@@ -34,7 +34,7 @@ export class SettingsTemplateTabComponent implements OnInit, AfterViewInit {
 
     public addIssueType(): void {
         if (!this.newItemInput.nativeElement.value) {
-            this.toast.showToast$.next({type: 'error', text: 'Can\'t create an issue with empty name!'});
+            this.toastService.error({title: 'Error', message: 'Can\'t create an issue with empty name!'});
             return;
         }
         if (this.newItemInput.nativeElement.value) {
