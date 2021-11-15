@@ -1,5 +1,7 @@
 import { IJTStorage } from './type';
 
+// tslint:disable:no-trailing-whitespace
+
 export const STORAGE_NAME = 'JT_Templates';
 
 export const DEFAULT_TEMPLATE: IJTStorage = {
@@ -8,43 +10,65 @@ export const DEFAULT_TEMPLATE: IJTStorage = {
     issueTypes: {
         Bug: [
             {
-                selectors: ['bug_selector'],
-                template: 'bug_template',
+                selectors: ['#description'],
+                template: `*Setup:*
+(i) 
+{panel:bgColor=#F5CFC5}(!) Critical Note {panel}
+{panel:bgColor=#fffca8}(!) Warning Note {panel}
+
+*Steps to reproduce:*
+
+# Go to
+# ...
+
+
+h1. (/) Expected result:
+
+
+
+h1. (x) Actual result:
+
+
+
+See screenshot for more details`,
                 title: 'Description',
+            },
+            {
+                selectors: ['#summary'],
+                template: 'bug_template',
+                title: 'Summary',
             }
         ],
         Epic: [
             {
-                selectors: ['epic_selector'],
+                selectors: ['#description'],
                 template: 'epic_template',
                 title: 'Description',
             }
         ],
-        'Internal Improvement': [
+        Task: [
             {
-                selectors: ['II_selector'],
+                selectors: ['#description'],
                 template: 'II_template',
                 title: 'Description',
             },
             {
-                selectors: ['II_selector - 2'],
-                template: 'II_template - 2',
-                title: 'Acceptance Criteria',
+                selectors: ['#summary'],
+                template: 'Task',
+                title: 'Summary',
             },
         ],
         Story: [
             {
-                selectors: ['story_selector'],
+                selectors: ['#description'],
                 template: 'story description template',
                 title: 'Description',
             },
             {
-                selectors: [],
-                template: 'story ac template',
-                title: 'Acceptance Criteria',
+                selectors: ['#summary'],
+                template: 'story summary template',
+                title: 'Summary',
             },
         ],
     }
 };
-
-
