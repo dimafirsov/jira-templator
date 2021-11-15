@@ -1,0 +1,46 @@
+<h5 class="settings-section">Utils Settings</h5>
+
+<table class="table" id="utils-tab-table">
+    <thead>
+        <tr class="align-middle">
+            <th scope="col">Action</th>
+            <th scope="col">Toggle</th>
+            <th scope="col" class="mw145">Add to main page</th>
+        </tr>
+    </thead>
+    <tbody class="text-justify">
+        <!-- <tr>
+          <td class="align-middle">Mark</td>
+          <td class="align-middle">Otto</td>
+          <td class="p-3 align-middle text-center">
+            <nui-switch [value]="isOn" (valueChange)="onValueChanged($event)">
+                {{ message }}
+            </nui-switch>
+          </td>
+        </tr> -->
+        <tr>
+          <td class="align-middle">Console log the contents of the local storage</td>
+          <td class="align-middle">
+            <button nui-button type="button" (click)="storage.logStorage()">Get Storage</button>
+          </td>
+          <td class="p-3 align-middle" id='getStorage' #getStorage>
+            <nui-switch [value]="settings.utilsTab.getStorage" (valueChange)="onValueChanged($event, getStorage)">
+                {{ settings.utilsTab.getStorage ? 'Added' : 'Add' }}
+            </nui-switch>
+          </td>
+        </tr>
+        <tr>
+          <td class="align-middle text-danger">
+            Clear the Jira Templator local storage. <span class="text-muted">Extension reload will create and re-populate the storage with default values</span>
+          </td>
+          <td class="align-middle">
+            <button nui-button type="button" displayStyle="destructive" (click)="storage.clearStorage()">Clear Storage</button>
+          </td>
+          <td class="p-3 align-middle" id='clearStorage' #clearStorage>
+            <nui-switch [value]="settings.utilsTab.clearStorage" (valueChange)="onValueChanged($event, clearStorage)">
+                {{ settings.utilsTab.clearStorage ? 'Added' : 'Add' }}
+            </nui-switch>
+          </td>
+        </tr>
+      </tbody>
+</table>

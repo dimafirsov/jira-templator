@@ -34,8 +34,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        // this.pageService.mainPage$.next(MainPageComponent);
-        this.pageService.mainPage$.next(SettingsPageComponent);
+        this.pageService.mainPage$.next(MainPageComponent);
+        // this.pageService.mainPage$.next(SettingsPageComponent);
     }
 
     ngOnDestroy(): void {

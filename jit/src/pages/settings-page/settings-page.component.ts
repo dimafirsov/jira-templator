@@ -24,11 +24,13 @@ import { StorageService } from '../../services/storage.service';
 import { ToastService } from '../../services/toast.service';
 import { IJTStorage } from '../../type';
 import { SettingsIssueTemplateFormComponent } from './settings-issue-template-form/settings-issue-template-form.component';
-import { formControlConfig, FORM_CONTROL_CONFIG, tabsContent, TABS_CONTENT } from './constants';
+import { formControlConfig, tabsContent } from './constants';
 import { FormControlConfig, ITabsContent } from './types';
 import { ComponentType } from '@angular/cdk/portal';
 import { SettingsIssueSelectorFormComponent } from './settings-issue-selector-form/settings-issue-selector-form.component';
 import { SettingsTemplateTabComponent } from './settings-template-tab/settings-template-tab.component';
+import { SettingsUtilsTabComponent } from './settings-utils-tab/settings-utils-tab.component';
+import { FORM_CONTROL_CONFIG, TABS_CONTENT } from './tokens';
 
 @Component({
     selector: 'jit-settings-page',
@@ -110,6 +112,10 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (component === SettingsTemplateTabComponent) {
             const ref = this.createComponentRef(component) as ComponentRef<SettingsTemplateTabComponent>;
             ref.instance.issueTypes = this.issueTypes;
+        }
+
+        if (component === SettingsUtilsTabComponent) {
+            const ref = this.createComponentRef(component) as ComponentRef<SettingsUtilsTabComponent>;
         }
     }
 

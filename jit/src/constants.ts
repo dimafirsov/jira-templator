@@ -44,6 +44,11 @@ See screenshot for more details`,
                 selectors: ['#description'],
                 template: 'epic_template',
                 title: 'Description',
+            },
+            {
+                selectors: ['#summary'],
+                template: '',
+                title: 'Summary',
             }
         ],
         Task: [

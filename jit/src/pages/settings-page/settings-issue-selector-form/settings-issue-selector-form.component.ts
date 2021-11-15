@@ -5,7 +5,7 @@ import { takeUntil, tap } from 'rxjs/operators';
 import { STORAGE_NAME } from '../../../constants';
 import { StorageService } from '../../../services/storage.service';
 import { IJTStorage } from '../../../type';
-import { FORM_CONTROL_CONFIG } from '../constants';
+import { FORM_CONTROL_CONFIG } from '../tokens';
 import { FormControlConfig, IFormControlConfig, ControlTypes } from '../types';
 
 @Component({

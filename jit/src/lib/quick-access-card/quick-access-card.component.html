@@ -1,3 +1,13 @@
-<div class="h-100 card">
-    {{ text }}
+<div class="py-5 h-100 card">
+    <div class="container">
+        <h4 class="mb-3 text-center">Quick Access Board</h4>
+        <div class="row">
+            <div class="col" *ngIf="settings.utilsTab.clearStorage">
+                <button nui-button type="button" displayStyle="destructive">Clear JT Local Storage</button>
+            </div>
+            <div class="col" *ngIf="settings.utilsTab.getStorage">
+                <button nui-button type="button">Console Log JT Local Storage</button>
+            </div>
+        </div>
+    </div>
 </div>

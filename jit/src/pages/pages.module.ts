@@ -11,6 +11,7 @@ import {
     NuiCheckboxModule,
     NuiFormFieldModule,
     NuiIconModule,
+    NuiSwitchModule,
     NuiTabsModule,
     NuiTextboxModule,
     NuiToastModule,
@@ -19,6 +20,7 @@ import {
 } from '@nova-ui/bits';
 import { SettingsIssueSelectorFormComponent } from './settings-page/settings-issue-selector-form/settings-issue-selector-form.component';
 import { SettingsTemplateTabComponent } from './settings-page/settings-template-tab/settings-template-tab.component';
+import { SettingsUtilsTabComponent } from './settings-page/settings-utils-tab/settings-utils-tab.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import { SettingsTemplateTabComponent } from './settings-page/settings-template-
     SettingsIssueTemplateFormComponent,
     SettingsIssueSelectorFormComponent,
     SettingsTemplateTabComponent,
+    SettingsUtilsTabComponent,
   ],
   imports: [
       LibModule,
@@ -42,6 +45,7 @@ import { SettingsTemplateTabComponent } from './settings-page/settings-template-
       NuiTextboxModule,
       NuiTabsModule,
       NuiToastModule,
+      NuiSwitchModule,
   ],
   exports: [
     MainPageComponent,

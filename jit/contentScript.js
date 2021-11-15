@@ -28,6 +28,7 @@ function applyTemplates(storage) {
                     const targetElement = document.querySelector(`${item.selectors}`);
                     const targetElementInterval = setInterval(() => {
                         if (targetElement && !targetElement.getAttribute('disabled')) {
+                            targetElement.value = '';
                             targetElement.value = item.template;
                             clearInterval(targetElementInterval);
                         }

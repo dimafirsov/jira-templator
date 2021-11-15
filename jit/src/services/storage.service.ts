@@ -46,4 +46,8 @@ export class StorageService {
     public removeFromStorage(item: string, fn?: () => void): void {
         chrome.storage.sync.remove(item, fn);
     }
+
+    public logStorage(): void {
+        return console.log('>>> storage', this.current$.value);
+    }
 }

@@ -1,11 +1,8 @@
-import { InjectionToken } from '@angular/core';
 import { SettingsIssueSelectorFormComponent } from './settings-issue-selector-form/settings-issue-selector-form.component';
 import { SettingsIssueTemplateFormComponent } from './settings-issue-template-form/settings-issue-template-form.component';
 import { SettingsTemplateTabComponent } from './settings-template-tab/settings-template-tab.component';
+import { SettingsUtilsTabComponent } from './settings-utils-tab/settings-utils-tab.component';
 import { FormControlConfig, ITabsContent } from './types';
-
-export const FORM_CONTROL_CONFIG = new InjectionToken<FormControlConfig>('form-control-config');
-export const TABS_CONTENT = new InjectionToken<ITabsContent[]>('tabs-config');
 
 export const formControlConfig: FormControlConfig = {
         GlobalTrigger: {
@@ -43,6 +40,16 @@ export const tabsContent: ITabsContent[] = [
         id: 'tab-template',
         title: `Template`,
         component: SettingsTemplateTabComponent,
+        icon: {
+            name: 'edit',
+            inactiveColor: 'gray',
+            activeColor: 'black',
+        },
+    },
+    {
+        id: 'tab-utils',
+        title: `Utils`,
+        component: SettingsUtilsTabComponent,
         icon: {
             name: 'gear',
             inactiveColor: 'gray',

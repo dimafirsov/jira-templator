@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'jit-quick-access-card',
@@ -7,9 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class QuickAccessCardComponent implements OnInit {
 
-    @Input() public text = 'hello!';
-
-    constructor() { }
+    constructor(public settings: SettingsService) { }
 
     ngOnInit(): void {
     }

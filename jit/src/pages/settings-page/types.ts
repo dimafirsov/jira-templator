@@ -22,4 +22,13 @@ export interface ITabsContentIcon {
     activeColor: string;
 }
 
+export interface ISettings {
+    utils: ISettingsTabUtils;
+}
+
+export interface ISettingsTabUtils {
+    getStorage: boolean;
+    clearStorage: boolean;
+}
+
 export type FormControlConfig = Record<ControlTypes, IFormControlConfig>;
