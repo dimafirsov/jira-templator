@@ -10,10 +10,20 @@ export interface IJTStorage {
     globalTriggerSelector: string;
     loadTimeout?: number;
     issueTypeSelector: string;
+    mainPage?: IMainPage;
 }
 
 export interface IIssueType {
     selectors: string[];
     template: string;
     title: string;
+}
+
+export interface IMainPageQuickAccess {
+    clearStorage?: boolean;
+    getStorage?: boolean;
+}
+
+export interface IMainPage {
+    quickAccess: IMainPageQuickAccess;
 }

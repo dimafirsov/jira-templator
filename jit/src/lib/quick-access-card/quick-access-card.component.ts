@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { SettingsService } from '../../services/settings.service';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'jit-quick-access-card',
@@ -8,9 +9,12 @@ import { SettingsService } from '../../services/settings.service';
 })
 export class QuickAccessCardComponent implements OnInit {
 
-    constructor(public settings: SettingsService) { }
+    constructor(public storage: StorageService, private cdRef: ChangeDetectorRef) { }
 
     ngOnInit(): void {
+        this.storage.current$.pipe(take(2)).subscribe(() => {
+            this.cdRef.detectChanges();
+        });
     }
 
 }

@@ -24,8 +24,8 @@
             <button nui-button type="button" (click)="storage.logStorage()">Get Storage</button>
           </td>
           <td class="p-3 align-middle" id='getStorage' #getStorage>
-            <nui-switch [value]="settings.utilsTab.getStorage" (valueChange)="onValueChanged($event, getStorage)">
-                {{ settings.utilsTab.getStorage ? 'Added' : 'Add' }}
+            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.getStorage" (valueChange)="onValueChanged($event, getStorage)">
+                {{ storage.current$.value.mainPage?.quickAccess?.getStorage ? 'Added' : 'Add' }}
             </nui-switch>
           </td>
         </tr>
@@ -37,8 +37,8 @@
             <button nui-button type="button" displayStyle="destructive" (click)="storage.clearStorage()">Clear Storage</button>
           </td>
           <td class="p-3 align-middle" id='clearStorage' #clearStorage>
-            <nui-switch [value]="settings.utilsTab.clearStorage" (valueChange)="onValueChanged($event, clearStorage)">
-                {{ settings.utilsTab.clearStorage ? 'Added' : 'Add' }}
+            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.clearStorage" (valueChange)="onValueChanged($event, clearStorage)">
+                {{ storage.current$.value.mainPage?.quickAccess?.clearStorage ? 'Added' : 'Add' }}
             </nui-switch>
           </td>
         </tr>
