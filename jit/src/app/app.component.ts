@@ -7,6 +7,7 @@ import { MainPageComponent } from '../pages/main-page/main-page.component';
 import { ViewRefDirective } from '../directives/view-ref.directive';
 import { SettingsPageComponent } from '../pages/settings-page/settings-page.component';
 import { IToastLoad, ToastService } from '../services/toast.service';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'jit-root',
@@ -21,7 +22,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
     @ViewChild(ViewRefDirective, { static: true }) public jitViewRef!: ViewRefDirective;
 
-    constructor(private pageService: PageService, private cfr: ComponentFactoryResolver) {
+    constructor(
+        public storage: StorageService,
+        private pageService: PageService,
+        private cfr: ComponentFactoryResolver,
+    ) {
         this.pageService.mainPage$
             .pipe(
                 tap(val => {
@@ -34,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.storage.loadStorage();
         this.pageService.mainPage$.next(MainPageComponent);
         // this.pageService.mainPage$.next(SettingsPageComponent);
     }

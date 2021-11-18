@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Inject, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { IToastService, ToastService } from '@nova-ui/bits';
+import { STORAGE_NAME } from '../../../constants';
 import { SettingsService } from '../../../services/settings.service';
 import { StorageService } from '../../../services/storage.service';
 import { SettingsIssueItemComponent } from '../settings-issue-item/settings-issue-item.component';
@@ -24,12 +25,11 @@ export class SettingsTemplateTabComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit(): void {
+        this.settings.issueTypeEditEnabled = false;
     }
 
     ngAfterViewInit(): void {
-        this.issueTypeElements
-            .toArray()
-            .filter(item => item.type === this.settings.currentIssueType$.value)[0].active = true;
+        this.makeCurrentOptionActive();
     }
 
     public addIssueType(): void {
@@ -38,19 +38,30 @@ export class SettingsTemplateTabComponent implements OnInit, AfterViewInit {
             return;
         }
         if (this.newItemInput.nativeElement.value) {
-            this.storage.setStorage({
-                issueTypes: {
-                    ...this.storage.current$.value?.issueTypes,
-                    [this.newItemInput.nativeElement.value]: [
-                        {
-                            selectors: [],
-                            template: 'new template',
-                            title: 'new title',
-                        }
-                    ]
-                },
+            this.storage.getStorage(STORAGE_NAME, (data) => {
+                this.storage.setStorage({
+                    ...data,
+                    issueTypes: {
+                        ...this.storage.current$.value?.issueTypes,
+                        [this.newItemInput.nativeElement.value]: [
+                            {
+                                selectors: [],
+                                template: 'new template',
+                                title: 'new title',
+                            }
+                        ]
+                    },
+                });
             });
+
+            this.settings.currentIssueType$.next(this.newItemInput.nativeElement.value);
         }
+    }
+
+    private makeCurrentOptionActive(): void {
+        this.issueTypeElements
+            .toArray()
+            .filter(item => item.type === this.settings.currentIssueType$.value)[0].active = true;
     }
 
 }

@@ -53,6 +53,7 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() public issueTypes: string[] = Object.keys(DEFAULT_TEMPLATE.issueTypes);
 
     public currentIssueType!: string;
+    public currentTabRef!: ComponentRef<any>;
 
     private destroy$: Subject<any> = new Subject();
     private destroySettingsTemplateFormUpdate$: Subject<any> = new Subject();
@@ -73,7 +74,6 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit(): void {
         this.setupSubscriptions();
-        this.storage.loadStorage();
     }
 
     ngAfterViewInit(): void {
@@ -95,13 +95,6 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.cdRef.detectChanges();
     }
 
-    public clearStorage(): void {
-        this.storage.clearStorage();
-    }
-    public getStorage(): void {
-        console.log('>>> storage', this.storage.current$.value);
-    }
-
     public loadComponentForTab(component?: ComponentType<any>): void {
         if (!component) { return; }
 
@@ -110,8 +103,8 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         if (component === SettingsTemplateTabComponent) {
-            const ref = this.createComponentRef(component) as ComponentRef<SettingsTemplateTabComponent>;
-            ref.instance.issueTypes = this.issueTypes;
+            this.currentTabRef = this.createComponentRef(component) as ComponentRef<SettingsTemplateTabComponent>;
+            this.currentTabRef.instance.issueTypes = this.issueTypes;
         }
 
         if (component === SettingsUtilsTabComponent) {
@@ -146,9 +139,19 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
                 tap((data: IJTStorage) => {
                     console.log('>>> data from pipe', data);
                     this.issueTypes = Object.keys(data?.issueTypes || {});
+
+                    if (this.currentTabRef?.instance instanceof SettingsTemplateTabComponent) {
+                        this.currentTabRef.instance.issueTypes = this.issueTypes;
+                    }
+
+                    console.log('>>> this.issueTypes', this.issueTypes);
                     console.log('>>> currentIssueType', this.currentIssueType);
-                    const currentIssue = this.settings.currentIssueType$.value || Object.keys(data?.issueTypes)[0];
-                    this.settings.currentIssueType$.next(currentIssue);
+                    const currentIssue = this.settings.currentIssueType$.value;
+                    this.issueTypes.includes(currentIssue)
+                        ? this.settings.currentIssueType$.next(currentIssue)
+                        : this.settings.currentIssueType$.next(Object.keys(data?.issueTypes)[0]);
+                    console.log('>>> this.issueTypes.includes(currentIssue)', this.issueTypes.includes(currentIssue));
+                    console.log('>>> currentIssue', currentIssue);
                     console.log('>>> current 111 issue', this.settings.currentIssue$.value);
                     this.cdRef.detectChanges();
                 }),

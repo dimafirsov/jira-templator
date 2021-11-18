@@ -1,7 +1,87 @@
 const STORAGE_NAME = 'JT_Templates';
+const DEFAULT_TEMPLATE = {
+    globalTriggerSelector: '#createGlobalItem',
+    issueTypeSelector: '#issuetype-field',
+    loadTimeout: '2700',
+    issueTypes: {
+        Bug: [
+            {
+                selectors: ['#description'],
+                template: `*Setup:*
+(i) 
+{panel:bgColor=#F5CFC5}(!) Critical Note {panel}
+{panel:bgColor=#fffca8}(!) Warning Note {panel}
+
+*Steps to reproduce:*
+
+# Go to
+# ...
+
+
+h1. (/) Expected result:
+
+
+
+h1. (x) Actual result:
+
+
+
+See screenshot for more details`,
+                title: 'Description',
+            },
+            {
+                selectors: ['#summary'],
+                template: 'bug_template',
+                title: 'Summary',
+            }
+        ],
+        Epic: [
+            {
+                selectors: ['#description'],
+                template: 'epic_template',
+                title: 'Description',
+            },
+            {
+                selectors: ['#summary'],
+                template: '',
+                title: 'Summary',
+            }
+        ],
+        Task: [
+            {
+                selectors: ['#description'],
+                template: 'II_template',
+                title: 'Description',
+            },
+            {
+                selectors: ['#summary'],
+                template: 'Task',
+                title: 'Summary',
+            },
+        ],
+        Story: [
+            {
+                selectors: ['#description'],
+                template: 'story description template',
+                title: 'Description',
+            },
+            {
+                selectors: ['#summary'],
+                template: 'story summary template',
+                title: 'Summary',
+            },
+        ],
+    }
+};
 
 (async function() {
-    let storage = (await this.getStorage())[STORAGE_NAME];
+    let storage = (await getStorage())[STORAGE_NAME];
+
+    if (!storage) {
+        await setStorage({...DEFAULT_TEMPLATE});
+        storage = (await getStorage())[STORAGE_NAME];
+    }
+    console.log('>>> storage', storage);
 
     setTimeout(async () => {
         let createButton = getGlobalTriggerElementFromStorage(storage);
@@ -9,7 +89,7 @@ const STORAGE_NAME = 'JT_Templates';
         vt.success("Jira Templator IS READY!", { title: "Let's GO!", position: "top-right",})
 
         createButton.addEventListener("click", async () => {
-            storage = (await this.getStorage())[STORAGE_NAME]
+            storage = (await getStorage())[STORAGE_NAME]
             applyTemplates(storage);
             watchForIssueTypeChanges(storage);
         })
@@ -74,6 +154,20 @@ async function getStorage() {
         });
     });
 };
+
+async function setStorage(data) {
+    const newStorage = {};
+    newStorage[STORAGE_NAME] = {...data};
+
+    return new Promise((resolve, reject) => {
+        chrome.storage?.sync.set({...newStorage}, () => {
+            if (chrome.runtime.lastError) {
+                return reject(chrome.runtime.lastError);
+            }
+            resolve();
+        });
+    });
+}
 
 (() => {
     const toastPosition = {
