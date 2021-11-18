@@ -6,8 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "build-prod": "ng b --prod && npm run copy-files",
-    "build-normal": "ng b && npm run copy-files",
-    "copy-files": "cpx manifest.json dist && cpx ./backgroundScript.js dist && cpx ./contentScript.js dist",
+    "build-normal": "ng b && npm run build-scripts && npm run copy-files",
+    "build-scripts": "npm run build-content-script && npm run build-background-script",
+    "build-content-script": "esbuild scripts/contentScript.js --bundle --outfile=dist/contentScript.js --minify",
+    "build-background-script": "esbuild scripts/backgroundScript.js --bundle --outfile=dist/backgroundScript.js --minify",
+    "copy-files": "cpx manifest.json dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
