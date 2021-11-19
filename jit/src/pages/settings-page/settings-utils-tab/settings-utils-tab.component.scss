@@ -9,3 +9,9 @@ button.nui-button.btn.icon-left.btn-destructive {
 #utils-tab-table td {
     border-bottom: 1px lightgrey solid;
 }
+
+td:not(:first-child) {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;   
+  }

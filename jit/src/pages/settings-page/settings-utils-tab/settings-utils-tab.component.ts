@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { STORAGE_NAME } from '../../../constants';
+import { FileService } from '../../../services/file.service';
 import { SettingsService } from '../../../services/settings.service';
 import { StorageService } from '../../../services/storage.service';
 import { IJTStorage, IMainPageQuickAccess } from '../../../type';
@@ -14,7 +15,11 @@ export class SettingsUtilsTabComponent {
     public message = 'Add';
     public currentOptionId!: keyof IMainPageQuickAccess;
 
-    constructor(public storage: StorageService, public settings: SettingsService) { }
+    constructor(
+        public storage: StorageService,
+        public settings: SettingsService,
+        public file: FileService,
+    ) { }
 
     public onValueChanged(value: boolean, el: Element): void {
         this.currentOptionId = el.getAttribute('id') as keyof IMainPageQuickAccess;

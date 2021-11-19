@@ -9,15 +9,32 @@
         </tr>
     </thead>
     <tbody class="text-justify">
-        <!-- <tr>
-          <td class="align-middle">Mark</td>
-          <td class="align-middle">Otto</td>
-          <td class="p-3 align-middle text-center">
-            <nui-switch [value]="isOn" (valueChange)="onValueChanged($event)">
+        <tr>
+          <td class="align-middle">Export config</td>
+          <td class="align-middle text-center">
+            <a class="btn-default" style="cursor: pointer;" (click)='file.downloadJtConfig()'>
+                Download
+            </a>
+          </td>
+          <td class="p-3 align-middle">
+            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.getStorage" (valueChange)="onValueChanged($event, getStorage)">
                 {{ message }}
             </nui-switch>
           </td>
-        </tr> -->
+        </tr>
+        <tr>
+          <td class="align-middle">Import config</td>
+          <td class="align-middle text-center">
+            <label class="btn btn-default">
+                Browse... <input type="file" style="display: none;" accept=".json" (input)='file.current$.next($event)'>
+            </label>
+          </td>
+          <td class="p-3 align-middle">
+            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.getStorage" (valueChange)="onValueChanged($event, getStorage)">
+                {{ message }}
+            </nui-switch>
+          </td>
+        </tr>
         <tr>
           <td class="align-middle">Console log the contents of the local storage</td>
           <td class="align-middle">

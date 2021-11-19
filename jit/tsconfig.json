@@ -4,6 +4,10 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "moduleResolution": "node",
+    "typeRoots": ["../node_modules/@types"],
+    "target": "es2015",
+    "module": "commonjs",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
@@ -12,10 +16,8 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
-    "module": "es2020",
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "es2018",
       "dom"
