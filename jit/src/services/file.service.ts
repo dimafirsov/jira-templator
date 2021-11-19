@@ -1,11 +1,9 @@
-import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { StorageService } from './storage.service';
 import { saveAs } from 'file-saver';
 import { STORAGE_NAME } from '../constants';
 import { Subject } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
-import { ToastService } from './toast.service';
-import { IToastService } from '@nova-ui/bits';
+import { takeUntil, tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -16,10 +14,7 @@ export class FileService implements OnDestroy {
 
     private destroy$: Subject<any> = new Subject();
 
-    constructor(
-        @Inject(ToastService) private toastService: IToastService,
-        public storage: StorageService
-    ) {
+    constructor(public storage: StorageService) {
         this.current$
             .pipe(
                 tap(data => console.log('... data', data.target?.files[0] as File)),
@@ -28,9 +23,7 @@ export class FileService implements OnDestroy {
                     const text = await file.text();
                     const json = JSON.parse(text);
 
-                    this.storage.setStorage({ ...json }).then(() => {
-                        this.toastService.success({title: 'Success!', message: 'Custom config has been successfully applied!'});
-                    });
+                    await this.storage.setStorage({ ...json });
                 }),
                 takeUntil(this.destroy$)
             )

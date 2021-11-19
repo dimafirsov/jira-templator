@@ -8,7 +8,7 @@ export interface IDynamicConfigurable {
 export interface IJTStorage {
     issueTypes: Record<string, Array<IIssueType>>;
     globalTriggerSelector: string;
-    loadTimeout?: number;
+    loadTimeout: number;
     issueTypeSelector: string;
     mainPage?: IMainPage;
 }

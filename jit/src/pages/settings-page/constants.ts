@@ -1,5 +1,5 @@
+import { DEFAULT_TEMPLATE } from '../../constants';
 import { SettingsIssueSelectorFormComponent } from './settings-issue-selector-form/settings-issue-selector-form.component';
-import { SettingsIssueTemplateFormComponent } from './settings-issue-template-form/settings-issue-template-form.component';
 import { SettingsTemplateTabComponent } from './settings-template-tab/settings-template-tab.component';
 import { SettingsUtilsTabComponent } from './settings-utils-tab/settings-utils-tab.component';
 import { FormControlConfig, ITabsContent } from './types';
@@ -7,19 +7,19 @@ import { FormControlConfig, ITabsContent } from './types';
 export const formControlConfig: FormControlConfig = {
         GlobalTrigger: {
             name: 'globalTriggerSelector',
-            defaultValue: '#createGlobalItem',
+            defaultValue: DEFAULT_TEMPLATE.globalTriggerSelector,
             hint: 'Selector of the component which allows for creating issues on interaction',
             label: 'Global Trigger selector',
         },
         LoadTimeout: {
             name: 'loadTimeout',
-            defaultValue: 2700,
+            defaultValue: DEFAULT_TEMPLATE.loadTimeout,
             hint: 'Sets the timeout before applying event listeners. Usually needed to wait until all critical elements are loaded and their selectors are set in stone',
             label: 'Load Timeout',
         },
         IssueTypeSelector: {
             name: 'issueTypeSelector',
-            defaultValue: '#issuetype-field',
+            defaultValue: DEFAULT_TEMPLATE.issueTypeSelector,
             hint: 'The selector defines an input holding the information about the current issue type',
             label: 'Issue Type Selector',
         }

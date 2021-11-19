@@ -5,8 +5,9 @@ import { IJTStorage } from './type';
 export const STORAGE_NAME = 'JT_Templates';
 
 export const DEFAULT_TEMPLATE: IJTStorage = {
-    globalTriggerSelector: '',
-    issueTypeSelector: '',
+    globalTriggerSelector: '#createGlobalItem',
+    issueTypeSelector: '#issuetype-field',
+    loadTimeout: 2700,
     issueTypes: {
         Bug: [
             {
