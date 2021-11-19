@@ -1,0 +1,20 @@
+<div class="py-5 h-100 card">
+    <div class="container">
+        <h4 class="mb-3 text-center">Quick Access Board</h4>
+        <div class="row">
+            <div class="col" *ngIf="storage.current$.value.mainPage?.quickAccess?.clearStorage">
+                <button
+                    nui-button
+                    type="button"
+                    displayStyle="destructive"
+                    (click)="storage.clearStorage()">Clear JT Local Storage</button>
+            </div>
+            <div class="col" *ngIf="storage.current$.value.mainPage?.quickAccess?.getStorage">
+                <button
+                    nui-button
+                    type="button"
+                    (click)="storage.logStorage()">Console Log JT Local Storage</button>
+            </div>
+        </div>
+    </div>
+</div>

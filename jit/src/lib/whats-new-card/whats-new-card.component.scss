@@ -1,0 +1,43 @@
+.card {
+    position: static;
+    margin-bottom: 20px;
+
+    &-shadow {
+        box-shadow: 0 5px 0 0 #f0f0f0;
+    }
+
+    &-header {
+        position: relative;
+        &-date {
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+        }
+        &-text {
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+        }
+        &-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px;
+
+            &:hover {
+                cursor: pointer;
+                transform: scale(1.5);
+            }
+        }
+    }
+
+    &-body {
+        font-size: 14px;
+    }
+
+    &-footer {
+        font-size: 12px;
+        background-color: white;
+        font-weight: bold;
+    }
+}
