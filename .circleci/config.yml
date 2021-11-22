@@ -15,8 +15,7 @@ jobs:
           pkg-manager: npm
       - node/run:
           app-dir: "~/project/jit"
-          name: Run tests
-          command: npm run test
+          npm-run: test
 
 workflows:
   # Below is the definition of your workflow.
