@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          app-dir: "~/jit"
+          app-dir: "~/project/jit"
           pkg-manager: npm
       - run:
           name: Run tests
