@@ -1,0 +1,22 @@
+version: 2.1
+jobs:
+  build-and-test:
+    working_directory: ~/jira-templator
+    docker:
+      - image: circleci/node:16-browsers
+    steps:
+      - checkout:
+          path: ~/jira-templator
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Install Packages
+          command: npm install
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Run Tests
+          command: npm run test-ci
+
+workflows:
+  sample:
+    jobs:
+      - build-and-test

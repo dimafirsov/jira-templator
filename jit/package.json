@@ -12,6 +12,7 @@
     "build-background-script": "esbuild scripts/backgroundScript.js --bundle --outfile=dist/backgroundScript.js --minify",
     "copy-files": "cpx manifest.json dist",
     "test": "ng test",
+    "test-ci": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
