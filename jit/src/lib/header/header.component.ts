@@ -11,7 +11,7 @@ import { PageService } from '../../services/page.service';
 })
 export class HeaderComponent implements OnInit {
 
-    constructor(private pageService: PageService) { }
+    constructor(public pageService: PageService) { }
 
     ngOnInit(): void {
     }
