@@ -22,6 +22,8 @@ export interface IIssueType {
 export interface IMainPageQuickAccess {
     clearStorage?: boolean;
     getStorage?: boolean;
+    importConfig?: boolean;
+    exportConfig?: boolean;
 }
 
 export interface IMainPage {

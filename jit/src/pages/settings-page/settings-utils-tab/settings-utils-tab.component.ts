@@ -1,5 +1,4 @@
-import { Component, Inject } from '@angular/core';
-import { ToastService, IToastService } from '@nova-ui/bits';
+import { Component } from '@angular/core';
 import { STORAGE_NAME } from '../../../constants';
 import { FileService } from '../../../services/file.service';
 import { SettingsService } from '../../../services/settings.service';
@@ -17,7 +16,6 @@ export class SettingsUtilsTabComponent {
     public currentOptionId!: keyof IMainPageQuickAccess;
 
     constructor(
-        @Inject(ToastService) public toastService: IToastService,
         public storage: StorageService,
         public settings: SettingsService,
         public file: FileService,
@@ -43,12 +41,5 @@ export class SettingsUtilsTabComponent {
 
     public handleClick(el: Element): void {
         this.currentOptionId = el.getAttribute('id') as keyof IMainPageQuickAccess;
-    }
-
-    public applyConfigFile(event: any): void {
-        if (event.target.files.length) {
-            this.file.current$.next(event);
-            this.toastService.success({title: 'Success!', message: 'Custom config has been successfully applied!'});
-        }
     }
 }
