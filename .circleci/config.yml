@@ -6,12 +6,15 @@ orbs:
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   build-and-test:
+    working_directory: ~/jira-templator
     environment:
       PROJECT_DIR: ./jit
+      BUILD_COUNTER: << pipeline.number >>
     docker:
       - image: cimg/node:16.10
     steps:
-      - checkout
+      - checkout:
+        path: ~/jira-templator
       - node/install-packages:
           pkg-manager: npm
       - run:
