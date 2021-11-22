@@ -5,8 +5,6 @@ import { PageService } from '../services/page.service';
 import { takeUntil, tap } from 'rxjs/operators';
 import { MainPageComponent } from '../pages/main-page/main-page.component';
 import { ViewRefDirective } from '../directives/view-ref.directive';
-import { SettingsPageComponent } from '../pages/settings-page/settings-page.component';
-import { IToastLoad, ToastService } from '../services/toast.service';
 import { StorageService } from '../services/storage.service';
 
 @Component({

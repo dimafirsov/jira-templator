@@ -16,9 +16,9 @@
                 Download
             </a>
           </td>
-          <td class="p-3 align-middle">
-            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.getStorage" (valueChange)="onValueChanged($event, getStorage)">
-                {{ message }}
+          <td class="p-3 align-middle" id='exportConfig' #exportConfig>
+            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.exportConfig" (valueChange)="onValueChanged($event, exportConfig)">
+                {{ storage.current$.value.mainPage?.quickAccess?.exportConfig ? 'Added' : 'Add' }}
             </nui-switch>
           </td>
         </tr>
@@ -26,12 +26,12 @@
           <td class="align-middle">Import config</td>
           <td class="align-middle text-center">
             <label class="btn btn-default">
-                Browse... <input type="file" style="display: none;" accept=".json" (input)='applyConfigFile($event)'>
+                Browse... <input type="file" style="display: none;" accept=".json" (input)='file.applyConfig($event)'>
             </label>
           </td>
-          <td class="p-3 align-middle">
-            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.getStorage" (valueChange)="onValueChanged($event, getStorage)">
-                {{ message }}
+          <td class="p-3 align-middle" id='importConfig' #importConfig>
+            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.importConfig" (valueChange)="onValueChanged($event, importConfig)">
+                {{ storage.current$.value.mainPage?.quickAccess?.importConfig ? 'Added' : 'Add' }}
             </nui-switch>
           </td>
         </tr>

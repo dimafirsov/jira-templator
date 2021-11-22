@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NuiIconModule } from '@nova-ui/bits';
 
 import { SettingsIssueTemplateFormComponent } from './settings-issue-template-form.component';
 
@@ -8,7 +10,12 @@ describe('SettingsIssueTemplateFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsIssueTemplateFormComponent ]
+      declarations: [ SettingsIssueTemplateFormComponent ],
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        NuiIconModule,
+      ],
     })
     .compileComponents();
   });

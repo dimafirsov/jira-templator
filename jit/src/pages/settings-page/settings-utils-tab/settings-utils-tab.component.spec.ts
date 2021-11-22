@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NuiButtonModule, NuiIconModule, NuiSwitchModule } from '@nova-ui/bits';
 
 import { SettingsUtilsTabComponent } from './settings-utils-tab.component';
 
@@ -8,7 +9,12 @@ describe('SettingsUtilsTabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsUtilsTabComponent ]
+      declarations: [ SettingsUtilsTabComponent ],
+      imports: [
+        NuiSwitchModule,
+        NuiIconModule,
+        NuiButtonModule
+      ],
     })
     .compileComponents();
   });
