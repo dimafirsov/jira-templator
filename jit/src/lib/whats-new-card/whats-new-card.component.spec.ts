@@ -26,4 +26,10 @@ describe('WhatsNewCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should close the whats new card on close', () => {
+      component.closeWhatsNew();
+
+      expect(component.showCloseIcon).toBe(false);
+  });
 });
