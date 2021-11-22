@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NuiIconModule } from '@nova-ui/bits';
 
 import { WhatsNewCardComponent } from './whats-new-card.component';
 
@@ -8,7 +9,10 @@ describe('WhatsNewCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WhatsNewCardComponent ]
+      declarations: [ WhatsNewCardComponent ],
+      imports: [
+          NuiIconModule
+      ],
     })
     .compileComponents();
   });

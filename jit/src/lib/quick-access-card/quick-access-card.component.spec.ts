@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NuiButtonModule } from '@nova-ui/bits';
 
 import { QuickAccessCardComponent } from './quick-access-card.component';
 
@@ -8,7 +9,10 @@ describe('QuickAccessCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ QuickAccessCardComponent ]
+      declarations: [ QuickAccessCardComponent ],
+      imports: [
+          NuiButtonModule
+      ]
     })
     .compileComponents();
   });
