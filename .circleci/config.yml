@@ -14,7 +14,6 @@ jobs:
           app-dir: "~/project/jit"
           pkg-manager: npm
       - node/run:
-          app-dir: "~/project/jit"
           npm-run: test
 
 workflows:
