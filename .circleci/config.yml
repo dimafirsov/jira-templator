@@ -14,7 +14,7 @@ jobs:
       - run:
           working_directory: ~/jira-templator/jit
           name: Run Tests
-          command: npm run test
+          command: npm run test-ci
 
 workflows:
   sample:
