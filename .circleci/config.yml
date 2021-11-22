@@ -13,7 +13,7 @@ jobs:
       - node/install-packages:
           app-dir: "~/project/jit"
           pkg-manager: npm
-      - run:
+      - node/run:
           app-dir: "~/project/jit"
           name: Run tests
           command: npm run test
