@@ -3,6 +3,9 @@ import * as toast from './toast';
 
 (async function() {
     let storage = (await getStorage())[STORAGE_NAME];
+    let newCreateButton;
+    let oldCreateButton;
+    let counter = 0;
 
     if (!storage) {
         await setStorage({...DEFAULT_TEMPLATE});
@@ -11,15 +14,30 @@ import * as toast from './toast';
     console.log('>>> storage', storage);
 
     setTimeout(async () => {
-        let createButton = getGlobalTriggerElementFromStorage(storage);
+        const mainPolling = setInterval(() => {
+            newCreateButton = getGlobalTriggerElementFromStorage(storage);
+            counter++;
+            console.log('>>>> link remained the same for ' + counter + ' seconds');
+
+            if (newCreateButton !== oldCreateButton) {
+                console.info("[Jira Templator] - The 'Create' button's link changed. Refreshing links and subscriptions...");
+                counter = 0;
+                newCreateButton.addEventListener("click", async () => {
+                    storage = (await getStorage())[STORAGE_NAME]
+                    applyTemplates(storage);
+                    watchForIssueTypeChanges(storage);
+                })
+
+                oldCreateButton = newCreateButton;
+            }
+
+        }, 1000);
 
         vt.success("Jira Templator IS READY!", { title: "Let's GO!", position: "top-right",})
 
-        createButton.addEventListener("click", async () => {
-            storage = (await getStorage())[STORAGE_NAME]
-            applyTemplates(storage);
-            watchForIssueTypeChanges(storage);
-        })
+        window.addEventListener('beforeunload', () => {
+            clearInterval(mainPolling);
+        });
 
     }, storage?.loadTimeout)
 })()
