@@ -50,7 +50,7 @@ import { FORM_CONTROL_CONFIG, TABS_CONTENT } from './tokens';
     ]
     })
 export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
-    @Input() public issueTypes: string[] = Object.keys(DEFAULT_TEMPLATE.issueTypes);
+    @Input() public issueTypes: string[] = Object.keys({...DEFAULT_TEMPLATE}.issueTypes);
 
     public currentIssueType!: string;
     public currentTabRef!: ComponentRef<any>;
@@ -99,7 +99,7 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!component) { return; }
 
         if (component === SettingsIssueSelectorFormComponent) {
-            const ref = this.createComponentRef(component) as ComponentRef<SettingsIssueSelectorFormComponent>;
+            this.currentTabRef = this.createComponentRef(component) as ComponentRef<SettingsIssueSelectorFormComponent>;
         }
 
         if (component === SettingsTemplateTabComponent) {
@@ -108,7 +108,7 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         if (component === SettingsUtilsTabComponent) {
-            const ref = this.createComponentRef(component) as ComponentRef<SettingsUtilsTabComponent>;
+            this.currentTabRef = this.createComponentRef(component) as ComponentRef<SettingsUtilsTabComponent>;
         }
     }
 
@@ -126,7 +126,7 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private setupSubscriptions(): void {
         this.storage.current$
             .pipe(
-                filter(value => !isEqual(value, DEFAULT_TEMPLATE)),
+                filter(value => !isEqual(value, {...DEFAULT_TEMPLATE})),
                 tap(() => this.settingsTemplateForm?.updateControls()),
                 tap(() => this.destroySettingsTemplateFormSubject()),
                 takeUntil(this.destroySettingsTemplateFormUpdate$)
@@ -137,22 +137,17 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
             .pipe(
                 filter((data: IJTStorage) => !!data),
                 tap((data: IJTStorage) => {
-                    console.log('>>> data from pipe', data);
                     this.issueTypes = Object.keys(data?.issueTypes || {});
 
                     if (this.currentTabRef?.instance instanceof SettingsTemplateTabComponent) {
                         this.currentTabRef.instance.issueTypes = this.issueTypes;
                     }
-
-                    console.log('>>> this.issueTypes', this.issueTypes);
-                    console.log('>>> currentIssueType', this.currentIssueType);
                     const currentIssue = this.settings.currentIssueType$.value;
+
                     this.issueTypes.includes(currentIssue)
                         ? this.settings.currentIssueType$.next(currentIssue)
                         : this.settings.currentIssueType$.next(Object.keys(data?.issueTypes)[0]);
-                    console.log('>>> this.issueTypes.includes(currentIssue)', this.issueTypes.includes(currentIssue));
-                    console.log('>>> currentIssue', currentIssue);
-                    console.log('>>> current 111 issue', this.settings.currentIssue$.value);
+
                     this.cdRef.detectChanges();
                 }),
                 takeUntil(this.destroy$),
@@ -166,8 +161,6 @@ export class SettingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
                     const currentType = current[type];
                     this.currentIssueType = currentType ? type : Object.keys(current)[0];
                     this.settings.currentIssue$.next(current[this.currentIssueType].slice());
-                    console.log('>>> from sub', type);
-                    console.log('>>> current issue from sub', this.settings.currentIssue$.value);
                     this.cdRef.detectChanges();
                 }),
                 takeUntil(this.destroy$),

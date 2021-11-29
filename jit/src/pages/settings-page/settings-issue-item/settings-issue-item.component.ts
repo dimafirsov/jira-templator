@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import { isEqual } from 'lodash';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { DEFAULT_TEMPLATE } from '../../../constants';
@@ -22,11 +23,11 @@ export class SettingsIssueItemComponent implements OnChanges, OnInit, OnDestroy 
     @Input() public index = 0;
 
     public inputValue!: string;
-    public currentIssueProperties: IIssueType = DEFAULT_TEMPLATE.issueTypes.Bug[this.index];
+    public currentIssueProperties: IIssueType = {...DEFAULT_TEMPLATE}.issueTypes.Bug[this.index];
 
     private destroy$: Subject<any> = new Subject<any>();
 
-    constructor(private storage: StorageService, private settings: SettingsService, private cdRef: ChangeDetectorRef) {
+    constructor(public storage: StorageService, public settings: SettingsService, private cdRef: ChangeDetectorRef) {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -88,7 +89,7 @@ export class SettingsIssueItemComponent implements OnChanges, OnInit, OnDestroy 
     }
 
     public removeIssueType(type: string): void {
-        const current = this.storage.current$.value;
+        const current = {...this.storage.current$.value};
         delete current?.issueTypes[type];
 
         this.storage.setStorage({ ...current });

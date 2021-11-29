@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {
@@ -61,6 +62,7 @@ describe('SettingsPageComponent', () => {
             provide: TABS_CONTENT,
             useValue: tabsContent,
         },
+        ChangeDetectorRef,
       ]
     })
     .compileComponents();
@@ -74,5 +76,48 @@ describe('SettingsPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('when settings tab is changed,', () => {
+      let spy: jasmine.Spy;
+
+      beforeEach(() => {
+        spy = spyOn(component, 'loadComponentForTab');
+        component.ngOnInit();
+        component.ngAfterViewInit();
+      });
+
+      it('should create SettingsIssueSelectorFormComponent by default', () => {
+          expect(spy).toHaveBeenCalledWith(SettingsIssueSelectorFormComponent);
+      });
+
+      it('should set the current tab ref to SettingsIssueSelectorFormComponent by default', () => {
+          expect(component.currentTabRef.componentType).toEqual(SettingsIssueSelectorFormComponent);
+      });
+
+      it('should create nothing if falsy argument was passed', () => {
+          component.loadComponentForTab();
+          expect(component.currentTabRef.componentType.name).toEqual(SettingsIssueSelectorFormComponent.name);
+      });
+
+      it('should create SettingsUtilsTabComponent page if expected argument is passed in', () => {
+          fixture.whenStable().then(() => {
+              component.loadComponentForTab(SettingsUtilsTabComponent);
+              expect(component.currentTabRef.componentType.name).toEqual(SettingsUtilsTabComponent.name);
+          });
+      });
+
+      it('should create SettingsTemplateTabComponent page if expected argument is passed in', () => {
+          fixture.whenStable().then(() => {
+              component.loadComponentForTab(SettingsTemplateTabComponent);
+              expect(component.currentTabRef.componentType.name).toEqual(SettingsTemplateTabComponent.name);
+          });
+      });
+  });
+
+  it('When item is selected notify settings with the currect issue type', () => {
+      const spy = spyOn(component.settings.currentIssueType$, 'next');
+      component.selectItem('item');
+      expect(spy).toHaveBeenCalledWith('item');
   });
 });

@@ -18,7 +18,6 @@ export class FileService implements OnDestroy {
     constructor(public storage: StorageService, @Inject(ToastService) public toastService: IToastService, ) {
         this.current$
             .pipe(
-                tap(data => console.log('... data', data.target?.files[0] as File)),
                 tap(async data => {
                     const file = data.target?.files[0] as File;
                     const text = await file.text();
