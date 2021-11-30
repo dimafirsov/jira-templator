@@ -1,9 +1,8 @@
 #!/bin/bash
 
+git checkout test-develop
+git pull
 git checkout test-release
-git pull origin test-develop -s ours
+git pull
 git checkout test-release
 git merge test-develop
-git add *
-git commit -am 'increment develop versions and packing'
-git push origin test-release
