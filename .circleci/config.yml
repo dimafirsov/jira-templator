@@ -91,9 +91,6 @@ jobs:
               git commit -am 'increment develop versions and packing'
               git push origin $SOURCE_BRANCH
       - run:
-          name: Checkout my branch
-          command: git checkout feature/adding-release-script
-      - run:
           working_directory: ~/jira-templator/jit
           name: Merge latest develop into release branch
           command: npm run merge:ci
@@ -109,32 +106,32 @@ jobs:
           command: |
               git commit -am "update files for new version"
               git push --verbose
-      - run:
-          name: Checkout my branch
-          command: git checkout feature/adding-release-script
-      - run:
-          working_directory: ~/jira-templator/jit
-          name: Trigger release branch
-          command: npm run trigger-pipeline:ci ${RELEASE_BRANCH}
+      # - run:
+      #     name: Checkout my branch
+      #     command: git checkout feature/adding-release-script
+      # - run:
+      #     working_directory: ~/jira-templator/jit
+      #     name: Trigger release branch
+      #     command: npm run trigger-pipeline:ci ${RELEASE_BRANCH}
 
 workflows:
   version: 2.1
-  # jt:
-  #   jobs:
-  #     - build
-  #     - test:
-  #         requires:
-  #           - build
+  jt:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
   #     - pack:
   #         requires:
   #           - test
-  post-release:
-      jobs:
-          - build:
-              filters:
-                  branches:
-                      only:
-                          - release
+  # post-release:
+  #     jobs:
+  #         - build:
+  #             filters:
+  #                 branches:
+  #                     only:
+  #                         - release
   jt-release:
     jobs:
       - release-approval:
@@ -142,7 +139,7 @@ workflows:
           # filters:
           #     branches:
           #         only:
-          #             - main
+          #             - develop
       - release:
           requires:
               - release-approval
