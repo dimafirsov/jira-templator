@@ -32,6 +32,8 @@ jobs:
     docker:
       - image: circleci/node:16-browsers
     steps:
+      - attach_workspace:
+          at: ~/jira-templator
       - run:
           working_directory: ~/jira-templator/jit
           name: Run Tests
@@ -41,6 +43,8 @@ jobs:
     docker:
       - image: circleci/node:16-browsers
     steps:
+      - attach_workspace:
+          at: ~/jira-templator
       - run:
           working_directory: ~/jira-templator/jit
           name: Build Cleanup
