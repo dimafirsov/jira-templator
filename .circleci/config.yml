@@ -62,17 +62,18 @@ jobs:
 
 workflows:
   version: 2.1
-  jobs:
-    - lint
-    - build:
-        requires:
-          - lint
-    - test:
-        requires:
-          - build
-    - pack:
-        requires:
-          - test
+  jt:
+    jobs:
+      - lint
+      - build:
+          requires:
+            - lint
+      - test:
+          requires:
+            - build
+      - pack:
+          requires:
+            - test
     
     
 
