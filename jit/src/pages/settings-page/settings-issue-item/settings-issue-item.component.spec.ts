@@ -247,7 +247,7 @@ describe('SettingsIssueItemComponent', () => {
       });
   });
 
-  fdescribe('handleEdit() > ', () => {
+  describe('handleEdit() > ', () => {
       describe('When not editable ', () => {
           it('should change editable state if not editable', () => {
             component.editable = false;

@@ -15,11 +15,13 @@ export class StorageService {
         const newStorage = {} as any;
         newStorage[STORAGE_NAME] = {...data};
 
+        // @ts-ignore-next-line
         chrome.storage?.sync.set({...newStorage});
         this.current$.next(newStorage[STORAGE_NAME]);
     }
 
     public async getStorage(key: string, fn?: (data: any) => void): Promise<any> {
+        // @ts-ignore-next-line
         chrome.storage?.sync.get(key, (data) => {
             if (fn) {
                 fn(data[key]);
@@ -38,11 +40,13 @@ export class StorageService {
     }
 
     public clearStorage(): void {
+        // @ts-ignore-next-line
         chrome.storage?.sync.clear();
         this.current$.next({} as IJTStorage);
     }
 
     public removeFromStorage(item: string, fn?: () => void): void {
+        // @ts-ignore-next-line
         chrome.storage.sync.remove(item, fn);
     }
 
