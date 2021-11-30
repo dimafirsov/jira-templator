@@ -119,7 +119,7 @@ jobs:
       - run:
           working_directory: ~/jira-templator/jit
           name: Trigger release branch
-          command: npm run trigger-pipeline-build ${RELEASE_BRANCH}
+          command: npm run trigger-build-pipeline ${RELEASE_BRANCH}
 
 workflows:
   version: 2.1
