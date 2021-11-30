@@ -117,8 +117,6 @@ jobs:
       - run:
           name: Commit and Push Release Branch Changes
           command: |
-              git add *
-              git commit -am "update files for new version"
               git push origin $RELEASE_BRANCH
               git pull
       # - run:
