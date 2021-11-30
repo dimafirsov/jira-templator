@@ -3,7 +3,7 @@
 git checkout $RELEASE_BRANCH
 git pull origin $SOURCE_BRANCH -s ours
 git checkout $RELEASE_BRANCH
-git merge --no-commit --continue $SOURCE_BRANCH
+git merge --no-commit --continue -s theirs $SOURCE_BRANCH
 git add *
 git commit -am 'releasing new jit version'
 git push --verbose
