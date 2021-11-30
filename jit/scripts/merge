@@ -3,4 +3,7 @@
 git checkout test-release
 git pull origin test-develop -s ours
 git checkout test-release
-git merge test-develop --continue --no-edit
+git merge test-develop
+git add *
+git commit -am 'increment develop versions and packing'
+git push origin test-release
