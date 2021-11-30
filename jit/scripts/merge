@@ -1,0 +1,6 @@
+#!/bin/bash
+
+git checkout test-release
+git pull origin develop -s ours
+git checkout test-release
+git merge develop
