@@ -17,7 +17,7 @@ jobs:
       - run:
           working_directory: ~/jira-templator/jit
           name: Building
-          command: npm run build-prod
+          command: npm run build-normal
       - persist_to_workspace:
           root: .
           paths:
