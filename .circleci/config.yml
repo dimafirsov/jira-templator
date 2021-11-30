@@ -68,6 +68,9 @@ jobs:
             git config --global user.email $GIT_EMAIL
             git config --global user.name $GIT_USER_NAME
       - run:
+          name: Checkout the source branch
+          command: git checkout $SOURCE_BRANCH
+      - run:
           working_directory: ~/jira-templator/jit
           name: Install Packages
           command: npm install
@@ -78,9 +81,7 @@ jobs:
       - run:
           working_directory: ~/jira-templator/jit
           name: Increment source branch version
-          command: |
-              git checkout $SOURCE_BRANCH
-              npm --no-git-tag-version version $INCREMENT_TYPE
+          command: npm --no-git-tag-version version $INCREMENT_TYPE
       - run:
           working_directory: ~/jira-templator/jit
           name: Pack project
