@@ -3,4 +3,4 @@
 git checkout $RELEASE_BRANCH
 git pull origin $SOURCE_BRANCH -s ours
 git checkout $RELEASE_BRANCH
-git merge $SOURCE_BRANCH
+git merge --commit -s theirs $SOURCE_BRANCH
