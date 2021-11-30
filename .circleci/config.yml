@@ -96,6 +96,7 @@ jobs:
           command: |
             git checkout test-release
             git pull origin develop -s ours
+            git commit -m 'merging develop into release'
             git checkout test-release
             git merge develop
       # - run:
