@@ -57,31 +57,38 @@ jobs:
       MAIN_BRANCH: test-main
       SOURCE_BRANCH: test-develop
       RELEASE_BRANCH: test-release
-      INCREMENT_TYPE: minor
+      INCREMENT_TYPE: patch
     steps:
       - checkout:
           path: ~/jira-templator
-      # - run:
-      #     working_directory: ~/jira-templator/jit
-      #     name: Install packages
-      #     command: npm install
-      # - run:
-      #     working_directory: ~/jira-templator/jit
-      #     name: Build project
-      #     command: npm run build-normal
-      # - run:
-      #     working_directory: ~/jira-templator/jit
-      #     name: Merge latest develop into release branch
-      #     command: |
-      #       ls -la .
-      #       echo '----------------------------------'
-      #       ls -la ../
       - run:
           working_directory: ~/jira-templator/jit
           name: Configure Git
           command: |
             git config --global user.email $GIT_EMAIL
             git config --global user.name $GIT_USER_NAME
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Install Packages
+          command: npm install
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Build project
+          command: npm run build-normal
+      - run:
+          name: Increment source branch version
+          command: |
+              git checkout $SOURCE_BRANCH
+              npm --no-git-tag-version version $INCREMENT_TYPE
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Pack project
+          command: npm run pack-it
+      - run:
+          name: Push source branch changes
+          command: |
+              git commit -am 'increment develop versions and packing'
+              git push origin $SOURCE_BRANCH
       - run:
           working_directory: ~/jira-templator/jit
           name: Merge latest develop into release branch
@@ -98,18 +105,8 @@ jobs:
           command: |
               git commit -am "update files for new version"
               git push --verbose
-      # - run:
-      #     name: Increment source branch version
-      #     command: |
-      #         git checkout $SOURCE_BRANCH
-      #         npm --no-git-tag-version version $INCREMENT_TYPE
-      # - run:
-      #     name: Push source branch changes
-      #     command: |
-      #         git commit -am 'increment develop versions'
-      #         git push origin $SOURCE_BRANCH
       - run:
-          name: Get the branch
+          name: Checkout my branch
           command: git checkout feature/adding-release-script
       - run:
           working_directory: ~/jira-templator/jit
@@ -127,6 +124,13 @@ workflows:
   #     - pack:
   #         requires:
   #           - test
+  post-release:
+      jobs:
+          - build:
+              filters:
+                  branches:
+                      only:
+                          - release
   jt-release:
     jobs:
       - release-approval:
