@@ -1,9 +1,12 @@
 version: 2.1
 jobs:
-  build-and-test:
-    working_directory: ~/jira-templator
-    docker:
-      - image: circleci/node:16-browsers
+  lint:
+    steps:
+    - run:
+        working_directory: ~/jira-templator
+        name: Linting
+        command: ng lint
+  build:
     steps:
       - checkout:
           path: ~/jira-templator
@@ -13,10 +16,57 @@ jobs:
           command: npm install
       - run:
           working_directory: ~/jira-templator/jit
+          name: Building
+          command: npm run build:prod
+      - persist_to_workspace:
+          root: .
+          paths:
+              - jit
+              - .git
+              - package.json
+  test:
+    working_directory: ~/jira-templator
+    docker:
+      - image: circleci/node:16-browsers
+    steps:
+      - run:
+          working_directory: ~/jira-templator/jit
           name: Run Tests
           command: npm run test-ci
+  pack:
+    working_directory: ~/jira-templator
+    steps:
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Build Cleanup
+          command: npm run pack-clean
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Build Pack
+          command: npm run pack-it
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Show me what we have there
+          command: |
+            ls -la .
+            echo '----------------------------------'
+            echo '----------------------------------'
+            echo '----------------------------------'
+            ls -la ./dist
 
 workflows:
-  sample:
-    jobs:
-      - build-and-test
+  version: 2.1
+  jobs:
+    - lint
+    - build:
+        requires:
+          - lint
+    - test:
+        requires:
+          - build
+    - pack:
+        requires:
+          - test
+    
+    
+
