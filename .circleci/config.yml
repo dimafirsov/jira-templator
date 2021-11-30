@@ -68,6 +68,18 @@ jobs:
             git config --global user.email $GIT_EMAIL
             git config --global user.name $GIT_USER_NAME
       - run:
+          name: Check out release branch
+          command: git checkout $RELEASE_BRANCH
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Set Release Version
+          command: npm --no-git-tag-version version $INCREMENT_TYPE
+      - run:
+          name: Commit and Push Release Branch Changes
+          command: |
+              git commit -am "update files for new version"
+              git push --verbose
+      - run:
           name: Checkout the source branch
           command: git checkout $SOURCE_BRANCH
       - run:
@@ -100,18 +112,6 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Merge latest develop into release branch
           command: npm run merge:ci
-      - run:
-          name: Check out release branch
-          command: git checkout $RELEASE_BRANCH
-      - run:
-          working_directory: ~/jira-templator/jit
-          name: Set Release Version
-          command: npm --no-git-tag-version version $INCREMENT_TYPE
-      - run:
-          name: Commit and Push Release Branch Changes
-          command: |
-              git commit -am "update files for new version"
-              git push --verbose
       # - run:
       #     name: Checkout my branch
       #     command: git checkout feature/adding-release-script
