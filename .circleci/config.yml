@@ -49,21 +49,13 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Build Pack
           command: npm run pack-it
-      - run:
-          working_directory: ~/jira-templator/jit
-          name: Show me what we have there
-          command: |
-            ls -la .
-            echo '----------------------------------'
-            echo '----------------------------------'
-            echo '----------------------------------'
-            ls -la ../
   release:
     working_directory: ~/jira-templator
     docker:
       - image: circleci/node:16-browsers
     environment:
-      SOURCE_BRANCH: test-main
+      MAIN_BRANCH: test-main
+      SOURCE_BRANCH: test-develop
       RELEASE_BRANCH: test-release
       INCREMENT_TYPE: minor
     steps:
