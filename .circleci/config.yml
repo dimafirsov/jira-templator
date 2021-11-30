@@ -67,10 +67,10 @@ jobs:
       RELEASE_BRANCH: test-release
       INCREMENT_TYPE: minor
     steps:
-      # - checkout:
-      #     path: ~/jira-templator
-      - attach_workspace:
-          at: ~/jira-templator
+      - checkout:
+          path: ~/jira-templator
+      # - attach_workspace:
+      #     at: ~/jira-templator
       - run:
           working_directory: ~/jira-templator/jit
           name: Merge latest develop into release branch
