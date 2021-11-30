@@ -89,6 +89,7 @@ jobs:
       - run:
           name: Push source branch changes
           command: |
+              git add *
               git commit -am 'increment develop versions and packing'
               git push origin $SOURCE_BRANCH
       - run:
