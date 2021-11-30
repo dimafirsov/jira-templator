@@ -117,6 +117,9 @@ jobs:
       #         git commit -am 'increment develop versions'
       #         git push origin $SOURCE_BRANCH
       - run:
+          name: Get the branch
+          command: git checkout feature/adding-release-script
+      - run:
           working_directory: ~/jira-templator/jit
           name: Trigger release branch
           command: npm run trigger-pipeline:ci ${RELEASE_BRANCH}
