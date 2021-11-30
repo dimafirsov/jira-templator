@@ -91,6 +91,9 @@ jobs:
               git commit -am 'increment develop versions and packing'
               git push origin $SOURCE_BRANCH
       - run:
+          name: Checkout my branch
+          command: git checkout feature/adding-release-script
+      - run:
           working_directory: ~/jira-templator/jit
           name: Merge latest develop into release branch
           command: npm run merge:ci
