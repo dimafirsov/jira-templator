@@ -67,6 +67,8 @@ jobs:
       RELEASE_BRANCH: test-release
       INCREMENT_TYPE: minor
     steps:
+      # - checkout:
+      #     path: ~/jira-templator
       - attach_workspace:
           at: ~/jira-templator
       - run:
@@ -88,15 +90,15 @@ jobs:
 
 workflows:
   version: 2.1
-  # jt:
-  #   jobs:
-  #     - build
-  #     - test:
-  #         requires:
-  #           - build
-  #     - pack:
-  #         requires:
-  #           - test
+  jt:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - pack:
+          requires:
+            - test
   jt-release:
     jobs:
       - release-approval:
