@@ -111,12 +111,12 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Merge latest develop into release branch
           command: npm run merge:ci
-      - run:
-          name: Commit and Push Release Branch Changes
-          command: |
-              git add *
-              git commit -am "update files for new version"
-              git push --verbose
+      # - run:
+      #     name: Commit and Push Release Branch Changes
+      #     command: |
+      #         git add *
+      #         git commit -am "update files for new version"
+      #         git push --verbose
       # - run:
       #     name: Checkout my branch
       #     command: git checkout feature/adding-release-script
