@@ -54,8 +54,8 @@ jobs:
     docker:
       - image: circleci/node:16-browsers
     environment:
-      SOURCE_BRANCH: test-develop
-      RELEASE_BRANCH: test-release
+      SOURCE_BRANCH: develop
+      RELEASE_BRANCH: release/1.x
       INCREMENT_TYPE: patch
     steps:
       - checkout:
@@ -66,18 +66,6 @@ jobs:
           command: |
             git config --global user.email $GIT_EMAIL
             git config --global user.name $GIT_USER_NAME
-      # - run:
-      #     name: Check out release branch
-      #     command: git checkout $RELEASE_BRANCH
-      # - run:
-      #     working_directory: ~/jira-templator/jit
-      #     name: Set Release Version
-      #     command: npm --no-git-tag-version version $INCREMENT_TYPE
-      # - run:
-      #     name: Commit and Push Release Branch Changes
-      #     command: |
-      #         git commit -am "update files for new version"
-      #         git push --verbose
       - run:
           name: Checkout the source branch
           command: git checkout $SOURCE_BRANCH
@@ -119,43 +107,23 @@ jobs:
           command: |
               git push origin $RELEASE_BRANCH
               git pull
-      # - run:
-      #     working_directory: ~/jira-templator/jit
-      #     name: Merge latest develop into release branch
-      #     command: npm run merge:ci
-      # - run:
-      #     name: Commit and Push Release Branch Changes
-      #     command: |
-      #         git add *
-      #         git commit -am "update files for new version"
-      #         git push --verbose
-      # - run:
-      #     name: Checkout my branch
-      #     command: git checkout feature/adding-release-script
-      # - run:
-      #     working_directory: ~/jira-templator/jit
-      #     name: Trigger release branch
-      #     command: npm run trigger-pipeline:ci ${RELEASE_BRANCH}
 
 workflows:
   version: 2.1
-  # jt:
-  #   jobs:
-  #     - build
-  #     - test:
-  #         requires:
-  #           - build
-  #     - pack:
-  #         requires:
-  #           - test
+  jt:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
   jt-release:
     jobs:
       - release-approval:
           type: approval
-          # filters:
-          #     branches:
-          #         only:
-          #             - develop
+          filters:
+              branches:
+                  only:
+                      - develop
       - release:
           requires:
               - release-approval
