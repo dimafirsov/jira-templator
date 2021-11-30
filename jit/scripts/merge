@@ -4,5 +4,6 @@ git checkout test-develop
 git pull
 git checkout test-release
 git pull
+git pull origin test-develop -s ours
 git checkout test-release
 git merge test-develop
