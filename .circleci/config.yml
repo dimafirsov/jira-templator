@@ -69,8 +69,14 @@ jobs:
     steps:
       - checkout:
           path: ~/jira-templator
-      # - attach_workspace:
-      #     at: ~/jira-templator
+      # - run:
+      #     working_directory: ~/jira-templator/jit
+      #     name: Install packages
+      #     command: npm install
+      # - run:
+      #     working_directory: ~/jira-templator/jit
+      #     name: Build project
+      #     command: npm run build-normal
       - run:
           working_directory: ~/jira-templator/jit
           name: Merge latest develop into release branch
@@ -78,6 +84,10 @@ jobs:
             ls -la .
             echo '----------------------------------'
             ls -la ../
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Git?
+          command: git
       # - run:
       #     working_directory: ~/jira-templator/jit
       #     name: Merge latest develop into release branch
