@@ -1,4 +1,6 @@
 # Jira Templator
+[![CircleCI](https://circleci.com/gh/dimafirsov/jira-templator/tree/develop.svg?style=svg)](https://circleci.com/gh/dimafirsov/jira-templator/tree/develop)
+[![This project is using Percy.io for visual regression testing.](https://percy.io/static/images/percy-badge.svg)](https://percy.io/72fa82a6/jira-templator)
 
 Jira Templator is a Chrome extension that allows you to use pre-defined templates for any jira items defined on your project. 
 This can be a great improvement to the already established processes, as it helps to standardize the common format of the 
