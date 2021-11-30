@@ -94,14 +94,30 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Merge latest develop into release branch
           command: npm run merge:ci
+      - run:
+          name: Check out release branch
+          command: git checkout $RELEASE_BRANCH
+      - run:
+          name: Set Release Version
+          command: npm --no-git-tag-version version $INCREMENT_TYPE
+      - run:
+          name: Commit and Push Release Branch Changes
+          command: |
+              git commit -am "update files for new version"
+              git push --verbose
       # - run:
-      #     working_directory: ~/jira-templator/jit
-      #     name: Increment version value
+      #     name: Increment source branch version
       #     command: |
-      #       git checkout test-release
-      #       git pull origin develop -s ours
-      #       git checkout test-release
-      #       git merge develop
+      #         git checkout $SOURCE_BRANCH
+      #         npm --no-git-tag-version version $INCREMENT_TYPE
+      # - run:
+      #     name: Push source branch changes
+      #     command: |
+      #         git commit -am 'increment develop versions'
+      #         git push origin $SOURCE_BRANCH
+      - run:
+          name: Trigger release branch
+          command: npm run trigger-pipeline-build-ci ${RELEASE_BRANCH}
 
 workflows:
   version: 2.1

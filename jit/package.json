@@ -18,7 +18,8 @@
     "test-ci": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "merge:ci": "bash scripts/merge"
+    "merge:ci": "bash scripts/merge",
+    "trigger-pipeline:ci": "bash scripts/trigger-build-pipeline"
   },
   "private": true,
   "dependencies": {
