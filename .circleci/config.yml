@@ -19,7 +19,7 @@ jobs:
           name: Building
           command: npm run build-normal
       - persist_to_workspace:
-          root: .
+          root: ./jira-templator
           paths:
               - jit
               - .git
