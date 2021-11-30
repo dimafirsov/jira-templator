@@ -13,7 +13,7 @@ jobs:
       - run:
           working_directory: ~/jira-templator/jit
           name: Linting
-          command: ng lint
+          command: npm run lint
       - run:
           working_directory: ~/jira-templator/jit
           name: Building
