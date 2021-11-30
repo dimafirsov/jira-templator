@@ -107,10 +107,24 @@ jobs:
               git add *
               git commit -am 'increment develop versions and packing'
               git push origin $SOURCE_BRANCH
+              git pull
       - run:
-          working_directory: ~/jira-templator/jit
-          name: Merge latest develop into release branch
-          command: npm run merge:ci
+          name: Checkout the release branch
+          command: git checkout $RELEASE_BRANCH
+      - run:
+          name: Merge the latest develop to the release branch
+          command: git merge --no-commit $SOURCE_BRANCH
+      - run:
+          name: Commit and Push Release Branch Changes
+          command: |
+              git add *
+              git commit -am "update files for new version"
+              git push origin $RELEASE_BRANCH
+              git pull
+      # - run:
+      #     working_directory: ~/jira-templator/jit
+      #     name: Merge latest develop into release branch
+      #     command: npm run merge:ci
       # - run:
       #     name: Commit and Push Release Branch Changes
       #     command: |
