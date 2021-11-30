@@ -74,10 +74,10 @@ workflows:
     jobs:
       - release-approval:
           type: approval
-          filters:
-              branches:
-                  only:
-                      - main
+          # filters:
+          #     branches:
+          #         only:
+          #             - main
       # - release-prep:
       #     requires:
       #         - release-approval
