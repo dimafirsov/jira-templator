@@ -58,6 +58,21 @@ jobs:
             echo '----------------------------------'
             echo '----------------------------------'
             ls -la ../
+  # release:
+  #   working_directory: ~/jira-templator
+  #   docker:
+  #     - image: circleci/node:16-browsers
+  #   environment:
+  #     SOURCE_BRANCH: main
+  #     RELEASE_BRANCH: release/1.x
+  #     INCREMENT_TYPE: minor
+  #   steps:
+  #     - attach_workspace:
+  #         at: ~/jira-templator
+  #     - run:
+  #         working_directory: ~/jira-templator/jit
+  #         name: Build Cleanup
+  #         command: npm run pack-clean
 
 workflows:
   version: 2.1
@@ -74,13 +89,13 @@ workflows:
     jobs:
       - release-approval:
           type: approval
-          # filters:
-          #     branches:
-          #         only:
-          #             - main
-      # - release-prep:
-      #     requires:
-      #         - release-approval
+          filters:
+              branches:
+                  only:
+                      - main
+      - release:
+          requires:
+              - release-approval
     
     
 
