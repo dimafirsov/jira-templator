@@ -76,6 +76,7 @@ jobs:
           name: Build project
           command: npm run build-normal
       - run:
+          working_directory: ~/jira-templator/jit
           name: Increment source branch version
           command: |
               git checkout $SOURCE_BRANCH
