@@ -23,10 +23,6 @@ jobs:
           root: .
           paths:
             - .
-              # - jit
-              # - jit/scripts
-              # - .git
-              # - package.json
   test:
     working_directory: ~/jira-templator
     docker:
@@ -61,7 +57,7 @@ jobs:
             echo '----------------------------------'
             echo '----------------------------------'
             echo '----------------------------------'
-            ls -la ./dist
+            ls -la ../
 
 workflows:
   version: 2.1
