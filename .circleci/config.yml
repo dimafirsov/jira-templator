@@ -96,9 +96,9 @@ jobs:
           command: |
             git checkout test-release
             git pull origin develop -s ours
+            git commit
             git checkout test-release
             git merge develop
-            git commit -m 'merging develop into release'
       # - run:
       #     working_directory: ~/jira-templator/jit
       #     name: Increment version value
