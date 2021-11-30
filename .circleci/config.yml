@@ -58,41 +58,53 @@ jobs:
             echo '----------------------------------'
             echo '----------------------------------'
             ls -la ../
-  # release:
-  #   working_directory: ~/jira-templator
-  #   docker:
-  #     - image: circleci/node:16-browsers
-  #   environment:
-  #     SOURCE_BRANCH: main
-  #     RELEASE_BRANCH: release/1.x
-  #     INCREMENT_TYPE: minor
-  #   steps:
-  #     - attach_workspace:
-  #         at: ~/jira-templator
-  #     - run:
-  #         working_directory: ~/jira-templator/jit
-  #         name: Build Cleanup
-  #         command: npm run pack-clean
+  release:
+    working_directory: ~/jira-templator
+    docker:
+      - image: circleci/node:16-browsers
+    environment:
+      SOURCE_BRANCH: test-main
+      RELEASE_BRANCH: test-release
+      INCREMENT_TYPE: minor
+    steps:
+      - attach_workspace:
+          at: ~/jira-templator
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Merge latest develop into release branch
+          command: |
+            git checkout test-release
+            git pull origin develop -s ours
+            git checkout test-release
+            git merge develop
+      # - run:
+      #     working_directory: ~/jira-templator/jit
+      #     name: Increment version value
+      #     command: |
+      #       git checkout test-release
+      #       git pull origin develop -s ours
+      #       git checkout test-release
+      #       git merge develop
 
 workflows:
   version: 2.1
-  jt:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
-      - pack:
-          requires:
-            - test
+  # jt:
+  #   jobs:
+  #     - build
+  #     - test:
+  #         requires:
+  #           - build
+  #     - pack:
+  #         requires:
+  #           - test
   jt-release:
     jobs:
       - release-approval:
           type: approval
-          filters:
-              branches:
-                  only:
-                      - main
+          # filters:
+          #     branches:
+          #         only:
+          #             - main
       - release:
           requires:
               - release-approval
