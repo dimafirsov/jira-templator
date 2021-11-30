@@ -84,6 +84,10 @@ jobs:
           command: npm --no-git-tag-version version $INCREMENT_TYPE
       - run:
           working_directory: ~/jira-templator/jit
+          name: Pack-clean the project
+          command: npm run pack-clean
+      - run:
+          working_directory: ~/jira-templator/jit
           name: Pack project
           command: npm run pack-it
       - run:
