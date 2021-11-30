@@ -11,7 +11,7 @@
     "build-content-script": "esbuild scripts/contentScript.js --bundle --outfile=dist/contentScript.js --minify",
     "build-background-script": "esbuild scripts/backgroundScript.js --bundle --outfile=dist/backgroundScript.js --minify",
     "copy-files": "cpx manifest.json dist && cpx package.json dist",
-    "pack-clean": "rm rf ./jit-*.tgz",
+    "pack-clean": "cd ../ && rm rf ./jit-*.tgz",
     "pack-it": "cd ./dist && npm pack && cpx jit-*.tgz ../../",
     "remove-dist": "rm -rf ./dist",
     "test": "ng test",
