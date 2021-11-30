@@ -86,6 +86,12 @@ jobs:
       #       ls -la ../
       - run:
           working_directory: ~/jira-templator/jit
+          name: Configure Git
+          command: |
+            git config --global user.email $GIT_EMAIL
+            git config --global user.name $GIT_USER_NAME
+      - run:
+          working_directory: ~/jira-templator/jit
           name: Merge latest develop into release branch
           command: |
             git checkout test-release
