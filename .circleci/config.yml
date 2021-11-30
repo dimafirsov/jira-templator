@@ -54,9 +54,8 @@ jobs:
     docker:
       - image: circleci/node:16-browsers
     environment:
-      MAIN_BRANCH: test-main
-      SOURCE_BRANCH: test-develop
-      RELEASE_BRANCH: test-release
+      SOURCE_BRANCH: develop
+      RELEASE_BRANCH: release/1.x
       INCREMENT_TYPE: patch
     steps:
       - checkout:

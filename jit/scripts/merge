@@ -1,9 +1,6 @@
 #!/bin/bash
 
-git checkout test-develop
-git pull
-git checkout test-release
-git pull
-git pull origin test-develop -s ours
-git checkout test-release
-git merge test-develop
+git checkout $RELEASE_BRANCH
+git pull origin $SOURCE_BRANCH -s ours
+git checkout $RELEASE_BRANCH
+git merge $SOURCE_BRANCH
