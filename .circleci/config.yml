@@ -98,6 +98,7 @@ jobs:
           name: Check out release branch
           command: git checkout $RELEASE_BRANCH
       - run:
+          working_directory: ~/jira-templator/jit
           name: Set Release Version
           command: npm --no-git-tag-version version $INCREMENT_TYPE
       - run:
