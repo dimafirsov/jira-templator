@@ -70,6 +70,17 @@ workflows:
       - pack:
           requires:
             - test
+  jt-release:
+    jobs:
+      - release-approval:
+          type: approval
+          filters:
+              branches:
+                  only:
+                      - main
+      # - release-prep:
+      #     requires:
+      #         - release-approval
     
     
 
