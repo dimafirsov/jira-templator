@@ -107,10 +107,13 @@ jobs:
           name: Merge the latest develop to the release branch
           command: git merge --no-commit $SOURCE_BRANCH
       - run:
+          working_directory: ~/jira-templator
           name: Move new package to the builds folder
           command: |
             mkdir -p builds
             mv jit-*.tgz builds
+            git add *
+            git commit -m 'moved new build to builds folder'
       - run:
           name: Commit and Push Release Branch Changes
           command: |
