@@ -157,7 +157,6 @@ workflows:
             - build
       - visual:
           requires:
-            - build
             - e2e
   jt-release:
     jobs:
