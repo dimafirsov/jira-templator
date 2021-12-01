@@ -6,6 +6,8 @@ import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { IToastService, ToastService } from '@nova-ui/bits';
 
+// @ts-ignore-next-line
+const pjson = require('../../package.json');
 @Injectable({
     providedIn: 'root'
 })
@@ -33,6 +35,10 @@ export class FileService implements OnDestroy {
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+    }
+
+    public getAppVersion(): string {
+        return pjson.version;
     }
 
     public downloadJtConfig(): void {
