@@ -50,9 +50,9 @@ jobs:
           name: Run e2e
           command: npm run e2e:ci
       - persist_to_workspace:
-          root: .
+          root: ~/jira-templator
           paths:
-            - .
+            - ./cypress/screenshots
   visual:
     working_directory: ~/jira-templator/
     docker:
