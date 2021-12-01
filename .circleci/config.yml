@@ -146,9 +146,9 @@ workflows:
       - e2e:
           requires:
             - build
-      - visual:
-          requires:
-            - build
+      # - visual:
+      #     requires:
+      #       - build
   jt-release:
     jobs:
       - release-approval:
