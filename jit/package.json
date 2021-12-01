@@ -19,7 +19,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "e2e:ci": "ng run jit:cypress-run",
-    "visual:ci": "percy upload -v ./cypress/screenshots/*",
+    "visual:ci": "percy upload -v ./cypress/screenshots/*/**",
     "merge:ci": "bash scripts/merge",
     "trigger-pipeline:ci": "bash scripts/trigger-build-pipeline",
     "cypress:open": "cypress open",
