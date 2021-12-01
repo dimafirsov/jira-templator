@@ -80,7 +80,7 @@ jobs:
     environment:
       SOURCE_BRANCH: develop
       RELEASE_BRANCH: release/1.x
-      INCREMENT_TYPE: minor
+      INCREMENT_TYPE: major
     steps:
       - checkout:
           path: ~/jira-templator
@@ -158,10 +158,11 @@ workflows:
       - visual:
           requires:
             - e2e
+            - test
           filters:
               branches:
                   ignore:
-                    - release/1.x
+                    - develop
   jt-release:
     jobs:
       - release-approval:
