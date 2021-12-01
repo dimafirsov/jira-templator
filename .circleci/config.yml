@@ -34,7 +34,7 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Run Tests
           command: npm run test-ci
-  e2e:
+  e2e-and-visual-tests:
     working_directory: ~/jira-templator/
     docker:
       - image: circleci/node:16-browsers
@@ -49,21 +49,11 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Run e2e
           command: npm run e2e:ci
-  visual:
-    working_directory: ~/jira-templator/
-    docker:
-      - image: circleci/node:16-browsers
-    steps:
-      - attach_workspace:
-          at: ~/jira-templator
-      - run:
-          working_directory: ~/jira-templator/jit
-          name: Initializing cypress
-          command: ./node_modules/.bin/cypress install --force
       - run:
           working_directory: ~/jira-templator/jit
           name: Run Visual tests
           command: npm run visual:ci
+
   release:
     working_directory: ~/jira-templator
     docker:
@@ -143,10 +133,7 @@ workflows:
       - test:
           requires:
             - build
-      - e2e:
-          requires:
-            - build
-      - visual:
+      - e2e-and-visual-tests:
           requires:
             - build
   jt-release:
