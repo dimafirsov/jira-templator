@@ -80,7 +80,7 @@ jobs:
     environment:
       SOURCE_BRANCH: develop
       RELEASE_BRANCH: release/1.x
-      INCREMENT_TYPE: patch
+      INCREMENT_TYPE: minor
     steps:
       - checkout:
           path: ~/jira-templator
