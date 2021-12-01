@@ -64,6 +64,10 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Initializing cypress
           command: ./node_modules/.bin/cypress install --force
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Run Visual tests
+          command: npm run visual:ci
 
   release:
     working_directory: ~/jira-templator
