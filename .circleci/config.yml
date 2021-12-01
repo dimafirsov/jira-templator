@@ -34,8 +34,8 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Run Tests
           command: npm run test-ci
-  pack:
-    working_directory: ~/jira-templator
+  e2e:
+    working_directory: ~/jira-templator/
     docker:
       - image: circleci/node:16-browsers
     steps:
@@ -43,12 +43,12 @@ jobs:
           at: ~/jira-templator
       - run:
           working_directory: ~/jira-templator/jit
-          name: Build Cleanup
-          command: npm run pack-clean
+          name: Initializing cypress
+          command: ./node_modules/.bin/cypress install --force
       - run:
           working_directory: ~/jira-templator/jit
-          name: Build Pack
-          command: npm run pack-it
+          name: Run e2e
+          command: npm run e2e:ci
   release:
     working_directory: ~/jira-templator
     docker:
@@ -126,6 +126,9 @@ workflows:
     jobs:
       - build
       - test:
+          requires:
+            - build
+      - e2e:
           requires:
             - build
   jt-release:
