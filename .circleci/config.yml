@@ -119,20 +119,20 @@ jobs:
 
 workflows:
   version: 2.1
-  jt:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
+  # jt:
+  #   jobs:
+  #     - build
+  #     - test:
+  #         requires:
+  #           - build
   jt-release:
     jobs:
       - release-approval:
           type: approval
-          filters:
-              branches:
-                  only:
-                      - develop
+          # filters:
+          #     branches:
+          #         only:
+          #             - develop
       - release:
           requires:
               - release-approval
