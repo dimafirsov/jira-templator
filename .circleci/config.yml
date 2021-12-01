@@ -54,8 +54,8 @@ jobs:
     docker:
       - image: circleci/node:16-browsers
     environment:
-      SOURCE_BRANCH: test-develop
-      RELEASE_BRANCH: test-release
+      SOURCE_BRANCH: develop
+      RELEASE_BRANCH: release/1.x
       INCREMENT_TYPE: minor
     steps:
       - checkout:
@@ -122,20 +122,20 @@ jobs:
 
 workflows:
   version: 2.1
-  # jt:
-  #   jobs:
-  #     - build
-  #     - test:
-  #         requires:
-  #           - build
+  jt:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
   jt-release:
     jobs:
       - release-approval:
           type: approval
-          # filters:
-          #     branches:
-          #         only:
-          #             - develop
+          filters:
+              branches:
+                  only:
+                      - develop
       - release:
           requires:
               - release-approval
