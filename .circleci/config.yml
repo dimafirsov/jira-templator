@@ -50,9 +50,9 @@ jobs:
           name: Run e2e
           command: npm run e2e:ci
       - persist_to_workspace:
-          root: ~/jira-templator
+          root: .
           paths:
-            - ./jit/cypress/screenshots
+            - .
   visual:
     working_directory: ~/jira-templator/
     docker:
@@ -64,6 +64,10 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Initializing cypress
           command: ./node_modules/.bin/cypress install --force
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: LOG ME
+          command: ls -la ./cypress
       - run:
           working_directory: ~/jira-templator/jit
           name: Run Visual tests
