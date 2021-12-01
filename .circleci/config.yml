@@ -49,7 +49,7 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Run e2e
           command: npm run e2e:ci
-  e2e:
+  visual:
     working_directory: ~/jira-templator/
     docker:
       - image: circleci/node:16-browsers
@@ -144,6 +144,9 @@ workflows:
           requires:
             - build
       - e2e:
+          requires:
+            - build
+      - visual:
           requires:
             - build
   jt-release:
