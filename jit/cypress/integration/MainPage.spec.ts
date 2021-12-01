@@ -10,6 +10,9 @@ describe('Main Page > ', () => {
         cy.contains(main.page.header.homeTitleText);
         cy.contains('No items selected');
         cy.contains('Quick Access Board');
+
+        // cy.percySnapshot('Default view of the Main page');
+        cy.screenshot();
     });
 
     it('should navigate to Settings when clicked on corresponding link', () => {
@@ -25,6 +28,17 @@ describe('Main Page > ', () => {
         icon.click();
         cy.contains(main.page.whatsNewCard.linkToChangeLogText).should('not.exist');
         icon.should('not.exist');
+
+        // cy.percySnapshot('Should the whats new card be removed');
+        cy.screenshot();
+    });
+
+    it('should show the tooltip then hovered over the close icon', () => {
+        const icon = cy.get(main.page.whatsNewCard.closeIcon);
+        icon.trigger('onmouseover');
+
+        // cy.percySnapshot('Should show the tooltip over the close icon');
+        cy.screenshot();
     });
 
     it('should Settings button exist', () => {

@@ -11,12 +11,18 @@ describe('Settings Page > ', () => {
         it('should contain globalTrigger expected text', () => {
             cy.get(settings.page.tab.general.globalTrigger)
             .should('have.value', settings.page.tab.general.globalTriggerDefaultText);
+
+            // cy.percySnapshot('Settings default view');
+            cy.screenshot();
         });
 
         it('should globalTrigger input remain empty if cleared', () => {
             const trigger = cy.get(settings.page.tab.general.globalTrigger);
             trigger.clear();
             trigger.should('be.empty');
+
+            // cy.percySnapshot('Triggers the validation error for the globalTrigger input if empty');
+            cy.screenshot();
         });
 
         it('should restore the default value for the input if globalTrigger Reset button is clicked', () => {
@@ -35,6 +41,9 @@ describe('Settings Page > ', () => {
             const trigger = cy.get(settings.page.tab.general.loadTimeout);
             trigger.clear();
             trigger.should('be.empty');
+
+            // cy.percySnapshot('Triggers the validation error for the loadTimeout input if empty');
+            cy.screenshot();
         });
 
         it('should restore the default value for the input if loadTimeout Reset button is clicked', () => {
@@ -53,6 +62,9 @@ describe('Settings Page > ', () => {
             const trigger = cy.get(settings.page.tab.general.issueTypeSelector);
             trigger.clear();
             trigger.should('be.empty');
+
+            // cy.percySnapshot('Triggers the validation error for the issueTypeSelector input if empty');
+            cy.screenshot();
         });
 
         it('should restore the default value for the input if issueTypeSelector Reset button is clicked', () => {
