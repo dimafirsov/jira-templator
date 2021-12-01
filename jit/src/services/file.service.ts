@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { IToastService, ToastService } from '@nova-ui/bits';
 
+// @ts-ignore-next-line
 const pjson = require('../../package.json');
 @Injectable({
     providedIn: 'root'

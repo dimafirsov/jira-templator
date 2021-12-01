@@ -158,6 +158,7 @@ workflows:
       - visual:
           requires:
             - e2e
+            - test
           filters:
               branches:
                   ignore:
