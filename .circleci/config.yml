@@ -43,6 +43,10 @@ jobs:
           at: ~/jira-templator
       - run:
           working_directory: ~/jira-templator/jit
+          name: Install Cypress
+          command: cypress install
+      - run:
+          working_directory: ~/jira-templator/jit
           name: Run e2e
           command: npm run e2e:ci
   release:
