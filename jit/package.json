@@ -18,7 +18,7 @@
     "test-ci": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "e2e:ci": "ng jit:cypress-run",
+    "e2e:ci": "ng run jit:cypress-run",
     "merge:ci": "bash scripts/merge",
     "trigger-pipeline:ci": "bash scripts/trigger-build-pipeline",
     "cypress:open": "cypress open",
