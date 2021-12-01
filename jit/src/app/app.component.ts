@@ -6,6 +6,7 @@ import { takeUntil, tap } from 'rxjs/operators';
 import { MainPageComponent } from '../pages/main-page/main-page.component';
 import { ViewRefDirective } from '../directives/view-ref.directive';
 import { StorageService } from '../services/storage.service';
+import { FileService } from '../services/file.service';
 
 @Component({
   selector: 'jit-root',
@@ -15,6 +16,7 @@ import { StorageService } from '../services/storage.service';
 export class AppComponent implements OnInit, OnDestroy {
     public title = 'jit';
     public page: Portal<any> | undefined;
+    public appVersion = '0.0.0';
 
     private destroy$: Subject<any> = new Subject<any>();
 
@@ -22,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(
         public storage: StorageService,
+        public file: FileService,
         private pageService: PageService,
         private cfr: ComponentFactoryResolver,
     ) {
@@ -40,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.storage.loadStorage();
         this.pageService.mainPage$.next(MainPageComponent);
         // this.pageService.mainPage$.next(SettingsPageComponent);
+        this.appVersion = this.file.getAppVersion();
     }
 
     ngOnDestroy(): void {
