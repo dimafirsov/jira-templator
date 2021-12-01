@@ -13,6 +13,7 @@ describe('Settings Page > ', () => {
             .should('have.value', settings.page.tab.general.globalTriggerDefaultText);
 
             // cy.percySnapshot('Settings default view');
+            cy.screenshot();
         });
 
         it('should globalTrigger input remain empty if cleared', () => {
@@ -21,6 +22,7 @@ describe('Settings Page > ', () => {
             trigger.should('be.empty');
 
             // cy.percySnapshot('Triggers the validation error for the globalTrigger input if empty');
+            cy.screenshot();
         });
 
         it('should restore the default value for the input if globalTrigger Reset button is clicked', () => {
@@ -41,6 +43,7 @@ describe('Settings Page > ', () => {
             trigger.should('be.empty');
 
             // cy.percySnapshot('Triggers the validation error for the loadTimeout input if empty');
+            cy.screenshot();
         });
 
         it('should restore the default value for the input if loadTimeout Reset button is clicked', () => {
@@ -61,6 +64,7 @@ describe('Settings Page > ', () => {
             trigger.should('be.empty');
 
             // cy.percySnapshot('Triggers the validation error for the issueTypeSelector input if empty');
+            cy.screenshot();
         });
 
         it('should restore the default value for the input if issueTypeSelector Reset button is clicked', () => {
