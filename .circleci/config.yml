@@ -158,6 +158,10 @@ workflows:
       - visual:
           requires:
             - e2e
+          filters:
+              branches:
+                  ignore:
+                    - release/1.x
   jt-release:
     jobs:
       - release-approval:
