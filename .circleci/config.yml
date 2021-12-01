@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  cypress: cypress-io/cypress@1
 jobs:
   build:
     working_directory: ~/jira-templator
@@ -36,6 +34,17 @@ jobs:
           working_directory: ~/jira-templator/jit
           name: Run Tests
           command: npm run test-ci
+  e2e:
+    working_directory: ~/jira-templator/
+    docker:
+      - image: circleci/node:16-browsers
+    steps:
+      - attach_workspace:
+          at: ~/jira-templator
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Run e2e
+          command: npm run e2e:ci
   release:
     working_directory: ~/jira-templator
     docker:
@@ -115,7 +124,7 @@ workflows:
       - test:
           requires:
             - build
-      - cypress/run:
+      - e2e:
           requires:
             - build
   jt-release:
