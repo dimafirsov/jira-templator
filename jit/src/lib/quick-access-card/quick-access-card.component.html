@@ -33,9 +33,6 @@
                     type="button"
                     (click)="file.downloadJtConfig()">Export Current Config</button>
             </div>
-            <div class="mb-3 col" *ngIf="storage.current$.value.mainPage?.quickAccess?.showReadyMessage">
-                <nui-switch [value]='storage.current$.value.showReadyMessage' (valueChange)='storage.toggleShowReadyMessageValue()'></nui-switch>
-            </div>
             <div class="h-100 d-flex flex-column align-items-center text-muted" *ngIf="!hasQuickAccessItems">
                 <h3>
                     <strong>
