@@ -11,6 +11,7 @@ export interface IJTStorage {
     loadTimeout: number;
     issueTypeSelector: string;
     mainPage?: IMainPage;
+    showReadyMessage: boolean;
 }
 
 export interface IIssueType {
@@ -24,6 +25,7 @@ export interface IMainPageQuickAccess {
     getStorage?: boolean;
     importConfig?: boolean;
     exportConfig?: boolean;
+    showReadyMessage?: boolean;
 }
 
 export interface IMainPage {
