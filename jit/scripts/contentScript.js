@@ -31,7 +31,9 @@ import * as toast from './toast';
 
         }, 1000);
 
-        vt.success("Jira Templator IS READY!", { title: "Let's GO!", position: "top-right",})
+        if (storage?.showReadyMessage) {
+            vt.success("Jira Templator IS READY!", { title: "Let's GO!", position: "top-right",})
+        }
 
         window.addEventListener('beforeunload', () => {
             clearInterval(mainPolling);

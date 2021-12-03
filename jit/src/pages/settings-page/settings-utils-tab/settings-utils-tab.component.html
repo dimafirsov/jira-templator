@@ -8,7 +8,21 @@
             <th scope="col" class="mw145">Add to main page</th>
         </tr>
     </thead>
-    <tbody class="text-justify">
+    <tbody>
+        <tr>
+          <td class="align-middle">Toggle the <strong>Extension Is Ready</strong> toast message on page load</td>
+          <td class="align-middle text-center">
+            <nui-switch
+                [value]='storage.current$.value.showReadyMessage'
+                (valueChange)='storage.toggleShowReadyMessageValue()'>
+            </nui-switch>
+          </td>
+          <td class="p-3 align-middle" id='showReadyMessage' #showReadyMessage>
+            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.showReadyMessage" (valueChange)="onValueChanged($event, showReadyMessage)">
+                {{ storage.current$.value.mainPage?.quickAccess?.showReadyMessage ? 'Added' : 'Add' }}
+            </nui-switch>
+          </td>
+        </tr>
         <tr>
           <td class="align-middle">Export config</td>
           <td class="align-middle text-center">
@@ -46,7 +60,7 @@
             </nui-switch>
           </td>
         </tr>
-        <tr>
+        <tr class="text-justify">
           <td class="align-middle text-danger">
             Clear the Jira Templator local storage. <span class="text-muted">Extension reload will create and re-populate the storage with default values</span>
           </td>
