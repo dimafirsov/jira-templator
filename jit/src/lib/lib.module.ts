@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { QuickAccessCardComponent } from './quick-access-card/quick-access-card.component';
 import { WhatsNewCardComponent } from './whats-new-card/whats-new-card.component';
-import { NuiButtonModule, NuiIconModule, NuiTooltipModule } from '@nova-ui/bits';
+import { NuiButtonModule, NuiIconModule, NuiSwitchModule, NuiTooltipModule } from '@nova-ui/bits';
 
 @NgModule({
   declarations: [
@@ -16,6 +16,7 @@ import { NuiButtonModule, NuiIconModule, NuiTooltipModule } from '@nova-ui/bits'
       NuiButtonModule,
       NuiIconModule,
       NuiTooltipModule,
+      NuiSwitchModule,
   ],
   exports: [
     HeaderComponent,

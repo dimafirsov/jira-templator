@@ -99,12 +99,12 @@ jobs:
           command: npm install
       - run:
           working_directory: ~/jira-templator/jit
-          name: Build project
-          command: npm run build-normal
-      - run:
-          working_directory: ~/jira-templator/jit
           name: Increment source branch version
           command: npm --no-git-tag-version version $INCREMENT_TYPE
+      - run:
+          working_directory: ~/jira-templator/jit
+          name: Build project
+          command: npm run build-normal
       - run:
           working_directory: ~/jira-templator/jit
           name: Copy package.json to dist

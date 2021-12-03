@@ -53,4 +53,13 @@ export class StorageService {
     public logStorage(): void {
         return console.log('>>> storage', this.current$.value);
     }
+
+    public toggleShowReadyMessageValue(): void {
+        this.getStorage(STORAGE_NAME, (store: IJTStorage) => {
+            this.setStorage({
+                ...store,
+                showReadyMessage: !this.current$.value.showReadyMessage,
+            } as IJTStorage);
+        });
+    }
 }

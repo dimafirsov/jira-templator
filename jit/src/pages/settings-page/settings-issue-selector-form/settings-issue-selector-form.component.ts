@@ -66,5 +66,4 @@ export class SettingsIssueSelectorFormComponent implements OnInit, AfterViewInit
             });
         });
     }
-
 }

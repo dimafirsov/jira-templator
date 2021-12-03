@@ -8,6 +8,7 @@ export const DEFAULT_TEMPLATE: IJTStorage = {
     globalTriggerSelector: '#createGlobalItem',
     issueTypeSelector: '#issuetype-field',
     loadTimeout: 2700,
+    showReadyMessage: true,
     issueTypes: {
         Bug: [
             {
