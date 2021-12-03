@@ -18,7 +18,7 @@
             </nui-switch>
           </td>
           <td class="p-3 align-middle" id='showReadyMessage' #showReadyMessage>
-            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.showReadyMessage" (valueChange)="onValueChanged($event, exportConfig)">
+            <nui-switch [value]="!!storage.current$.value.mainPage?.quickAccess?.showReadyMessage" (valueChange)="onValueChanged($event, showReadyMessage)">
                 {{ storage.current$.value.mainPage?.quickAccess?.showReadyMessage ? 'Added' : 'Add' }}
             </nui-switch>
           </td>
